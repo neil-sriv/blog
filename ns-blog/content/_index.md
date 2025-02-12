@@ -7,7 +7,7 @@ title = "home"
 
 # blog?
 
-Trying out a blog for writing quick posts. Most likely about [tech](/tech) but might end up writing about other stuff.
+Trying out a blog for writing quick posts. Most likely about [tech]({{< ref "/tech" >}} "tech") but might end up writing about other stuff.
 
 ---
 
