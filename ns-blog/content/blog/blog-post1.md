@@ -1,6 +1,6 @@
 +++
-title = "First Post"
-date = "2025-02-12T00:11:56-05:00"
+title = "Blog Post1"
+date = "2025-02-12T00:11:45-05:00"
 
 #
 # description is optional
@@ -10,4 +10,4 @@ date = "2025-02-12T00:11:56-05:00"
 tags = []
 +++
 
-This is a page about »First Post«.
+This is a page about »Blog Post1«.

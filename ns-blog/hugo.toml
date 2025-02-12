@@ -19,16 +19,6 @@ enableRobotsTXT = true
 disableKinds = ["taxonomy"]
 ignoreErrors = ["error-disable-taxonomy"]
 
-[permalinks]
-  # tech = "/:slug/"
-  # blog = "/blog/:slug/"
-  tags = "/tech/:slug"
-  [permalinks.page]
-    tech = '/tech/:year/:month/:slug/'
-    # tutorials = '/training/:slug/'
-  [permalinks.section]
-    tech = '/tech/'
-    # tutorials = '/training/'
 # [permalinks]
 #   blog = "/:slug/"
 #   tags = "/blog/:slug"
