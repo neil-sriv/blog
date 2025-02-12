@@ -1,2 +1,2 @@
 User-Agent: *
-Sitemap: http://localhost:1313/blog/sitemap.xml
+Sitemap: https://neil-sriv.github.io/blog/sitemap.xml
