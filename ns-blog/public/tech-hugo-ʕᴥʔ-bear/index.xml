@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tech Hugo ʕ•ᴥ•ʔ Bear on neilsriv blog</title>
+    <link>//localhost:1313/tech-hugo-%CA%95%E1%B4%A5%CA%94-bear/</link>
+    <description>Recent content in Tech Hugo ʕ•ᴥ•ʔ Bear on neilsriv blog</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <lastBuildDate>Tue, 11 Feb 2025 23:37:59 -0500</lastBuildDate>
+    <atom:link href="//localhost:1313/tech-hugo-%CA%95%E1%B4%A5%CA%94-bear/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>First Post</title>
+      <link>//localhost:1313/first-post/</link>
+      <pubDate>Tue, 11 Feb 2025 23:37:59 -0500</pubDate>
+      <guid>//localhost:1313/first-post/</guid>
+      <description>&lt;p&gt;This is a page about »First Post«.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
