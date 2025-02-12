@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Teches on neilsriv blog</title>
-    <link>https://neil-sriv.github.io/blog/tech/</link>
+    <link>https://blog.neilsriv.tech/tech/</link>
     <description>Recent content in Teches on neilsriv blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
     <lastBuildDate>Wed, 12 Feb 2025 01:06:43 -0500</lastBuildDate>
-    <atom:link href="https://neil-sriv.github.io/blog/tech/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://blog.neilsriv.tech/tech/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>First Post</title>
-      <link>https://neil-sriv.github.io/blog/tech/first-post/</link>
+      <link>https://blog.neilsriv.tech/tech/first-post/</link>
       <pubDate>Wed, 12 Feb 2025 01:06:43 -0500</pubDate>
-      <guid>https://neil-sriv.github.io/blog/tech/first-post/</guid>
+      <guid>https://blog.neilsriv.tech/tech/first-post/</guid>
       <description>&lt;p&gt;This is a page about »First Post«.&lt;/p&gt;</description>
     </item>
   </channel>

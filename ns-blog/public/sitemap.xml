@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://neil-sriv.github.io/blog/tech/first-post/</loc>
+    <loc>https://blog.neilsriv.tech/tech/first-post/</loc>
     <lastmod>2025-02-12T01:06:43-05:00</lastmod>
   </url><url>
-    <loc>https://neil-sriv.github.io/blog/</loc>
+    <loc>https://blog.neilsriv.tech/</loc>
     <lastmod>2025-02-12T01:06:43-05:00</lastmod>
   </url><url>
-    <loc>https://neil-sriv.github.io/blog/tech/</loc>
+    <loc>https://blog.neilsriv.tech/tech/</loc>
     <lastmod>2025-02-12T01:06:43-05:00</lastmod>
   </url><url>
-    <loc>https://neil-sriv.github.io/blog/now/</loc>
+    <loc>https://blog.neilsriv.tech/now/</loc>
     <lastmod>2025-02-12T00:11:35-05:00</lastmod>
   </url>
 </urlset>

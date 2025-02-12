@@ -1,2 +1,2 @@
 User-Agent: *
-Sitemap: https://neil-sriv.github.io/blog/sitemap.xml
+Sitemap: https://blog.neilsriv.tech/sitemap.xml
