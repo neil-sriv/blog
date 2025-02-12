@@ -16,13 +16,6 @@
       <description>&lt;p&gt;This is a page about »First Post«.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Blog Post1</title>
-      <link>https://neil-sriv.github.io/blog/blog/blog-post1/</link>
-      <pubDate>Wed, 12 Feb 2025 00:11:45 -0500</pubDate>
-      <guid>https://neil-sriv.github.io/blog/blog/blog-post1/</guid>
-      <description>&lt;p&gt;This is a page about »Blog Post1«.&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>New</title>
       <link>https://neil-sriv.github.io/blog/new/</link>
       <pubDate>Wed, 12 Feb 2025 00:11:35 -0500</pubDate>
