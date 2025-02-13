@@ -20,6 +20,8 @@ enableRobotsTXT = true
 disableKinds = ["taxonomy"]
 ignoreErrors = ["error-disable-taxonomy"]
 
+enableEmoji = true
+
 # [permalinks]
 #   blog = "/:slug/"
 #   tags = "/blog/:slug"
@@ -55,5 +57,5 @@ ignoreErrors = ["error-disable-taxonomy"]
   # dateFormat = "2006-01-02"
 
 [params.multipage]
-displayPaginator = false
-displayPrevAndNext = true
+  displayPaginator = false
+  displayPrevAndNext = true
