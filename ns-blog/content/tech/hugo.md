@@ -9,7 +9,6 @@ date = "2025-02-12T23:14:05-05:00"
 
 tags = ["tech", "hugo", "blog"]
 +++
-
 ## setting up my personal blog with `hugo`
 maybe it's because I've been reading a ton of blog posts on `bluesky` from other engineers and developers or maybe it's because I have a oversized belief that my thoughts are actually interesting (like most software engineers), but I'm finally starting a blog.
 
@@ -21,6 +20,7 @@ now the `hugo` docs may have helped with the deployment, but their ease-of-use e
 
 
 ### what the heck is {{}}
+### ʕ•ᴥ•ʔ
 ### templates, archetypes, and lookup order, oh my!
 ### pagination - bless [jmooring](https://github.com/jmooring)
 ### anything else?
