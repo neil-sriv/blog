@@ -6,28 +6,14 @@
     <description>Recent content in home on neilsriv blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
-    <lastBuildDate>Wed, 12 Feb 2025 22:34:31 -0500</lastBuildDate>
+    <lastBuildDate>Wed, 12 Feb 2025 23:14:05 -0500</lastBuildDate>
     <atom:link href="https://blog.neilsriv.tech/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Part_2</title>
-      <link>https://blog.neilsriv.tech/tech/ring_tutorial/part_2/</link>
-      <pubDate>Wed, 12 Feb 2025 22:34:31 -0500</pubDate>
-      <guid>https://blog.neilsriv.tech/tech/ring_tutorial/part_2/</guid>
-      <description>&lt;p&gt;This is page part_2 of a multipage article.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Part_1</title>
-      <link>https://blog.neilsriv.tech/tech/ring_tutorial/part_1/</link>
-      <pubDate>Wed, 12 Feb 2025 22:33:32 -0500</pubDate>
-      <guid>https://blog.neilsriv.tech/tech/ring_tutorial/part_1/</guid>
-      <description>&lt;p&gt;This is page part_1 of a multipage article.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>First Post</title>
-      <link>https://blog.neilsriv.tech/tech/first-post/</link>
-      <pubDate>Wed, 12 Feb 2025 01:06:43 -0500</pubDate>
-      <guid>https://blog.neilsriv.tech/tech/first-post/</guid>
-      <description>&lt;p&gt;This is a page about »First Post«.&lt;/p&gt;</description>
+      <title>Hugo</title>
+      <link>https://blog.neilsriv.tech/tech/hugo/</link>
+      <pubDate>Wed, 12 Feb 2025 23:14:05 -0500</pubDate>
+      <guid>https://blog.neilsriv.tech/tech/hugo/</guid>
+      <description>&lt;h2 id=&#34;setting-up-my-personal-blog-with-hugo&#34;&gt;setting up my personal blog with &lt;code&gt;hugo&lt;/code&gt;&lt;/h2&gt;&#xA;&lt;p&gt;maybe it&amp;rsquo;s because I&amp;rsquo;ve been reading a ton of blog posts on &lt;code&gt;bluesky&lt;/code&gt; from other engineers and developers or maybe it&amp;rsquo;s because I have a oversized belief that my thoughts are actually interesting (like most software engineers), but I&amp;rsquo;m finally starting a blog.&lt;/p&gt;&#xA;&lt;p&gt;after doing a bit of research, I settled on using &lt;code&gt;hugo&lt;/code&gt; for my auto-generated website and hosting through &lt;code&gt;github pages&lt;/code&gt;. I considered some self-hosting alternatives like &lt;code&gt;nginx&lt;/code&gt; and &lt;code&gt;caddy&lt;/code&gt;, but after docs on the &lt;code&gt;hugo&lt;/code&gt; site made it really easy to auto-deploy on &lt;code&gt;github pages&lt;/code&gt;.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Now</title>

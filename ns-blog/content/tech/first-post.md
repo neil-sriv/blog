@@ -8,6 +8,7 @@ date = "2025-02-12T01:06:43-05:00"
 # description = "An optional description for SEO. If not provided, an automatically created summary will be used."
 
 tags = ["techtag"]
+draft = true
 +++
 
 This is a page about »First Post«.
