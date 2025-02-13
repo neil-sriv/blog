@@ -5,7 +5,8 @@
 baseURL = "https://blog.neilsriv.tech/"
 
 # The name of this wonderful theme ;-).
-theme = 'hugo-bearblog'
+# theme = 'hugo-bearblog'
+theme = 'hugo-bearcub'
 
 # Basic metadata configuration for your blog.
 title = "neilsriv blog"
@@ -61,3 +62,19 @@ enableEmoji = true
 [params.multipage]
   displayPaginator = false
   displayPrevAndNext = true
+
+[markup]
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = true
+    hl_Lines = ''
+    hl_inline = false
+    lineAnchors = ''
+    lineNoStart = 1
+    lineNos = true
+    lineNumbersInTable = false
+    noClasses = true
+    style = 'dracula'
+    tabWidth = 4
+    wrapperClass = 'highlight'
