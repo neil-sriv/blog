@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>tech on neilsriv blog</title>
-    <link>https://blog.neilsriv.tech/tech/</link>
-    <description>Recent content in tech on neilsriv blog</description>
+    <title>Techtag on neilsriv blog</title>
+    <link>https://blog.neilsriv.tech/tags/techtag/</link>
+    <description>Recent content in Techtag on neilsriv blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
     <lastBuildDate>Wed, 12 Feb 2025 01:06:43 -0500</lastBuildDate>
-    <atom:link href="https://blog.neilsriv.tech/tech/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://blog.neilsriv.tech/tags/techtag/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>First Post</title>
       <link>https://blog.neilsriv.tech/tech/first-post/</link>

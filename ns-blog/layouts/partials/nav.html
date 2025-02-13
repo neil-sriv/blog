@@ -2,6 +2,3 @@
 {{ range .Site.Menus.main }}
 <a href="{{ .URL }}">{{ lower .Name }}</a>
 {{ end }}
-{{ with .Site.GetPage "/tech" }}
-<a href="{{ "tech" | relURL }}">tech</a>
-{{ end }}

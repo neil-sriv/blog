@@ -16,7 +16,7 @@ menu = "main"
 #
 # tags are optional
 #
-# tags = []
+tags = ["tag", "second_tag"]
 +++
 
 # what am I doing right now?
