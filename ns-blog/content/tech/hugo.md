@@ -21,29 +21,8 @@ now the `hugo` docs may have helped with the deployment, but their ease-of-use e
 
 ### what the heck is {{}}
 ### ʕ•ᴥ•ʔ
+#### sidetracked by codeblocks
 ### templates, archetypes, and lookup order, oh my!
 ### pagination - bless [jmooring](https://github.com/jmooring)
 ### anything else?
 the only annoying part of the workflow left at this point (besides any site framework changes), is that in order to actually publish a new post, I have to move the content from my editor, `obsidian`, to my `hugo` git repository and push my changes. it may be possible to use `rsync` or symlinks to link my `obsidian` content directory directly to a directory in my blog repo, but I'm thinking about exploring ways to access my `obsidian` synced vaults via an API.
-
-```py
-test = True
-print('hello')
-```
-
-```go { title="titles"}
-code
-```
-
-{{< highlight html >}}
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Example HTML5 Document</title>
-</head>
-<body>
-  <p>Test</p>
-</body>
-</html>
-{{< /highlight >}}
