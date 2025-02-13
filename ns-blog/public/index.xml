@@ -6,8 +6,22 @@
     <description>Recent content in home on neilsriv blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
-    <lastBuildDate>Wed, 12 Feb 2025 01:06:43 -0500</lastBuildDate>
+    <lastBuildDate>Wed, 12 Feb 2025 22:34:31 -0500</lastBuildDate>
     <atom:link href="https://blog.neilsriv.tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Part_2</title>
+      <link>https://blog.neilsriv.tech/tech/ring_tutorial/part_2/</link>
+      <pubDate>Wed, 12 Feb 2025 22:34:31 -0500</pubDate>
+      <guid>https://blog.neilsriv.tech/tech/ring_tutorial/part_2/</guid>
+      <description>&lt;p&gt;This is page part_2 of a multipage article.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Part_1</title>
+      <link>https://blog.neilsriv.tech/tech/ring_tutorial/part_1/</link>
+      <pubDate>Wed, 12 Feb 2025 22:33:32 -0500</pubDate>
+      <guid>https://blog.neilsriv.tech/tech/ring_tutorial/part_1/</guid>
+      <description>&lt;p&gt;This is page part_1 of a multipage article.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>First Post</title>
       <link>https://blog.neilsriv.tech/tech/first-post/</link>

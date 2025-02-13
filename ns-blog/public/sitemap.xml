@@ -2,13 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://blog.neilsriv.tech/tech/first-post/</loc>
-    <lastmod>2025-02-12T01:06:43-05:00</lastmod>
-  </url><url>
     <loc>https://blog.neilsriv.tech/</loc>
-    <lastmod>2025-02-12T01:06:43-05:00</lastmod>
+    <lastmod>2025-02-12T22:34:31-05:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tech/ring_tutorial/part_2/</loc>
+    <lastmod>2025-02-12T22:34:31-05:00</lastmod>
   </url><url>
     <loc>https://blog.neilsriv.tech/tech/</loc>
+    <lastmod>2025-02-12T22:34:31-05:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tech/ring_tutorial/part_1/</loc>
+    <lastmod>2025-02-12T22:33:32-05:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tech/ring_tutorial/</loc>
+    <lastmod>2025-02-12T22:32:29-05:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tech/first-post/</loc>
     <lastmod>2025-02-12T01:06:43-05:00</lastmod>
   </url><url>
     <loc>https://blog.neilsriv.tech/tags/techtag/</loc>
