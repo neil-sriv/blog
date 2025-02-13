@@ -1,0 +1,10 @@
+{{ $recent_posts := ( (where .Site.Pages "IsPage" true).ByDate.Reverse) | first 5 }}
+<p>here's a list of my most recent posts</p>
+<ul>
+{{ range $recent_posts }}
+<li>
+    <time datetime="{{ .Date.Format "Jan 02, 2006" }}">{{ .Date.Format "Jan 02, 2006" }}</time>:
+    <a href="{{ .RelPermalink }}">{{.LinkTitle}}</a>
+</li>
+{{ end }}
+</ul>

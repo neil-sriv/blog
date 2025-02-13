@@ -21,6 +21,8 @@ disableKinds = ["taxonomy"]
 ignoreErrors = ["error-disable-taxonomy"]
 
 enableEmoji = true
+[security]
+  enableInlineShortcodes = true
 
 # [permalinks]
 #   blog = "/:slug/"
