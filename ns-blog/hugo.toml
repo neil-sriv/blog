@@ -78,3 +78,8 @@ enableEmoji = true
     style = 'dracula'
     tabWidth = 4
     wrapperClass = 'highlight'
+  [markup.goldmark]
+    [markup.goldmark.parser]
+      [markup.goldmark.parser.attribute]
+        block = true
+        title = true

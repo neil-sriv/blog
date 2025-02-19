@@ -5,11 +5,18 @@
   <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Hugo | neilsriv blog</title>
-<meta name="title" content="Hugo" />
-<meta name="description" content="setting up my personal blog with hugo
-maybe it&rsquo;s because I&rsquo;ve been reading a ton of blog posts on bluesky from other engineers and developers or maybe it&rsquo;s because I have a oversized belief that my thoughts are actually interesting (like most software engineers), but I&rsquo;m finally starting a blog.
-after doing a bit of research, I settled on using hugo for my auto-generated website and hosting through github pages. I considered some self-hosting alternatives like nginx and caddy, but after docs on the hugo site made it really easy to auto-deploy on github pages." />
+<title>setting up my personal blog with hugo | neilsriv blog</title>
+<meta name="title" content="setting up my personal blog with hugo" />
+<meta name="description" content="
+    
+      ⚠️
+      
+        caveat
+      
+    
+    I&rsquo;m writing based on my own experiences using hugo and my understanding of how things work, I&rsquo;ll probably get things wrong so please refer to the hugo docs for correctness
+  
+maybe it&rsquo;s because I&rsquo;ve been reading a ton of blog posts on bluesky from other engineers and developers or maybe it&rsquo;s because I have a oversized belief that my thoughts are actually interesting (like most software engineers), but I&rsquo;m finally starting a blog." />
 <meta name="author" content="" />
 <meta name="keywords" content="tech,hugo,blog," />
 
@@ -21,14 +28,14 @@ after doing a bit of research, I settled on using hugo for my auto-generated web
   
   <meta property="og:url" content="https://blog.neilsriv.tech/tech/hugo/">
   <meta property="og:site_name" content="neilsriv blog">
-  <meta property="og:title" content="Hugo">
-  <meta property="og:description" content="setting up my personal blog with hugo maybe it’s because I’ve been reading a ton of blog posts on bluesky from other engineers and developers or maybe it’s because I have a oversized belief that my thoughts are actually interesting (like most software engineers), but I’m finally starting a blog.
-after doing a bit of research, I settled on using hugo for my auto-generated website and hosting through github pages. I considered some self-hosting alternatives like nginx and caddy, but after docs on the hugo site made it really easy to auto-deploy on github pages.">
+  <meta property="og:title" content="setting up my personal blog with hugo">
+  <meta property="og:description" content="⚠️ caveat I’m writing based on my own experiences using hugo and my understanding of how things work, I’ll probably get things wrong so please refer to the hugo docs for correctness
+maybe it’s because I’ve been reading a ton of blog posts on bluesky from other engineers and developers or maybe it’s because I have a oversized belief that my thoughts are actually interesting (like most software engineers), but I’m finally starting a blog.">
   <meta property="og:locale" content="en_US">
   <meta property="og:type" content="article">
     <meta property="article:section" content="tech">
-    <meta property="article:published_time" content="2025-02-12T23:14:05-05:00">
-    <meta property="article:modified_time" content="2025-02-12T23:14:05-05:00">
+    <meta property="article:published_time" content="2025-02-13T23:14:05-05:00">
+    <meta property="article:modified_time" content="2025-02-13T23:14:05-05:00">
     <meta property="article:tag" content="Tech">
     <meta property="article:tag" content="Hugo">
     <meta property="article:tag" content="Blog">
@@ -37,19 +44,19 @@ after doing a bit of research, I settled on using hugo for my auto-generated web
   
   
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Hugo">
-  <meta name="twitter:description" content="setting up my personal blog with hugo maybe it’s because I’ve been reading a ton of blog posts on bluesky from other engineers and developers or maybe it’s because I have a oversized belief that my thoughts are actually interesting (like most software engineers), but I’m finally starting a blog.
-after doing a bit of research, I settled on using hugo for my auto-generated website and hosting through github pages. I considered some self-hosting alternatives like nginx and caddy, but after docs on the hugo site made it really easy to auto-deploy on github pages.">
+  <meta name="twitter:title" content="setting up my personal blog with hugo">
+  <meta name="twitter:description" content="⚠️ caveat I’m writing based on my own experiences using hugo and my understanding of how things work, I’ll probably get things wrong so please refer to the hugo docs for correctness
+maybe it’s because I’ve been reading a ton of blog posts on bluesky from other engineers and developers or maybe it’s because I have a oversized belief that my thoughts are actually interesting (like most software engineers), but I’m finally starting a blog.">
 
 
   
   
-  <meta itemprop="name" content="Hugo">
-  <meta itemprop="description" content="setting up my personal blog with hugo maybe it’s because I’ve been reading a ton of blog posts on bluesky from other engineers and developers or maybe it’s because I have a oversized belief that my thoughts are actually interesting (like most software engineers), but I’m finally starting a blog.
-after doing a bit of research, I settled on using hugo for my auto-generated website and hosting through github pages. I considered some self-hosting alternatives like nginx and caddy, but after docs on the hugo site made it really easy to auto-deploy on github pages.">
-  <meta itemprop="datePublished" content="2025-02-12T23:14:05-05:00">
-  <meta itemprop="dateModified" content="2025-02-12T23:14:05-05:00">
-  <meta itemprop="wordCount" content="242">
+  <meta itemprop="name" content="setting up my personal blog with hugo">
+  <meta itemprop="description" content="⚠️ caveat I’m writing based on my own experiences using hugo and my understanding of how things work, I’ll probably get things wrong so please refer to the hugo docs for correctness
+maybe it’s because I’ve been reading a ton of blog posts on bluesky from other engineers and developers or maybe it’s because I have a oversized belief that my thoughts are actually interesting (like most software engineers), but I’m finally starting a blog.">
+  <meta itemprop="datePublished" content="2025-02-13T23:14:05-05:00">
+  <meta itemprop="dateModified" content="2025-02-13T23:14:05-05:00">
+  <meta itemprop="wordCount" content="755">
   <meta itemprop="keywords" content="Tech,Hugo,Blog">
 
 <meta name="referrer" content="no-referrer-when-downgrade" />
@@ -57,6 +64,9 @@ after doing a bit of research, I settled on using hugo for my auto-generated web
   
   <link href="/original.min.css" rel="stylesheet">
 
+  
+    
+    <link href="/syntax.min.css" rel="stylesheet">
   
 
   
@@ -76,22 +86,78 @@ after doing a bit of research, I settled on using hugo for my auto-generated web
 </nav>
 </header>
   <main id="main-content">
-
+<h1>setting up my personal blog with hugo</h1>
+<p>
+  <i>
+    <time datetime='2025-02-13'>
+      13 Feb, 2025
+    </time>
+  </i>
+</p>
 <content>
-  <h2 id="setting-up-my-personal-blog-with-hugo">setting up my personal blog with <code>hugo</code></h2>
+  
+
+
+  <blockquote class="alert alert-warning">
+    <p class="alert-heading">
+      ⚠️
+      
+        caveat
+      
+    </p>
+    <p>I&rsquo;m writing based on my own experiences using <code>hugo</code> and my understanding of how things work, I&rsquo;ll probably get things wrong so please refer to the <a href="https://gohugo.io/documentation/"><code>hugo docs</code></a> for correctness</p>
+  </blockquote>
 <p>maybe it&rsquo;s because I&rsquo;ve been reading a ton of blog posts on <code>bluesky</code> from other engineers and developers or maybe it&rsquo;s because I have a oversized belief that my thoughts are actually interesting (like most software engineers), but I&rsquo;m finally starting a blog.</p>
-<p>after doing a bit of research, I settled on using <code>hugo</code> for my auto-generated website and hosting through <code>github pages</code>. I considered some self-hosting alternatives like <code>nginx</code> and <code>caddy</code>, but after docs on the <code>hugo</code> site made it really easy to auto-deploy on <code>github pages</code>.</p>
-<blockquote>
-<p>turns out, auto-deployment is a bitch to solve by yourself on a self-hosted machine. I&rsquo;m not trying to deal with jenkins or buildkite.</p></blockquote>
+<p>after doing a bit of research, I settled on using <code>hugo</code> for my auto-generated website and hosting through <code>github pages</code>. I considered some self-hosting alternatives like <code>nginx</code> and <code>caddy</code>, but the docs on the <code>hugo</code> site made it really easy to auto-deploy on <code>github pages</code>.</p>
+
+
+
+  <blockquote>
+    <p>turns out, auto-deployment is a bitch to solve by yourself on a self-hosted machine. I&rsquo;m not trying to deal with jenkins or buildkite.</p>
+  </blockquote>
+<p>it wasn&rsquo;t even too hard to set-up a custom domain with github pages as well. probably a solid option for static/server-side-rendered website hosting in 2025.</p>
 <h3 id="lets-get-into-it">let&rsquo;s get into it</h3>
-<p>now the <code>hugo</code> docs may have helped with the deployment, but their ease-of-use ended there.</p>
+<p>to be honest, I&rsquo;m not a prolific frontend engineer, I&rsquo;m barely competent with <code>html</code>, and less than competent with <code>css</code>. I&rsquo;ve never used site generators and I use markdown in <code>obsidian</code> just to take notes and keep track of personal documents.</p>
+<p>now the <code>hugo</code> docs may have helped with the deployment, but their ease-of-use ended there. I ended up digging through <code>hugo</code> forums, asking <code>chatgpt</code>, and old fashioned trial n&rsquo; error to eventually get a working site with all the bells and whistles I wanted.</p>
 <h3 id="what-the-heck-is-">what the heck is {{}}</h3>
+<p><code>hugo</code> has custom syntax, templating, functions, methods, archetypes&hellip;the list goes on forever. it took me quite a while to finally figure out that in <code>.html</code> template files and <code>.md</code> archetype files you could use  <code>{{ &lt;command&gt; }}</code> to access and work with pages, tags, and other data from my website. You can use this to create relative links, set-up reusable page structures, and plenty more.</p>
+<p>This is a snippet that would display links to the 5 most recent posts on my site with the date they were posted</p>
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>{{ $recent_posts := ( (where .Site.Pages &#34;IsPage&#34; true).ByDate.Reverse) | first 5 }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>&lt;p&gt;here&#39;s a list of my most recent posts&lt;/p&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>&lt;ul&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>{{ range $recent_posts }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>&lt;li&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    &lt;time datetime=&#34;{{ .Date.Format &#34;Jan 02, 2006&#34; }}&#34;&gt;{{ .Date.Format &#34;Jan 02, 2006&#34; }}&lt;/time&gt;:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    &lt;a href=&#34;{{ .RelPermalink }}&#34;&gt;{{.LinkTitle}}&lt;/a&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>&lt;/li&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>{{ end }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>&lt;/ul&gt;</span></span></code></pre></div><p>Note how you can grab posts from the site with <code>.Site.Pages</code> and filter/sort them using methods like <code>where</code> and <code>.ByDate</code>.</p>
 <h3 id="ʕᴥʔ">ʕ•ᴥ•ʔ</h3>
-<h4 id="sidetracked-by-codeblocks">sidetracked by codeblocks</h4>
+<p>one of the first big mistakes I made was using the <a href="https://github.com/janraasch/hugo-bearblog"><code>hugo-bearblog</code></a> theme. now I have nothing against it, but the example site and styling left much to be desired. I didn&rsquo;t like that you were limited to only a <code>blog</code> section header, code block styling was atrocious, and honestly probably since it was my first attempt, I had lots of trouble updating the templates with my own ideas.</p>
+<p>thankfully, I eventually found <a href="https://github.com/clente/hugo-bearcub"><code>hugo-bearcub</code></a> that seems to be just as fast as <code>hugo-bearblog</code>, highly accessible, and with a less opinionated structure. I was able to implement my own sections and updated the <code>nav.html</code> template to render any a header link for any section I care to generate.</p>
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>&lt;a href=&#34;{{ &#34;&#34; | relURL }}&#34;&gt;home&lt;/a&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>{{ range .Site.Menus.main }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>&lt;a href=&#34;{{ .URL }}&#34;&gt;{{ lower .Name }}&lt;/a&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>{{ end }}</span></span></code></pre></div><p>the <code>range</code> function syntax pattern is a bit strange to me coming from a mostly <code>python</code> and <code>java</code> background, but it reminds for a <code>for each</code> loop.</p>
+<p>the other really strange thing to me about <code>hugo</code> syntax is that you have to use a <code>.</code> to reference the current local variable (<em>I think?</em>)</p>
 <h3 id="templates-archetypes-and-lookup-order-oh-my">templates, archetypes, and lookup order, oh my!</h3>
+<p><code>hugo</code> compiles the static site beginning at the <code>index.html</code> page</p>
 <h3 id="pagination---bless-jmooringhttpsgithubcomjmooring">pagination - bless <a href="https://github.com/jmooring">jmooring</a></h3>
+<h3 id="shortcodes-or-longcodes">shortcodes or longcodes</h3>
+<p>it&rsquo;s truly insane to me that ``</p>
 <h3 id="anything-else">anything else?</h3>
 <p>the only annoying part of the workflow left at this point (besides any site framework changes), is that in order to actually publish a new post, I have to move the content from my editor, <code>obsidian</code>, to my <code>hugo</code> git repository and push my changes. it may be possible to use <code>rsync</code> or symlinks to link my <code>obsidian</code> content directory directly to a directory in my blog repo, but I&rsquo;m thinking about exploring ways to access my <code>obsidian</code> synced vaults via an API.</p>
+<p>I think it&rsquo;d be a fun challenge to somehow set up <code>bluesky</code> comments on my blog posts, I&rsquo;ve seen others do something similar a few times but haven&rsquo;t looked into it.</p>
 
 </content>
 <p>
