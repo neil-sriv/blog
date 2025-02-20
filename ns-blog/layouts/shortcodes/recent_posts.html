@@ -4,7 +4,7 @@
 {{ range $recent_posts }}
 <li>
     <time datetime="{{ .Date.Format "Jan 02, 2006" }}">{{ .Date.Format "Jan 02, 2006" }}</time>:
-    <a href="{{ .RelPermalink }}">{{.LinkTitle}}</a>
+    <a href="{{ .RelPermalink }}">{{lower .LinkTitle}}</a>
 </li>
 {{ end }}
 </ul>
