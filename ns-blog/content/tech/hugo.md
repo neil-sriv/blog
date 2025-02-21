@@ -9,7 +9,7 @@ date = "2025-02-13T23:14:05-05:00"
 
 tags = ["tech", "hugo", "blog"]
 +++
-> [!WARNING] caveat
+> [!NOTE]
 > I'm writing based on my own experiences using `hugo` and my understanding of how things work, I'll probably get things wrong so please refer to the [`hugo docs`](https://gohugo.io/documentation/) for correctness
 
 maybe it's because I've been reading a ton of blog posts on `bluesky` from other engineers and developers or maybe it's because I have a oversized belief that my thoughts are actually interesting (like most software engineers), but I'm finally starting a blog.
@@ -54,21 +54,17 @@ thankfully, I eventually found [`hugo-bearcub`](https://github.com/clente/hugo-b
 the `range` function syntax pattern is a bit strange to me coming from a mostly `python` and `java` background, but it reminds for a `for each` loop.
 
 the other really strange thing to me about `hugo` syntax is that you have to use a `.` to reference the current local variable (*I think?*)
-
 ### templates, archetypes, and lookup order, oh my!
 `hugo` compiles the static site beginning at the `index.html` page
-
 #### partial templates
-
-partial templates allow you to pre-define 
+partial templates allow you to pre-define
 
 not all markdown support comes out of the box unfortunately, specifically `blockquotes`. Normally you can specify a type of `blockquote` style, like `NOTE` or `WARNING`, and you get a nicely formatted and colored section:
 
 \<INSERT PICTURE OF BLOCKQUOTE HERE\>
 
 unfortunately for me, rendering blockquotes with types is not supported by default. I had to write a new partial template:
-
-> and by "write", I of course meant, "found on github"
+> and by "write", I of course mean, "found on github"
 
 ```
 {{ $emojis := dict
@@ -97,13 +93,13 @@ unfortunately for me, rendering blockquotes with types is not supported by defau
   </blockquote>
 {{ end }}
 ```
-
 ### pagination - bless [jmooring](https://github.com/jmooring)
 
 ### shortcodes or longcodes
 it's truly insane to me that ``
-
 ### anything else?
+I am not sure if there is anchor link support in `hugo` but I love that experience in industry document editing tools like `confluence` and `quip`.
+
 the only annoying part of the workflow left at this point (besides any site framework changes), is that in order to actually publish a new post, I have to move the content from my editor, `obsidian`, to my `hugo` git repository and push my changes. it may be possible to use `rsync` or symlinks to link my `obsidian` content directory directly to a directory in my blog repo, but I'm thinking about exploring ways to access my `obsidian` synced vaults via an API.
 
 I think it'd be a fun challenge to somehow set up `bluesky` comments on my blog posts, I've seen others do something similar a few times but haven't looked into it.
