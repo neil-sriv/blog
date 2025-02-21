@@ -54,8 +54,14 @@ thankfully, I eventually found [`hugo-bearcub`](https://github.com/clente/hugo-b
 the `range` function syntax pattern is a bit strange to me coming from a mostly `python` and `java` background, but it reminds for a `for each` loop.
 
 the other really strange thing to me about `hugo` syntax is that you have to use a `.` to reference the current local variable (*I think?*)
+
 ### templates, archetypes, and lookup order, oh my!
 `hugo` compiles the static site beginning at the `index.html` page
+
+not all markdown support comes out of the box unfortunately, specifically `blockquotes`. Normally you can specify a type of `blockquote` style, like `NOTE` or `WARNING`, and you get a nicely formatted and colored section:
+
+\<INSERT PICTURE OF BLOCKQUOTE HERE\>
+
 ### pagination - bless [jmooring](https://github.com/jmooring)
 
 ### shortcodes or longcodes
