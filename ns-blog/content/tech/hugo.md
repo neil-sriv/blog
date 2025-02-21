@@ -1,5 +1,5 @@
 +++
-title = "setting up my personal blog with hugo"
+title = "setting up a personal blog with hugo"
 date = "2025-02-13T23:14:05-05:00"
 
 #
@@ -65,6 +65,38 @@ partial templates allow you to pre-define
 not all markdown support comes out of the box unfortunately, specifically `blockquotes`. Normally you can specify a type of `blockquote` style, like `NOTE` or `WARNING`, and you get a nicely formatted and colored section:
 
 \<INSERT PICTURE OF BLOCKQUOTE HERE\>
+
+unfortunately for me, rendering blockquotes with types is not supported by default. I had to write a new partial template:
+
+> and by "write", I of course meant, "found on github"
+
+```
+{{ $emojis := dict
+  "caution" ":exclamation:"
+  "important" ":information_source:"
+  "note" ":information_source:"
+  "tip" ":bulb:"
+  "warning" ":warning:"
+}}
+
+{{ if eq .Type "alert" }}
+  <blockquote class="alert alert-{{ .AlertType }}">
+    <p class="alert-heading">
+      {{ transform.Emojify (index $emojis .AlertType) }}
+      {{ with .AlertTitle }}
+        {{ . }}
+      {{ else }}
+        {{ or (i18n .AlertType) (title .AlertType) }}
+      {{ end }}
+    </p>
+    {{ .Text }}
+  </blockquote>
+{{ else }}
+  <blockquote>
+    {{ .Text }}
+  </blockquote>
+{{ end }}
+```
 
 ### pagination - bless [jmooring](https://github.com/jmooring)
 

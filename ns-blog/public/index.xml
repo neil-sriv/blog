@@ -9,7 +9,7 @@
     <lastBuildDate>Thu, 13 Feb 2025 23:14:05 -0500</lastBuildDate>
     <atom:link href="https://blog.neilsriv.tech/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>setting up my personal blog with hugo</title>
+      <title>setting up a personal blog with hugo</title>
       <link>https://blog.neilsriv.tech/tech/hugo/</link>
       <pubDate>Thu, 13 Feb 2025 23:14:05 -0500</pubDate>
       <guid>https://blog.neilsriv.tech/tech/hugo/</guid>
@@ -71,9 +71,47 @@
 <p>the other really strange thing to me about <code>hugo</code> syntax is that you have to use a <code>.</code> to reference the current local variable (<em>I think?</em>)</p>
 <h3 id="templates-archetypes-and-lookup-order-oh-my">templates, archetypes, and lookup order, oh my!</h3>
 <p><code>hugo</code> compiles the static site beginning at the <code>index.html</code> page</p>
+<h4 id="partial-templates">partial templates</h4>
+<p>partial templates allow you to pre-define</p>
 <p>not all markdown support comes out of the box unfortunately, specifically <code>blockquotes</code>. Normally you can specify a type of <code>blockquote</code> style, like <code>NOTE</code> or <code>WARNING</code>, and you get a nicely formatted and colored section:</p>
 <p>&lt;INSERT PICTURE OF BLOCKQUOTE HERE&gt;</p>
-<h3 id="pagination---bless-jmooringhttpsgithubcomjmooring">pagination - bless <a href="https://github.com/jmooring">jmooring</a></h3>
+<p>unfortunately for me, rendering blockquotes with types is not supported by default. I had to write a new partial template:</p>
+
+
+
+  <blockquote>
+    <p>and by &ldquo;write&rdquo;, I of course meant, &ldquo;found on github&rdquo;</p>
+  </blockquote>
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>{{ $emojis := dict
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>  &#34;caution&#34; &#34;:exclamation:&#34;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>  &#34;important&#34; &#34;:information_source:&#34;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>  &#34;note&#34; &#34;:information_source:&#34;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>  &#34;tip&#34; &#34;:bulb:&#34;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>  &#34;warning&#34; &#34;:warning:&#34;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>}}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>{{ if eq .Type &#34;alert&#34; }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>  &lt;blockquote class=&#34;alert alert-{{ .AlertType }}&#34;&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    &lt;p class=&#34;alert-heading&#34;&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>      {{ transform.Emojify (index $emojis .AlertType) }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>      {{ with .AlertTitle }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>        {{ . }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>      {{ else }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>        {{ or (i18n .AlertType) (title .AlertType) }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>      {{ end }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>    &lt;/p&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>    {{ .Text }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>  &lt;/blockquote&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>{{ else }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>  &lt;blockquote&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>    {{ .Text }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>  &lt;/blockquote&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>{{ end }}</span></span></code></pre></div><h3 id="pagination---bless-jmooringhttpsgithubcomjmooring">pagination - bless <a href="https://github.com/jmooring">jmooring</a></h3>
 <h3 id="shortcodes-or-longcodes">shortcodes or longcodes</h3>
 <p>it&rsquo;s truly insane to me that ``</p>
 <h3 id="anything-else">anything else?</h3>
