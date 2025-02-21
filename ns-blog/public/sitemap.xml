@@ -2,22 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://blog.neilsriv.tech/tags/blog/</loc>
-    <lastmod>2025-02-13T23:14:05-05:00</lastmod>
+    <loc>https://blog.neilsriv.tech/tags/git/</loc>
+    <lastmod>2025-02-21T01:11:57-05:00</lastmod>
   </url><url>
     <loc>https://blog.neilsriv.tech/</loc>
+    <lastmod>2025-02-21T01:11:57-05:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/jj/</loc>
+    <lastmod>2025-02-21T01:11:57-05:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/jujutsu/</loc>
+    <lastmod>2025-02-21T01:11:57-05:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tech/jj/</loc>
+    <lastmod>2025-02-21T01:11:57-05:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tech/</loc>
+    <lastmod>2025-02-21T01:11:57-05:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/tech/</loc>
+    <lastmod>2025-02-21T01:11:57-05:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/blog/</loc>
     <lastmod>2025-02-13T23:14:05-05:00</lastmod>
   </url><url>
     <loc>https://blog.neilsriv.tech/tags/hugo/</loc>
     <lastmod>2025-02-13T23:14:05-05:00</lastmod>
   </url><url>
     <loc>https://blog.neilsriv.tech/tech/hugo/</loc>
-    <lastmod>2025-02-13T23:14:05-05:00</lastmod>
-  </url><url>
-    <loc>https://blog.neilsriv.tech/tech/</loc>
-    <lastmod>2025-02-13T23:14:05-05:00</lastmod>
-  </url><url>
-    <loc>https://blog.neilsriv.tech/tags/tech/</loc>
     <lastmod>2025-02-13T23:14:05-05:00</lastmod>
   </url><url>
     <loc>https://blog.neilsriv.tech/now/</loc>
