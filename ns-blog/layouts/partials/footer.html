@@ -1,0 +1,11 @@
+<small>
+  {{ $m := dict "bluesky" "https://bsky.app/profile/neilsriv.bsky.social" "github" "https://github.com/neil-sriv/" }}
+  {{ range $key, $value := $m }}
+  {{ $url := printf "/icons/%s.svg" $key }}
+  <a class="inline-block" target="_blank" rel="noopener noreferrer" href="{{ $value }}"><img class="" src="{{ $url }}" alt="{{ $key }}" width="18"></a> | 
+  {{ end }}
+  {{ markdownify .Site.Params.description }}
+  <!-- <a class="inline-block px-2" href="#"><img class="" src="{{ (default "facebook-icon.svg" ) | relURL }}" alt="mysite" width="26"></a> 
+  <a class="inline-block px-2" href="#"><img class="" src="{{ (default "twitter-icon.svg" ) | relURL }}" alt="mysite" width="26"></a>
+  <a class="inline-block" href="#"><img class="" src="{{ (default "instagram-icon.svg" ) | relURL }}" alt="mysite" width="26"></a> -->
+</small>

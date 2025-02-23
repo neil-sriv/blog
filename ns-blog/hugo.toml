@@ -21,6 +21,8 @@ enableRobotsTXT = true
 disableKinds = ["taxonomy"]
 ignoreErrors = ["error-disable-taxonomy"]
 
+generateSocialCard = false
+
 enableEmoji = true
 [security]
   enableInlineShortcodes = true
@@ -31,7 +33,8 @@ enableEmoji = true
 
 [params]
   # The "description" of your website. This is used in the meta data of your generated html.
-  description = "neilsriv + Hugo + Bear = :heart:"
+  description = "made with [ᕦʕ •ᴥ•ʔᕤ](https://github.com/clente/hugo-bearcub) & :heart:"
+  
 
   # The path to your "favicon". This should be a square (at least 32px x 32px) png-file.
   # Hint: It's good practise to also put a "favicon.ico"-file into your "static"-folder.
@@ -62,6 +65,15 @@ enableEmoji = true
 [params.multipage]
   displayPaginator = false
   displayPrevAndNext = true
+
+[params.social]
+  bluesky = ""
+  github = ""
+
+[params.author]
+  name = "neil Srivastava"
+  email = "neil.srivastava1@gmail.com"
+
 
 [markup]
   [markup.highlight]
