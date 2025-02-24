@@ -117,11 +117,11 @@ maybe it’s because I’ve been reading a ton of blog posts on bluesky from oth
 <p>plus the fact that github pages is free doesn&rsquo;t hurt either</p>
   </blockquote>
 <p>it wasn&rsquo;t even too hard to set-up a custom domain with github pages as well. probably a solid option for static/server-side-rendered website hosting in 2025.</p>
-<h3 id="lets-get-into-it">let&rsquo;s get into it</h3>
-<p>to be honest, I&rsquo;m not a prolific frontend engineer, I&rsquo;m barely competent with <code>html</code>, and less than competent with <code>css</code>. I&rsquo;ve never used site generators and I use markdown in <code>obsidian</code> just to take notes and keep track of personal documents.</p>
+<h3 id="lets-get-into-it">let&rsquo;s get into it <a class="anchor" href="#lets-get-into-it"
+        title="Link to section: let&rsquo;s get into it" aria-label="Link to section: let&rsquo;s get into it">#</a></h3><p>to be honest, I&rsquo;m not a prolific frontend engineer, I&rsquo;m barely competent with <code>html</code>, and less than competent with <code>css</code>. I&rsquo;ve never used site generators and I use markdown in <code>obsidian</code> just to take notes and keep track of personal documents.</p>
 <p>now the <code>hugo</code> docs may have helped with the deployment, but their ease-of-use ended there. I ended up digging through <code>hugo</code> forums, asking <code>chatgpt</code>, and old fashioned trial n&rsquo; error to eventually get a working site with all the bells and whistles I wanted.</p>
-<h3 id="what-the-heck-is-">what the heck is {{}}</h3>
-<p><code>hugo</code> has custom syntax, templating, functions, methods, archetypes&hellip;the list goes on forever. it took me quite a while to finally figure out that in <code>.html</code> template files and <code>.md</code> archetype files you could use  <code>{{ &lt;command&gt; }}</code> to access and work with pages, tags, and other data from my website. you can use this to create relative links, set-up reusable page structures, and plenty more.</p>
+<h3 id="what-the-heck-is-">what the heck is {{}} <a class="anchor" href="#what-the-heck-is-"
+        title="Link to section: what the heck is {{}}" aria-label="Link to section: what the heck is {{}}">#</a></h3><p><code>hugo</code> has custom syntax, templating, functions, methods, archetypes&hellip;the list goes on forever. it took me quite a while to finally figure out that in <code>.html</code> template files and <code>.md</code> archetype files you could use  <code>{{ &lt;command&gt; }}</code> to access and work with pages, tags, and other data from my website. you can use this to create relative links, set-up reusable page structures, and plenty more.</p>
 <p>this is a snippet that displays links to the 5 most recent posts on my site with the date they were posted</p>
 
 
@@ -138,8 +138,8 @@ maybe it’s because I’ve been reading a ton of blog posts on bluesky from oth
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>&lt;/li&gt;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>{{ end }}
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>&lt;/ul&gt;</span></span></code></pre></div><p>note how you can grab posts from the site with <code>.Site.Pages</code> and filter/sort them using methods like <code>where</code> and <code>.ByDate</code>.</p>
-<h3 id="bear">ʕ•ᴥ•ʔ</h3>
-<p>one of the first big mistakes I made was using the <a href="https://github.com/janraasch/hugo-bearblog"><code>hugo-bearblog</code></a> theme. now I have nothing against it, but the example site and styling left much to be desired. I didn&rsquo;t like that you were limited to only a <code>blog</code> section header, code block styling was atrocious, and honestly probably since it was my first attempt, I had lots of trouble updating the templates with my own ideas.</p>
+<h3 id="bear">ʕ•ᴥ•ʔ <a class="anchor" href="#bear"
+        title="Link to section: ʕ•ᴥ•ʔ" aria-label="Link to section: ʕ•ᴥ•ʔ">#</a></h3><p>one of the first big mistakes I made was using the <a href="https://github.com/janraasch/hugo-bearblog"><code>hugo-bearblog</code></a> theme. now I have nothing against it, but the example site and styling left much to be desired. I didn&rsquo;t like that you were limited to only a <code>blog</code> section header, code block styling was atrocious, and honestly probably since it was my first attempt, I had lots of trouble updating the templates with my own ideas.</p>
 <p>thankfully, I eventually found <a href="https://github.com/clente/hugo-bearcub"><code>hugo-bearcub</code></a> that seems to be just as fast as <code>hugo-bearblog</code>, highly accessible, and with a less opinionated structure. I was able to implement my own sections and updated the <code>nav.html</code> template to render any a header link for any section I care to generate.</p>
 
 
@@ -151,10 +151,10 @@ maybe it’s because I’ve been reading a ton of blog posts on bluesky from oth
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>&lt;a href=&#34;{{ .URL }}&#34;&gt;{{ lower .Name }}&lt;/a&gt;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>{{ end }}</span></span></code></pre></div><p>the <code>range</code> function syntax pattern is a bit strange to me coming from a mostly <code>python</code> and <code>java</code> background, but it reminds for a <code>for each</code> loop.</p>
 <p>the other really strange thing to me about <code>hugo</code> syntax is that you have to use a <code>.</code> to reference the current local variable (<em>I think?</em>)</p>
-<h3 id="templates-archetypes-and-lookup-order-oh-my">templates, archetypes, and lookup order, oh my!</h3>
-<p><code>hugo</code> compiles the static site beginning at the <code>index.html</code> page</p>
-<h4 id="partial-templates">partial templates</h4>
-<p>partial templates allow you to pre-define html rendering patterns for parts of the webpage, like the above <a href="#nav.html"><code>nav.html</code></a></p>
+<h3 id="templates-archetypes-and-lookup-order-oh-my">templates, archetypes, and lookup order, oh my! <a class="anchor" href="#templates-archetypes-and-lookup-order-oh-my"
+        title="Link to section: templates, archetypes, and lookup order, oh my!" aria-label="Link to section: templates, archetypes, and lookup order, oh my!">#</a></h3><p><code>hugo</code> compiles the static site beginning at the <code>index.html</code> page</p>
+<h4 id="partial-templates">partial templates <a class="anchor" href="#partial-templates"
+        title="Link to section: partial templates" aria-label="Link to section: partial templates">#</a></h4><p>partial templates allow you to pre-define html rendering patterns for parts of the webpage, like the above <a href="#nav.html"><code>nav.html</code></a></p>
 <p>not all markdown support comes out of the box unfortunately, specifically <code>blockquotes</code>. Normally you can specify a type of <code>blockquote</code> style, like <code>NOTE</code> or <code>WARNING</code>, and you get a nicely formatted and colored section:</p>
 <p>&lt;INSERT PICTURE OF BLOCKQUOTE HERE&gt;</p>
 <p>unfortunately for me, rendering blockquotes with types is not supported by default. so I had to write a new partial template:</p>
@@ -193,11 +193,11 @@ maybe it’s because I’ve been reading a ton of blog posts on bluesky from oth
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>  &lt;blockquote&gt;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>    {{ .Text }}
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>  &lt;/blockquote&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>{{ end }}</span></span></code></pre></div><h3 id="pagination---bless-jmooring">pagination - bless <a href="https://github.com/jmooring">jmooring</a></h3>
-<h3 id="shortcodes-or-longcodes">shortcodes or longcodes</h3>
-<p>it&rsquo;s truly insane to me that ``</p>
-<h3 id="anything-else">anything else?</h3>
-<p>there is anchor link support in markdown by default with the pattern</p>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>{{ end }}</span></span></code></pre></div><h3 id="pagination---bless-jmooring">pagination - bless <a href="https://github.com/jmooring">jmooring</a> <a class="anchor" href="#pagination---bless-jmooring"
+        title="Link to section: pagination - bless jmooring" aria-label="Link to section: pagination - bless jmooring">#</a></h3><h3 id="shortcodes-or-longcodes">shortcodes or longcodes <a class="anchor" href="#shortcodes-or-longcodes"
+        title="Link to section: shortcodes or longcodes" aria-label="Link to section: shortcodes or longcodes">#</a></h3><p>it&rsquo;s truly insane to me that ``</p>
+<h3 id="anything-else">anything else? <a class="anchor" href="#anything-else"
+        title="Link to section: anything else?" aria-label="Link to section: anything else?">#</a></h3><p>there is anchor link support in markdown by default with the pattern</p>
 
 
 

@@ -15,21 +15,21 @@
       <link>https://blog.neilsriv.tech/now/</link>
       <pubDate>Wed, 12 Feb 2025 00:11:35 -0500</pubDate><author>neil.srivastava1@gmail.com (neil Srivastava)</author>
       <guid>https://blog.neilsriv.tech/now/</guid>
-      <description>&lt;h1 id=&#34;what-am-i-doing-right-now&#34;&gt;what am I doing right now?&lt;/h1&gt;&#xA;&lt;p&gt;This page is inspired by &lt;a href=&#34;https://nownownow.com/about&#34;&gt;now page&lt;/a&gt; and is a work in progress.&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Last updated: 2025-02-12 from New York City, NY&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;moving-to-new-york&#34;&gt;moving to new york&lt;/h2&gt;&#xA;&lt;p&gt;I finally moved to NYC in January 2025! After 2.5 years in San Francisco, I&amp;rsquo;ve moved over to the East Coast. Living in Manhattan for now and still working at &lt;a href=&#34;https://www.benchling.com/&#34;&gt;Benchling&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;building-a-personal-newsletter-service-for-my-friends-ring&#34;&gt;building a personal newsletter service for my friends: ring&lt;/h2&gt;&#xA;&lt;p&gt;It&amp;rsquo;s been about a year since I started working on a personal newsletter service for my friends and about 6 months since I published it for us to use. With about 45 monthly users, that&amp;rsquo;s 3 unique groups (1 of which I&amp;rsquo;m not even part of!), it&amp;rsquo;s been a really fun journey evolving the platform.&lt;/p&gt;</description>
-      <content:encoded><![CDATA[<h1 id="what-am-i-doing-right-now">what am I doing right now?</h1>
-<p>This page is inspired by <a href="https://nownownow.com/about">now page</a> and is a work in progress.</p>
+      <description>&lt;h1 id=&#34;what-am-i-doing-right-now&#34;&gt;what am I doing right now? &lt;a class=&#34;anchor&#34; href=&#34;#what-am-i-doing-right-now&#34;&#xA;        title=&#34;Link to section: what am I doing right now?&#34; aria-label=&#34;Link to section: what am I doing right now?&#34;&gt;#&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;This page is inspired by &lt;a href=&#34;https://nownownow.com/about&#34;&gt;now page&lt;/a&gt; and is a work in progress.&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Last updated: 2025-02-12 from New York City, NY&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;moving-to-new-york&#34;&gt;moving to new york &lt;a class=&#34;anchor&#34; href=&#34;#moving-to-new-york&#34;&#xA;        title=&#34;Link to section: moving to new york&#34; aria-label=&#34;Link to section: moving to new york&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;I finally moved to NYC in January 2025! After 2.5 years in San Francisco, I&amp;rsquo;ve moved over to the East Coast. Living in Manhattan for now and still working at &lt;a href=&#34;https://www.benchling.com/&#34;&gt;Benchling&lt;/a&gt;.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<h1 id="what-am-i-doing-right-now">what am I doing right now? <a class="anchor" href="#what-am-i-doing-right-now"
+        title="Link to section: what am I doing right now?" aria-label="Link to section: what am I doing right now?">#</a></h1><p>This page is inspired by <a href="https://nownownow.com/about">now page</a> and is a work in progress.</p>
 <p><em>Last updated: 2025-02-12 from New York City, NY</em></p>
-<h2 id="moving-to-new-york">moving to new york</h2>
-<p>I finally moved to NYC in January 2025! After 2.5 years in San Francisco, I&rsquo;ve moved over to the East Coast. Living in Manhattan for now and still working at <a href="https://www.benchling.com/">Benchling</a>.</p>
-<h2 id="building-a-personal-newsletter-service-for-my-friends-ring">building a personal newsletter service for my friends: ring</h2>
-<p>It&rsquo;s been about a year since I started working on a personal newsletter service for my friends and about 6 months since I published it for us to use. With about 45 monthly users, that&rsquo;s 3 unique groups (1 of which I&rsquo;m not even part of!), it&rsquo;s been a really fun journey evolving the platform.</p>
+<h2 id="moving-to-new-york">moving to new york <a class="anchor" href="#moving-to-new-york"
+        title="Link to section: moving to new york" aria-label="Link to section: moving to new york">#</a></h2><p>I finally moved to NYC in January 2025! After 2.5 years in San Francisco, I&rsquo;ve moved over to the East Coast. Living in Manhattan for now and still working at <a href="https://www.benchling.com/">Benchling</a>.</p>
+<h2 id="building-a-personal-newsletter-service-for-my-friends-ring">building a personal newsletter service for my friends: ring <a class="anchor" href="#building-a-personal-newsletter-service-for-my-friends-ring"
+        title="Link to section: building a personal newsletter service for my friends: ring" aria-label="Link to section: building a personal newsletter service for my friends: ring">#</a></h2><p>It&rsquo;s been about a year since I started working on a personal newsletter service for my friends and about 6 months since I published it for us to use. With about 45 monthly users, that&rsquo;s 3 unique groups (1 of which I&rsquo;m not even part of!), it&rsquo;s been a really fun journey evolving the platform.</p>
 <p>Of course the whole service is very overengineered: I&rsquo;m using individual docker containers for all the services (nginx, celery, redis, fastapi), multiple AWS services (postgres RDS, SES, S3 + cloudfront), all hosted on a single EC2 machine with 1 GB of memory that costs <strong>absolutely nothing</strong> per month!</p>
-<h1 id="location">location:</h1>
-<p>new york, new york, u.s.a.</p>
-<h1 id="professional-title">professional title:</h1>
-<p>software engineer | thought leader | yuno ball</p>
-<h1 id="what-do-you-do">what do you do?</h1>
-<p>I like building random things</p>
+<h1 id="location">location: <a class="anchor" href="#location"
+        title="Link to section: location:" aria-label="Link to section: location:">#</a></h1><p>new york, new york, u.s.a.</p>
+<h1 id="professional-title">professional title: <a class="anchor" href="#professional-title"
+        title="Link to section: professional title:" aria-label="Link to section: professional title:">#</a></h1><p>software engineer | thought leader | yuno ball</p>
+<h1 id="what-do-you-do">what do you do? <a class="anchor" href="#what-do-you-do"
+        title="Link to section: what do you do?" aria-label="Link to section: what do you do?">#</a></h1><p>I like building random things</p>
 ]]></content:encoded>
     </item>
   </channel>
