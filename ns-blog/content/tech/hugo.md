@@ -63,7 +63,7 @@ partial templates allow you to pre-define html rendering patterns for parts of t
 
 not all markdown support comes out of the box unfortunately, specifically `blockquotes`. Normally you can specify a type of `blockquote` style, like `NOTE` or `WARNING`, and you get a nicely formatted and colored section:
 
-\<INSERT PICTURE OF BLOCKQUOTE HERE\>
+![image of properly rendered blockquotes on github](/tech/hugo/blockquote.png)
 
 unfortunately for me, rendering blockquotes with types is not supported by default. so I had to write a new partial template:
 > and by "write", I of course mean, "found on github"
@@ -98,8 +98,9 @@ unfortunately for me, rendering blockquotes with types is not supported by defau
 ### pagination - bless [jmooring](https://github.com/jmooring)
 
 ### shortcodes or longcodes
-it's truly insane to me that ``
-### anything else? {#anything-else}
+it's truly insane to me that 
+
+### anchor links
 there is anchor link support in markdown by default with the pattern
 ```
 [heading link](#heading)
@@ -109,8 +110,48 @@ there is anchor link support in markdown by default with the pattern
 for example:
 [ʕ•ᴥ•ʔ](#bear)
 
-but I do miss the on-hover, click-to-copy anchor link pattern from `confluence` and `quip`
+but I did miss the on-hover, click-to-copy anchor link pattern from `confluence` and `quip`. I fortunately found this super in-depth [guide](https://dariusz.wieckiewicz.org/en/supercharge-your-headings-in-hugo-with-render-hooks/) that helped me formulate automatic generation of anchor tags based on the headings with copy-on-click and appear-on-hover.
 
-the only annoying part of the workflow left at this point (besides pretty much any site framework changes), is that in order to actually publish a new post, I have to move the content from my editor, `obsidian`, to my `hugo` git repository and push my changes. it may be possible to use `rsync` or symlinks to link my `obsidian` content directory directly to a directory in my blog repo, but I'm thinking about exploring ways to access my `obsidian` synced vaults via an API.
+the partial template essentially just adds an `<a>` tag to every heading with an `anchor` classname. 
+``` {#render-heading.html}
+<h{{ .Level }} id="{{ .Anchor | safeURL }}">{{ .Text | safeHTML }} <a class="anchor" href="#{{ .Anchor | safeURL }}"
+        title="Link to section: {{ .Text | safeHTML }}" aria-label="Link to section: {{ .Text | safeHTML }}">#</a></h{{
+    .Level }}>
+```
+
+the majority of the benefit comes from `css` and I barely know how it works other than changing the opacity to 0 while not being hovered over. I copied the `original.css` style sheet from the `hugo-bearcub` theme and added the following styling.
+``` {#original.css}
+:root {
+    --main: #137faa;
+  }
+  
+a.anchor {
+    color: var(--main);
+    text-decoration: none !important;
+  }
+  
+  @media (hover: hover) {
+      a.anchor {
+        opacity: 0;
+      }
+    h1:hover a.anchor,
+    h2:hover a.anchor,
+    h3:hover a.anchor,
+    h4:hover a.anchor,
+    h5:hover a.anchor,
+    h6:hover a.anchor {
+      opacity: 1;
+    }
+  }
+  
+  @media (hover: none) {
+      a.anchor {
+        opacity: 0;
+      }
+  }
+```
+### anything else? {#anything-else}
+
+the only annoying part of the workflow left  at this point (besides pretty much any site framework changes), is that in order to actually publish a new post, I have to move the content from my editor, `obsidian`, to my `hugo` git repository and push my changes. it may be possible to use `rsync` or symlinks to link my `obsidian` content directory directly to a directory in my blog repo, but I'm thinking about exploring ways to access my `obsidian` synced vaults via an API.
 
 I think it'd be a fun challenge to somehow set up `bluesky` comments on my blog posts, I've seen others do something similar a few times but haven't looked into it.
