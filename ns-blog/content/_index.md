@@ -13,7 +13,7 @@ don't expect the content here to stay stable, I tend to randomly push updates an
 
 ---
 
-hosting this blog on `github pages` for now, using `Hugo` for site generation.
+hosting this blog on `github pages` for now, using `hugo` for site generation.
 
 ---
 
