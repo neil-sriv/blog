@@ -52,7 +52,7 @@ the `range` function syntax pattern is a bit strange to me coming from a mostly 
 
 the other really strange thing to me about `hugo` syntax is that you have to use a `.` to reference the current local variable (*I think?*)
 ### layouts, archetypes, and lookup order, oh my!
-> [!ERROR] help
+> [!CAUTION] help
 > I have no idea how `hugo` site generation works
 
 `hugo` seems to generate the static site into the `public/` directory following the template that is described in `layouts/`
@@ -64,7 +64,7 @@ layouts allow you to pre-define html rendering patterns for parts of the webpage
 `archetypes` are similar to `layouts` except they define the template for generating new content (new markdown pages). they can even use `hugo` functions and [`shortcodes`](#shortcodes-or-longcodes)
 
 lastly, lookup order in `hugo` is not exactly straightforward. there's more explanation in the docs but the primary thing for me to note:
-> [!WARNING]
+> [!CAUTION]
 > when using a theme, layouts from the `themes/` directory are applied first unless they are overwritten in the top-level `layouts/` directory
 #### markup layouts
 not all markdown features comes out of the box unfortunately, specifically `blockquotes`. normally you can specify a type of `blockquote` style, like `NOTE` or `WARNING`, and you get a nicely formatted and colored section:
@@ -72,7 +72,7 @@ not all markdown features comes out of the box unfortunately, specifically `bloc
 ![image of properly rendered blockquotes on github](blockquote.png)
 
 unfortunately for me, the way `hugo` generates html for markdown blockquotes does not support types. so I had to write a new markup template:
-> [!NOTE] success!
+> [!TIP] success!
 > and by "write", I of course mean, "find on github"
 
 ```

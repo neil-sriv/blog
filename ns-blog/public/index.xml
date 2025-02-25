@@ -76,9 +76,9 @@
         title="Link to section: layouts, archetypes, and lookup order, oh my!" aria-label="Link to section: layouts, archetypes, and lookup order, oh my!">#</a></h3>
 
 
-  <blockquote class="alert alert-error">
+  <blockquote class="alert alert-caution">
     <p class="alert-heading">
-      
+      ❗
       
         help
       
@@ -93,11 +93,11 @@
 
 
 
-  <blockquote class="alert alert-warning">
+  <blockquote class="alert alert-caution">
     <p class="alert-heading">
-      ⚠️
+      ❗
       
-        Warning
+        Caution
       
     </p>
     <p>when using a theme, layouts from the <code>themes/</code> directory are applied first unless they are overwritten in the top-level <code>layouts/</code> directory</p>
@@ -109,9 +109,9 @@
 
 
 
-  <blockquote class="alert alert-note">
+  <blockquote class="alert alert-tip">
     <p class="alert-heading">
-      ℹ️
+      💡
       
         success!
       
