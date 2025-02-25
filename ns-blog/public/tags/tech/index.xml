@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tech on neilsriv blog</title>
-    <link>http://localhost:1313/tags/tech/</link>
+    <link>https://blog.neilsriv.tech/tags/tech/</link>
     <description>Recent content in Tech on neilsriv blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <managingEditor>neil.srivastava1@gmail.com (neil Srivastava)</managingEditor>
     <webMaster>neil.srivastava1@gmail.com (neil Srivastava)</webMaster>
     <lastBuildDate>Mon, 24 Feb 2025 19:44:43 -0500</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/tech/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://blog.neilsriv.tech/tags/tech/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>setting up a personal blog with hugo</title>
-      <link>http://localhost:1313/tech/hugo/</link>
+      <link>https://blog.neilsriv.tech/tech/hugo/</link>
       <pubDate>Mon, 24 Feb 2025 19:44:43 -0500</pubDate><author>neil.srivastava1@gmail.com (neil Srivastava)</author>
-      <guid>http://localhost:1313/tech/hugo/</guid>
+      <guid>https://blog.neilsriv.tech/tech/hugo/</guid>
       <description>&lt;blockquote class=&#34;alert alert-warning&#34;&gt;&#xA;    &lt;p class=&#34;alert-heading&#34;&gt;&#xA;      ⚠️&#xA;      &#xA;        caveat&#xA;      &#xA;    &lt;/p&gt;&#xA;    &lt;p&gt;I&amp;rsquo;m writing based on my own experiences using &lt;code&gt;hugo&lt;/code&gt; and my understanding of how things work, I&amp;rsquo;ll probably get things wrong so please refer to the &lt;a href=&#34;https://gohugo.io/documentation/&#34;&gt;&lt;code&gt;hugo docs&lt;/code&gt;&lt;/a&gt; for correctness&lt;/p&gt;&#xA;  &lt;/blockquote&gt;&#xA;&lt;p&gt;maybe it&amp;rsquo;s because I&amp;rsquo;ve been reading a ton of blog posts on &lt;code&gt;bluesky&lt;/code&gt; from other engineers and developers or maybe it&amp;rsquo;s because I have an oversized belief that my thoughts are actually interesting (like most software engineers), but I&amp;rsquo;m finally starting a blog.&lt;/p&gt;</description>
       <content:encoded><![CDATA[
 

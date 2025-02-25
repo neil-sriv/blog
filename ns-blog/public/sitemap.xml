@@ -2,31 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/tags/blog/</loc>
+    <loc>https://blog.neilsriv.tech/tags/blog/</loc>
     <lastmod>2025-02-24T19:44:43-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://blog.neilsriv.tech/</loc>
     <lastmod>2025-02-24T19:44:43-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/hugo/</loc>
+    <loc>https://blog.neilsriv.tech/tags/hugo/</loc>
     <lastmod>2025-02-24T19:44:43-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tech/hugo/</loc>
+    <loc>https://blog.neilsriv.tech/tech/hugo/</loc>
     <lastmod>2025-02-24T19:44:43-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tech/</loc>
+    <loc>https://blog.neilsriv.tech/tech/</loc>
     <lastmod>2025-02-24T19:44:43-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/tech/</loc>
+    <loc>https://blog.neilsriv.tech/tags/tech/</loc>
     <lastmod>2025-02-24T19:44:43-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/now/</loc>
+    <loc>https://blog.neilsriv.tech/now/</loc>
     <lastmod>2025-02-12T00:11:35-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/second_tag/</loc>
+    <loc>https://blog.neilsriv.tech/tags/second_tag/</loc>
     <lastmod>2025-02-12T00:11:35-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/tag/</loc>
+    <loc>https://blog.neilsriv.tech/tags/tag/</loc>
     <lastmod>2025-02-12T00:11:35-05:00</lastmod>
   </url>
 </urlset>

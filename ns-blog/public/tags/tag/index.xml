@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tag on neilsriv blog</title>
-    <link>http://localhost:1313/tags/tag/</link>
+    <link>https://blog.neilsriv.tech/tags/tag/</link>
     <description>Recent content in Tag on neilsriv blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <managingEditor>neil.srivastava1@gmail.com (neil Srivastava)</managingEditor>
     <webMaster>neil.srivastava1@gmail.com (neil Srivastava)</webMaster>
     <lastBuildDate>Wed, 12 Feb 2025 00:11:35 -0500</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/tag/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://blog.neilsriv.tech/tags/tag/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Now</title>
-      <link>http://localhost:1313/now/</link>
+      <link>https://blog.neilsriv.tech/now/</link>
       <pubDate>Wed, 12 Feb 2025 00:11:35 -0500</pubDate><author>neil.srivastava1@gmail.com (neil Srivastava)</author>
-      <guid>http://localhost:1313/now/</guid>
+      <guid>https://blog.neilsriv.tech/now/</guid>
       <description>&lt;h1 id=&#34;what-am-i-doing-right-now&#34;&gt;what am I doing right now? &lt;a class=&#34;anchor&#34; href=&#34;#what-am-i-doing-right-now&#34;&#xA;        title=&#34;Link to section: what am I doing right now?&#34; aria-label=&#34;Link to section: what am I doing right now?&#34;&gt;#&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;This page is inspired by &lt;a href=&#34;https://nownownow.com/about&#34;&gt;now page&lt;/a&gt; and is a work in progress.&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Last updated: 2025-02-12 from New York City, NY&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;moving-to-new-york&#34;&gt;moving to new york &lt;a class=&#34;anchor&#34; href=&#34;#moving-to-new-york&#34;&#xA;        title=&#34;Link to section: moving to new york&#34; aria-label=&#34;Link to section: moving to new york&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;I finally moved to NYC in January 2025! After 2.5 years in San Francisco, I&amp;rsquo;ve moved over to the East Coast. Living in Manhattan for now and still working at &lt;a href=&#34;https://www.benchling.com/&#34;&gt;Benchling&lt;/a&gt;.&lt;/p&gt;</description>
       <content:encoded><![CDATA[<h1 id="what-am-i-doing-right-now">what am I doing right now? <a class="anchor" href="#what-am-i-doing-right-now"
         title="Link to section: what am I doing right now?" aria-label="Link to section: what am I doing right now?">#</a></h1><p>This page is inspired by <a href="https://nownownow.com/about">now page</a> and is a work in progress.</p>
