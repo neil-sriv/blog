@@ -168,6 +168,11 @@
 <ul>
 
 <li>
+    <time datetime="Mar 05, 2025">Mar 05, 2025</time>:
+    <a href="/tech/git_ctf/">git ctf</a>
+</li>
+
+<li>
     <time datetime="Feb 24, 2025">Feb 24, 2025</time>:
     <a href="/tech/hugo/">setting up a personal blog with hugo</a>
 </li>
