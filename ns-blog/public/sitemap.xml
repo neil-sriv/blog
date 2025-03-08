@@ -35,10 +35,13 @@
     <loc>https://blog.neilsriv.tech/now/</loc>
     <lastmod>2025-02-12T00:11:35-05:00</lastmod>
   </url><url>
-    <loc>https://blog.neilsriv.tech/tags/second_tag/</loc>
+    <loc>https://blog.neilsriv.tech/tags/now/</loc>
     <lastmod>2025-02-12T00:11:35-05:00</lastmod>
   </url><url>
-    <loc>https://blog.neilsriv.tech/tags/tag/</loc>
+    <loc>https://blog.neilsriv.tech/tags/software/</loc>
+    <lastmod>2025-02-12T00:11:35-05:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/swe/</loc>
     <lastmod>2025-02-12T00:11:35-05:00</lastmod>
   </url>
 </urlset>
