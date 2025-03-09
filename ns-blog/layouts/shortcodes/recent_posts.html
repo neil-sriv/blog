@@ -1,10 +1,22 @@
-{{ $recent_posts := ( (where .Site.Pages "IsPage" true).ByDate.Reverse) | first 5 }}
+{{ $multipages := ( where .Site.Pages "Layout" "multipage" ) }}
+{{ $subpages := ( where .Site.Pages "Layout" "subpage" ) }}
+{{ $all_posts := ( ( union (where .Site.Pages "IsPage" true) $multipages).ByDate.Reverse) }}
+{{ $recent_posts := ( complement $subpages $all_posts ) | first 5 }}
+
+{{ $real_recent_posts := ( (where .Site.Pages "IsPage" true).ByDate.Reverse) | first 5}}
+
 <p>here's a list of my most recent posts</p>
 <ul>
-{{ range $recent_posts }}
+{{ range $real_recent_posts }}
+  {{ $url := "" }}
+  {{ if eq (.Param "Layout") "subpage" }}
+    {{ $url = printf "%s/page/%d" .CurrentSection.Paginator.URL (.Param "page_number") }}
+  {{ else }}
+    {{ $url = .RelPermalink }}
+  {{ end }}
 <li>
     <time datetime="{{ .Date.Format "Jan 02, 2006" }}">{{ .Date.Format "Jan 02, 2006" }}</time>:
-    <a href="{{ .RelPermalink }}">{{lower .LinkTitle}}</a>
+    <a href="{{ $url }}">{{lower .LinkTitle}}</a>
 </li>
 {{ end }}
 </ul>

@@ -66,6 +66,7 @@ enableEmoji = true
   displayPaginator = false
   displayPrevAndNext = true
 
+
 [params.social]
   bluesky = ""
   github = ""

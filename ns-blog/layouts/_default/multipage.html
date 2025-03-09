@@ -6,7 +6,7 @@
     {{ if eq $paginator.PageNumber 1 }}
       <h1>{{ $title }}</h1>
     {{ else }}
-      <h1>{{ $title }} (continued)</h1>
+    <h1>{{ $title }} (part {{ $paginator.PageNumber }})</h1>
     {{ end }}
     {{ .TableOfContents }}
     {{ .Content }}
