@@ -1,0 +1,4 @@
+{{ $css := resources.Get "main.css" }}
+<link href="{{ $css.RelPermalink }}" rel="stylesheet" />
+{{/* THIS OPERATION CANNOT BE BE CACHED BY partialCached. */}}
+{{ partial "pwa/functions/precache" (dict "URL" $css.RelPermalink "Page" .) }}

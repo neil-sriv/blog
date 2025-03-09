@@ -51,6 +51,7 @@
 
   <link rel="alternate" type="application/rss+xml" href="https://blog.neilsriv.tech/tech/index.xml" title="neilsriv blog" />
   
+    <link rel="manifest" href="https://blog.neilsriv.tech/manifest.webmanifest" />
 </head>
 
 <body>
@@ -152,6 +153,23 @@
 </small>
 </footer>
 
-  </body>
+  
+
+
+  
+
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+  window.addEventListener('DOMContentLoaded', function() {
+    navigator.serviceWorker.register('\/sw.js');
+  });
+}
+</script>
+
+</body>
 
 </html>

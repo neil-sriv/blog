@@ -129,6 +129,7 @@ every flag is the name of a git branch that you can checkout to start the releva
   
 
   
+    <link rel="manifest" href="https://blog.neilsriv.tech/manifest.webmanifest" />
 </head>
 
 <body>
@@ -1043,6 +1044,23 @@ looks like they are either simple messages or rich metadata that can be attached
 </small>
 </footer>
 
-  </body>
+  
+
+
+  
+
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+  window.addEventListener('DOMContentLoaded', function() {
+    navigator.serviceWorker.register('\/sw.js');
+  });
+}
+</script>
+
+</body>
 
 </html>
