@@ -2,6 +2,10 @@ html {
     scroll-behavior: smooth;
 }
 
+content {
+  flex: 3;
+}
+
 .wrapper {
    display: flex; 
   justify-content: space-between;
@@ -12,9 +16,22 @@ html {
 }
 
 .custom-toc {
-  height: 25vh;
+  padding: 20px;
+  flex: 1;
+  height: 80vh;
   position: sticky;
-  top: 0;
+  top: 5%;
+  overflow-y: scroll;
+} 
+
+.custom-toc a {
+  color: #8cc2dd; /* Change to your desired color */
+  text-decoration: none; /* Optionally remove underline */
+}
+
+.custom-toc a:hover {
+  color: #0056b3; /* Change to a darker color on hover */
+  text-decoration: underline; /* Optionally add underline on hover */
 }
 
 
