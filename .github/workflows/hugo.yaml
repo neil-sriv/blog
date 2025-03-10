@@ -57,6 +57,7 @@ jobs:
           TZ: America/Los_Angeles
         run: |
           cd ns-blog
+          hugo mod get 
           hugo \
             --gc \
             --minify \
