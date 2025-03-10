@@ -106,6 +106,10 @@ enableEmoji = true
 
 [outputs]
   home = ['HTML', 'Offline', 'WebAppManifest']
+  section = ['HTML', 'Offline']
+  taxonomy = ['HTML', 'Offline', 'WebAppManifest']
+  term = ['HTML', 'Offline']
+  page = ['HTML', 'Offline']
   # home = ['HTML', 'RSS', 'Offline', 'WebAppManifest']
 
 [params.pwa]

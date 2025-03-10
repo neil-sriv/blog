@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://blog.neilsriv.tech/images/favicon.png" />
+<title>now | neilsriv blog</title>
+<meta name="title" content="now" />
+<meta name="description" content="what am I doing right now? #This page is inspired by now page and is a work in progress.
+Last updated: 2025-02-12 from New York City, NY
+moving to new york #I finally moved to NYC in January 2025! After 2.5 years in San Francisco, I&rsquo;ve moved over to the East Coast. Living in Manhattan for now and still working at Benchling." />
+<meta name="author" content="" />
+<meta name="keywords" content="swe,now,software," />
+
+
+
+
+
+
+  
+  <meta property="og:url" content="https://blog.neilsriv.tech/now/">
+  <meta property="og:site_name" content="neilsriv blog">
+  <meta property="og:title" content="now">
+  <meta property="og:description" content="what am I doing right now? #This page is inspired by now page and is a work in progress.
+Last updated: 2025-02-12 from New York City, NY
+moving to new york #I finally moved to NYC in January 2025! After 2.5 years in San Francisco, I’ve moved over to the East Coast. Living in Manhattan for now and still working at Benchling.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2025-02-12T00:11:35-05:00">
+    <meta property="article:modified_time" content="2025-02-12T00:11:35-05:00">
+    <meta property="article:tag" content="Swe">
+    <meta property="article:tag" content="Now">
+    <meta property="article:tag" content="Software">
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="now">
+  <meta name="twitter:description" content="what am I doing right now? #This page is inspired by now page and is a work in progress.
+Last updated: 2025-02-12 from New York City, NY
+moving to new york #I finally moved to NYC in January 2025! After 2.5 years in San Francisco, I’ve moved over to the East Coast. Living in Manhattan for now and still working at Benchling.">
+
+
+  
+  
+  <meta itemprop="name" content="now">
+  <meta itemprop="description" content="what am I doing right now? #This page is inspired by now page and is a work in progress.
+Last updated: 2025-02-12 from New York City, NY
+moving to new york #I finally moved to NYC in January 2025! After 2.5 years in San Francisco, I’ve moved over to the East Coast. Living in Manhattan for now and still working at Benchling.">
+  <meta itemprop="datePublished" content="2025-02-12T00:11:35-05:00">
+  <meta itemprop="dateModified" content="2025-02-12T00:11:35-05:00">
+  <meta itemprop="wordCount" content="199">
+  <meta itemprop="keywords" content="Swe,Now,Software">
+
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+  <link href="/original.min.css" rel="stylesheet">
+
+  
+
+  
+
+  
+    <link rel="manifest" href="https://blog.neilsriv.tech/manifest.webmanifest" />
+</head>
+
+<body>
+  <header><a class="skip-link" href="#main-content">Skip to main content</a>
+
+<a href="/" class="title"><h1>neilsriv blog</h1></a>
+<nav><a href="/">home</a>
+
+<a href="/now/">now</a>
+
+<a href="/tech/">tech</a>
+</nav>
+</header>
+  <main id="main-content">
+<h1>now</h1>
+<p>
+  <i>
+    <time datetime='2025-02-12'>
+      12 Feb, 2025
+    </time>
+  </i>
+</p>
+<hr class="rounded">
+<div class="wrapper">
+<aside class="custom-toc">
+  table of contents
+       <nav id="TableOfContents">
+  <ul>
+    <li><a href="#moving-to-new-york">moving to new york</a></li>
+    <li><a href="#building-a-personal-newsletter-service-for-my-friends-ring">building a personal newsletter service for my friends: ring</a></li>
+    <li><a href="#location">location:</a></li>
+    <li><a href="#professional-title">professional title:</a></li>
+    <li><a href="#what-do-you-do">what do you do?</a></li>
+  </ul>
+</nav>
+</aside>
+<content>
+  <h1 id="what-am-i-doing-right-now">what am I doing right now? <a class="anchor" href="#what-am-i-doing-right-now"
+        title="Link to section: what am I doing right now?" aria-label="Link to section: what am I doing right now?">#</a></h1><p>This page is inspired by <a href="https://nownownow.com/about">now page</a> and is a work in progress.</p>
+<p><em>Last updated: 2025-02-12 from New York City, NY</em></p>
+<h2 id="moving-to-new-york">moving to new york <a class="anchor" href="#moving-to-new-york"
+        title="Link to section: moving to new york" aria-label="Link to section: moving to new york">#</a></h2><p>I finally moved to NYC in January 2025! After 2.5 years in San Francisco, I&rsquo;ve moved over to the East Coast. Living in Manhattan for now and still working at <a href="https://www.benchling.com/">Benchling</a>.</p>
+<h2 id="building-a-personal-newsletter-service-for-my-friends-ring">building a personal newsletter service for my friends: ring <a class="anchor" href="#building-a-personal-newsletter-service-for-my-friends-ring"
+        title="Link to section: building a personal newsletter service for my friends: ring" aria-label="Link to section: building a personal newsletter service for my friends: ring">#</a></h2><p>It&rsquo;s been about a year since I started working on a personal newsletter service for my friends and about 6 months since I published it for us to use. With about 45 monthly users, that&rsquo;s 3 unique groups (1 of which I&rsquo;m not even part of!), it&rsquo;s been a really fun journey evolving the platform.</p>
+<p>Of course the whole service is very overengineered: I&rsquo;m using individual docker containers for all the services (nginx, celery, redis, fastapi), multiple AWS services (postgres RDS, SES, S3 + cloudfront), all hosted on a single EC2 machine with 1 GB of memory that costs <strong>absolutely nothing</strong> per month!</p>
+<h2 id="location">location: <a class="anchor" href="#location"
+        title="Link to section: location:" aria-label="Link to section: location:">#</a></h2><p>new york, new york, u.s.a.</p>
+<h2 id="professional-title">professional title: <a class="anchor" href="#professional-title"
+        title="Link to section: professional title:" aria-label="Link to section: professional title:">#</a></h2><p>software engineer | thought leader | yuno ball</p>
+<h2 id="what-do-you-do">what do you do? <a class="anchor" href="#what-do-you-do"
+        title="Link to section: what do you do?" aria-label="Link to section: what do you do?">#</a></h2><p>I like building random things</p>
+
+</content>
+</div>
+<hr class="rounded">
+<p>
+  
+  <a href="https://blog.neilsriv.tech/tags/swe/">#swe</a>
+  
+  <a href="https://blog.neilsriv.tech/tags/now/">#now</a>
+  
+  <a href="https://blog.neilsriv.tech/tags/software/">#software</a>
+  
+</p>
+
+  </main>
+  <footer><small>
+  
+  
+  
+  <a class="inline-block" target="_blank" rel="noopener noreferrer" href="https://bsky.app/profile/neilsriv.tech"><img class="" src="/icons/bluesky.svg" alt="bluesky" width="18"></a> | 
+  
+  
+  <a class="inline-block" target="_blank" rel="noopener noreferrer" href="https://github.com/neil-sriv/"><img class="" src="/icons/github.svg" alt="github" width="18"></a> | 
+  
+  made with <a href="https://github.com/clente/hugo-bearcub">ᕦʕ •ᴥ•ʔᕤ</a> &amp; &#x2764;&#xfe0f;
+  
+</small>
+</footer>
+
+  
+
+
+  
+
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+  window.addEventListener('DOMContentLoaded', function() {
+    navigator.serviceWorker.register('\/sw.js');
+  });
+}
+</script>
+
+</body>
+
+</html>
