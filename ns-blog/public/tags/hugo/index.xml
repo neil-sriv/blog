@@ -15,19 +15,18 @@
       <link>https://blog.neilsriv.tech/tech/hugo/</link>
       <pubDate>Mon, 24 Feb 2025 19:44:43 -0500</pubDate><author>neil.srivastava1@gmail.com (neil Srivastava)</author>
       <guid>https://blog.neilsriv.tech/tech/hugo/</guid>
-      <description>&lt;blockquote class=&#34;alert alert-warning&#34;&gt;&#xA;    &lt;p class=&#34;alert-heading&#34;&gt;&#xA;      ⚠️&#xA;      &#xA;        caveat&#xA;      &#xA;    &lt;/p&gt;&#xA;    &lt;p&gt;I&amp;rsquo;m writing based on my own experiences using &lt;code&gt;hugo&lt;/code&gt; and my understanding of how things work, I&amp;rsquo;ll probably get things wrong so please refer to the &lt;a href=&#34;https://gohugo.io/documentation/&#34;&gt;&lt;code&gt;hugo docs&lt;/code&gt;&lt;/a&gt; for correctness&lt;/p&gt;&#xA;  &lt;/blockquote&gt;&#xA;&lt;p&gt;maybe it&amp;rsquo;s because I&amp;rsquo;ve been reading a ton of blog posts on &lt;code&gt;bluesky&lt;/code&gt; from other engineers and developers or maybe it&amp;rsquo;s because I have an oversized belief that my thoughts are actually interesting (like most software engineers), but I&amp;rsquo;m finally starting a blog.&lt;/p&gt;</description>
+      <description>&lt;link rel=&#34;stylesheet&#34; href=&#34;https://blog.neilsriv.tech/css/vendors/admonitions.5c73bad2903e7d2d44ad118370ebd8c2cf5f239d4d93c283e55c00f2f8d30746.css&#34; integrity=&#34;sha256-XHO60pA&amp;#43;fS1ErRGDcOvYws9fI51Nk8KD5VwA8vjTB0Y=&#34; crossorigin=&#34;anonymous&#34;&gt;&#xA;  &lt;div class=&#34;admonition warning&#34;&gt;&#xA;    &lt;div class=&#34;admonition-header&#34;&gt;&#xA;      &lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 512 512&#34;&gt;&lt;path d=&#34;M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z&#34;/&gt;&lt;/svg&gt;&#xA;      &lt;span&gt;caveat&lt;/span&gt;&#xA;    &lt;/div&gt;&#xA;      &lt;div class=&#34;admonition-content&#34;&gt;&#xA;        &lt;p&gt;I&amp;rsquo;m writing based on my own experiences using &lt;code&gt;hugo&lt;/code&gt; and my understanding of how things work, I&amp;rsquo;ll probably get things wrong so please refer to the &lt;a href=&#34;https://gohugo.io/documentation/&#34;&gt;&lt;code&gt;hugo docs&lt;/code&gt;&lt;/a&gt; for correctness&lt;/p&gt;</description>
       <content:encoded><![CDATA[
-
-
-  <blockquote class="alert alert-warning">
-    <p class="alert-heading">
-      ⚠️
-      
-        caveat
-      
-    </p>
-    <p>I&rsquo;m writing based on my own experiences using <code>hugo</code> and my understanding of how things work, I&rsquo;ll probably get things wrong so please refer to the <a href="https://gohugo.io/documentation/"><code>hugo docs</code></a> for correctness</p>
-  </blockquote>
+          <link rel="stylesheet" href="/css/vendors/admonitions.5c73bad2903e7d2d44ad118370ebd8c2cf5f239d4d93c283e55c00f2f8d30746.css" integrity="sha256-XHO60pA&#43;fS1ErRGDcOvYws9fI51Nk8KD5VwA8vjTB0Y=" crossorigin="anonymous">
+  <div class="admonition warning">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+      <span>caveat</span>
+    </div>
+      <div class="admonition-content">
+        <p>I&rsquo;m writing based on my own experiences using <code>hugo</code> and my understanding of how things work, I&rsquo;ll probably get things wrong so please refer to the <a href="https://gohugo.io/documentation/"><code>hugo docs</code></a> for correctness</p>
+      </div>
+  </div>
 <p>maybe it&rsquo;s because I&rsquo;ve been reading a ton of blog posts on <code>bluesky</code> from other engineers and developers or maybe it&rsquo;s because I have an oversized belief that my thoughts are actually interesting (like most software engineers), but I&rsquo;m finally starting a blog.</p>
 <p>after doing a bit of research, I settled on using <code>hugo</code> for my auto-generated website and hosting through <code>github pages</code>. I considered some self-hosting alternatives like <code>nginx</code> and <code>caddy</code>, but the docs on the <code>hugo</code> site made it really easy to auto-deploy on <code>github pages</code>.</p>
 
@@ -74,50 +73,45 @@
 <p>the other really strange thing to me about <code>hugo</code> syntax is that you have to use a <code>.</code> to reference the current local variable (<em>I think?</em>)</p>
 <h3 id="layouts-archetypes-and-lookup-order-oh-my">layouts, archetypes, and lookup order, oh my! <a class="anchor" href="#layouts-archetypes-and-lookup-order-oh-my"
         title="Link to section: layouts, archetypes, and lookup order, oh my!" aria-label="Link to section: layouts, archetypes, and lookup order, oh my!">#</a></h3>
-
-
-  <blockquote class="alert alert-caution">
-    <p class="alert-heading">
-      ❗
-      
-        help
-      
-    </p>
-    <p>I have no idea how <code>hugo</code> site generation works</p>
-  </blockquote>
+  <div class="admonition caution">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+      <span>help</span>
+    </div>
+      <div class="admonition-content">
+        <p>I have no idea how <code>hugo</code> site generation works</p>
+      </div>
+  </div>
 <p><code>hugo</code> seems to generate the static site into the <code>public/</code> directory following the template that is described in <code>layouts/</code></p>
 <p>I think it starts from <code>layouts/_defaults/baseof.html</code> and uses references to other <code>layouts</code> and <code>partials</code> to generate more html.</p>
 <p>layouts allow you to pre-define html rendering patterns for parts of the webpage, like the above <a href="#nav.html"><code>nav.html</code></a></p>
 <p><code>archetypes</code> are similar to <code>layouts</code> except they define the template for generating new content (new markdown pages). they can even use <code>hugo</code> functions and <a href="#shortcodes-or-longcodes"><code>shortcodes</code></a></p>
 <p>lastly, lookup order in <code>hugo</code> is not exactly straightforward. there&rsquo;s more explanation in the docs but the primary thing for me to note:</p>
 
-
-
-  <blockquote class="alert alert-caution">
-    <p class="alert-heading">
-      ❗
-      
-        Caution
-      
-    </p>
-    <p>when using a theme, layouts from the <code>themes/</code> directory are applied first unless they are overwritten in the top-level <code>layouts/</code> directory</p>
-  </blockquote>
+  <div class="admonition caution">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+      <span>Caution</span>
+    </div>
+      <div class="admonition-content">
+        <p>when using a theme, layouts from the <code>themes/</code> directory are applied first unless they are overwritten in the top-level <code>layouts/</code> directory</p>
+      </div>
+  </div>
 <h4 id="markup-layouts">markup layouts <a class="anchor" href="#markup-layouts"
-        title="Link to section: markup layouts" aria-label="Link to section: markup layouts">#</a></h4><p>not all markdown features comes out of the box unfortunately, specifically <code>blockquotes</code>. normally you can specify a type of <code>blockquote</code> style, like <code>NOTE</code> or <code>WARNING</code>, and you get a nicely formatted and colored section:</p>
+        title="Link to section: markup layouts" aria-label="Link to section: markup layouts">#</a></h4><p><strong>UPDATE: I have moved to start using <a href="https://github.com/KKKZOZ/hugo-admonitions"><code>hugo-admonitions</code></a> to render blockquotes.</strong></p>
+<p>not all markdown features comes out of the box unfortunately, specifically <code>blockquotes</code>. normally you can specify a type of <code>blockquote</code> style, like <code>NOTE</code> or <code>WARNING</code>, and you get a nicely formatted and colored section:</p>
 <p><img src="blockquote.png" alt="image of properly rendered blockquotes on github"></p>
 <p>unfortunately for me, the way <code>hugo</code> generates html for markdown blockquotes does not support types. so I had to write a new markup template:</p>
 
-
-
-  <blockquote class="alert alert-tip">
-    <p class="alert-heading">
-      💡
-      
-        success!
-      
-    </p>
-    <p>and by &ldquo;write&rdquo;, I of course mean, &ldquo;find on github&rdquo;</p>
-  </blockquote>
+  <div class="admonition tip">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M272 384c9.6-31.9 29.5-59.1 49.2-86.2c0 0 0 0 0 0c5.2-7.1 10.4-14.2 15.4-21.4c19.8-28.5 31.4-63 31.4-100.3C368 78.8 289.2 0 192 0S16 78.8 16 176c0 37.3 11.6 71.9 31.4 100.3c5 7.2 10.2 14.3 15.4 21.4c0 0 0 0 0 0c19.8 27.1 39.7 54.4 49.2 86.2l160 0zM192 512c44.2 0 80-35.8 80-80l0-16-160 0 0 16c0 44.2 35.8 80 80 80zM112 176c0 8.8-7.2 16-16 16s-16-7.2-16-16c0-61.9 50.1-112 112-112c8.8 0 16 7.2 16 16s-7.2 16-16 16c-44.2 0-80 35.8-80 80z"/></svg>
+      <span>success!</span>
+    </div>
+      <div class="admonition-content">
+        <p>and by &ldquo;write&rdquo;, I of course mean, &ldquo;find on github&rdquo;</p>
+      </div>
+  </div>
 
 
 
@@ -203,18 +197,16 @@
 </ul>
 
 
-
-
-  <blockquote class="alert alert-error">
-    <p class="alert-heading">
-      
-      
-        formatting
-      
-    </p>
-    <p><code>hugo</code> is incredibly precise about the <code>shortcode</code> invocation.</p>
+  <div class="admonition error">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/></svg>
+      <span>formatting</span>
+    </div>
+      <div class="admonition-content">
+        <p><code>hugo</code> is incredibly precise about the <code>shortcode</code> invocation.</p>
 <p>the format must be {{&lt; shortcode &gt;}} with that exact spacing</p>
-  </blockquote>
+      </div>
+  </div>
 <h3 id="anchor-links">anchor links <a class="anchor" href="#anchor-links"
         title="Link to section: anchor links" aria-label="Link to section: anchor links">#</a></h3><p>there is anchor link support in markdown by default with the pattern</p>
 

@@ -4,6 +4,7 @@ go 1.24.1
 
 require (
 	github.com/GoogleChrome/workbox v7.3.0+incompatible // indirect
+	github.com/KKKZOZ/hugo-admonitions v0.4.5 // indirect
 	github.com/hugomods/icons v0.6.6 // indirect
 	github.com/hugomods/icons/vendors/bootstrap v0.5.9 // indirect
 	github.com/hugomods/idb-js v0.1.0 // indirect

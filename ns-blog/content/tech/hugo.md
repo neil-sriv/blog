@@ -67,6 +67,10 @@ lastly, lookup order in `hugo` is not exactly straightforward. there's more expl
 > [!CAUTION]
 > when using a theme, layouts from the `themes/` directory are applied first unless they are overwritten in the top-level `layouts/` directory
 #### markup layouts
+
+**UPDATE: I have moved to start using [`hugo-admonitions`](https://github.com/KKKZOZ/hugo-admonitions) to render blockquotes.**
+
+
 not all markdown features comes out of the box unfortunately, specifically `blockquotes`. normally you can specify a type of `blockquote` style, like `NOTE` or `WARNING`, and you get a nicely formatted and colored section:
 
 ![image of properly rendered blockquotes on github](blockquote.png)
