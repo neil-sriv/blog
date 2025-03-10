@@ -24,12 +24,12 @@
 <h2 id="building-a-personal-newsletter-service-for-my-friends-ring">building a personal newsletter service for my friends: ring <a class="anchor" href="#building-a-personal-newsletter-service-for-my-friends-ring"
         title="Link to section: building a personal newsletter service for my friends: ring" aria-label="Link to section: building a personal newsletter service for my friends: ring">#</a></h2><p>It&rsquo;s been about a year since I started working on a personal newsletter service for my friends and about 6 months since I published it for us to use. With about 45 monthly users, that&rsquo;s 3 unique groups (1 of which I&rsquo;m not even part of!), it&rsquo;s been a really fun journey evolving the platform.</p>
 <p>Of course the whole service is very overengineered: I&rsquo;m using individual docker containers for all the services (nginx, celery, redis, fastapi), multiple AWS services (postgres RDS, SES, S3 + cloudfront), all hosted on a single EC2 machine with 1 GB of memory that costs <strong>absolutely nothing</strong> per month!</p>
-<h1 id="location">location: <a class="anchor" href="#location"
-        title="Link to section: location:" aria-label="Link to section: location:">#</a></h1><p>new york, new york, u.s.a.</p>
-<h1 id="professional-title">professional title: <a class="anchor" href="#professional-title"
-        title="Link to section: professional title:" aria-label="Link to section: professional title:">#</a></h1><p>software engineer | thought leader | yuno ball</p>
-<h1 id="what-do-you-do">what do you do? <a class="anchor" href="#what-do-you-do"
-        title="Link to section: what do you do?" aria-label="Link to section: what do you do?">#</a></h1><p>I like building random things</p>
+<h2 id="location">location: <a class="anchor" href="#location"
+        title="Link to section: location:" aria-label="Link to section: location:">#</a></h2><p>new york, new york, u.s.a.</p>
+<h2 id="professional-title">professional title: <a class="anchor" href="#professional-title"
+        title="Link to section: professional title:" aria-label="Link to section: professional title:">#</a></h2><p>software engineer | thought leader | yuno ball</p>
+<h2 id="what-do-you-do">what do you do? <a class="anchor" href="#what-do-you-do"
+        title="Link to section: what do you do?" aria-label="Link to section: what do you do?">#</a></h2><p>I like building random things</p>
 ]]></content:encoded>
     </item>
   </channel>

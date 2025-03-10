@@ -24,15 +24,15 @@ It's been about a year since I started working on a personal newsletter service 
 Of course the whole service is very overengineered: I'm using individual docker containers for all the services (nginx, celery, redis, fastapi), multiple AWS services (postgres RDS, SES, S3 + cloudfront), all hosted on a single EC2 machine with 1 GB of memory that costs **absolutely nothing** per month!
 
 
-# location:
+## location:
 
 new york, new york, u.s.a.
 
-# professional title:
+## professional title:
 
 software engineer | thought leader | yuno ball
 
-# what do you do?
+## what do you do?
 
 I like building random things
 
