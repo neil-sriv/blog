@@ -1,227 +1,22 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="shortcut icon" href="https://blog.neilsriv.tech/images/favicon.png" />
-<title>git ctf | neilsriv blog</title>
-<meta name="title" content="git ctf" />
-<meta name="description" content="this is my write up for git ctf, a set of challenges centered around git operations
-TLDR:
-
-every flag is the name of a git branch that you can checkout to start the relevant challenge
-
-clone #
-
-
-
-
-1&gt; ssh player@ctf.mrnice.dev -p 12345password is player
-
-
-
-
-
-1&gt; git clone gamemaster@localhost:~/ctf-repo
-2&gt; cat README.md
-3Now, to proceed - `git checkout` the branch named `start-here`, and then read me again.start-here #
-
-
-
-
-1&gt; cat README.md
-21. Add 2 files to the root of the repo: `alice.txt` and `bob.txt`.
-32. Commit your changes (should be only one commit!).
-43. Push your changes to the remote repo.
-54. If you did it right, you should get your flag.
-
-
-
-
- 1&gt; touch alice.txt bob.txt
- 2&gt; git add .
- 3&gt; gc -m &#39;new files&#39;
- 4&gt; git push
- 5remote: -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
- 6remote: 
- 7remote: Pushed a branch: start-here
- 8remote: 
- 9remote:         ()__
-10remote:         ||  Z__
-11remote:         ||  |   Z____
-12remote:         ||  |   |    |
-13remote:         ||  |   |    |
-14remote:         ||__|   |    |
-15remote:         ||  /___|    |
-16remote:         ||      /____/
-17remote:         ||
-18remote:         ||
-19remote:         ||
-20remote:         /\                
-21remote:     ___/  \___
-22remote: 
-23remote: You won! The flag is scorpion-treenware-gestatory (basic-1)
-24remote: 
-25remote: -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-26remote: flag = scorpion-treenware-gestatory" />
-<meta name="author" content="" />
-<meta name="keywords" content="blog,tech,git,ctf,git_ctf," />
-
-
-
-
-
-
-  
-  <meta property="og:url" content="https://blog.neilsriv.tech/tech/git_ctf/">
-  <meta property="og:site_name" content="neilsriv blog">
-  <meta property="og:title" content="git ctf">
-  <meta property="og:description" content="this is my write up for git ctf, a set of challenges centered around git operations
-TLDR:
-every flag is the name of a git branch that you can checkout to start the relevant challenge clone # 1&gt; ssh player@ctf.mrnice.dev -p 12345password is player
-1&gt; git clone gamemaster@localhost:~/ctf-repo 2&gt; cat README.md 3Now, to proceed - `git checkout` the branch named `start-here`, and then read me again.start-here # 1&gt; cat README.md 21. Add 2 files to the root of the repo: `alice.txt` and `bob.txt`. 32. Commit your changes (should be only one commit!). 43. Push your changes to the remote repo. 54. If you did it right, you should get your flag. 1&gt; touch alice.txt bob.txt 2&gt; git add . 3&gt; gc -m &#39;new files&#39; 4&gt; git push 5remote: -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 6remote: 7remote: Pushed a branch: start-here 8remote: 9remote: ()__ 10remote: || Z__ 11remote: || | Z____ 12remote: || | | | 13remote: || | | | 14remote: ||__| | | 15remote: || /___| | 16remote: || /____/ 17remote: || 18remote: || 19remote: || 20remote: /\ 21remote: ___/ \___ 22remote: 23remote: You won! The flag is scorpion-treenware-gestatory (basic-1) 24remote: 25remote: -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 26remote: flag = scorpion-treenware-gestatory">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="tech">
-    <meta property="article:published_time" content="2025-03-05T20:13:59-05:00">
-    <meta property="article:modified_time" content="2025-03-05T20:13:59-05:00">
-    <meta property="article:tag" content="Blog">
-    <meta property="article:tag" content="Tech">
-    <meta property="article:tag" content="Git">
-    <meta property="article:tag" content="Ctf">
-    <meta property="article:tag" content="Git_ctf">
-
-
-  
-  
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="git ctf">
-  <meta name="twitter:description" content="this is my write up for git ctf, a set of challenges centered around git operations
-TLDR:
-every flag is the name of a git branch that you can checkout to start the relevant challenge clone # 1&gt; ssh player@ctf.mrnice.dev -p 12345password is player
-1&gt; git clone gamemaster@localhost:~/ctf-repo 2&gt; cat README.md 3Now, to proceed - `git checkout` the branch named `start-here`, and then read me again.start-here # 1&gt; cat README.md 21. Add 2 files to the root of the repo: `alice.txt` and `bob.txt`. 32. Commit your changes (should be only one commit!). 43. Push your changes to the remote repo. 54. If you did it right, you should get your flag. 1&gt; touch alice.txt bob.txt 2&gt; git add . 3&gt; gc -m &#39;new files&#39; 4&gt; git push 5remote: -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 6remote: 7remote: Pushed a branch: start-here 8remote: 9remote: ()__ 10remote: || Z__ 11remote: || | Z____ 12remote: || | | | 13remote: || | | | 14remote: ||__| | | 15remote: || /___| | 16remote: || /____/ 17remote: || 18remote: || 19remote: || 20remote: /\ 21remote: ___/ \___ 22remote: 23remote: You won! The flag is scorpion-treenware-gestatory (basic-1) 24remote: 25remote: -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 26remote: flag = scorpion-treenware-gestatory">
-
-
-  
-  
-  <meta itemprop="name" content="git ctf">
-  <meta itemprop="description" content="this is my write up for git ctf, a set of challenges centered around git operations
-TLDR:
-every flag is the name of a git branch that you can checkout to start the relevant challenge clone # 1&gt; ssh player@ctf.mrnice.dev -p 12345password is player
-1&gt; git clone gamemaster@localhost:~/ctf-repo 2&gt; cat README.md 3Now, to proceed - `git checkout` the branch named `start-here`, and then read me again.start-here # 1&gt; cat README.md 21. Add 2 files to the root of the repo: `alice.txt` and `bob.txt`. 32. Commit your changes (should be only one commit!). 43. Push your changes to the remote repo. 54. If you did it right, you should get your flag. 1&gt; touch alice.txt bob.txt 2&gt; git add . 3&gt; gc -m &#39;new files&#39; 4&gt; git push 5remote: -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 6remote: 7remote: Pushed a branch: start-here 8remote: 9remote: ()__ 10remote: || Z__ 11remote: || | Z____ 12remote: || | | | 13remote: || | | | 14remote: ||__| | | 15remote: || /___| | 16remote: || /____/ 17remote: || 18remote: || 19remote: || 20remote: /\ 21remote: ___/ \___ 22remote: 23remote: You won! The flag is scorpion-treenware-gestatory (basic-1) 24remote: 25remote: -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 26remote: flag = scorpion-treenware-gestatory">
-  <meta itemprop="datePublished" content="2025-03-05T20:13:59-05:00">
-  <meta itemprop="dateModified" content="2025-03-05T20:13:59-05:00">
-  <meta itemprop="wordCount" content="3075">
-  <meta itemprop="keywords" content="Blog,Tech,Git,Ctf,Git_ctf">
-
-<meta name="referrer" content="no-referrer-when-downgrade" />
-
-  
-  <link href="/original.min.css" rel="stylesheet">
-
-  
-    
-    <link href="/syntax.min.css" rel="stylesheet">
-  
-
-  
-
-  <link rel="alternate" type="application/rss+xml" href="https://blog.neilsriv.tech/tech/git_ctf/index.xml" title="neilsriv blog" />
-  
-    <link rel="manifest" href="https://blog.neilsriv.tech/manifest.webmanifest" />
-
-  <link rel="alternate" type="application/rss+xml" href="https://blog.neilsriv.tech/tech/git_ctf/index.xml" title="neilsriv blog">
-
-</head>
-
-<body>
-  <header><a class="skip-link" href="#main-content">Skip to main content</a>
-
-<a href="/" class="title"><h1>neilsriv blog</h1></a>
-<nav><a href="/">home</a>
-
-<a href="/now/">now</a>
-
-<a href="/tech/">tech</a>
-</nav>
-</header>
-  <main id="main-content">
-<h1>git ctf</h1>
-<p>
-  <i>
-    <time datetime='2025-03-05'>
-      05 Mar, 2025
-    </time>
-  </i>
-</p>
-<hr class="rounded">
-<div class="wrapper">
-<aside class="custom-toc">
-  table of contents
-       <nav id="TableOfContents">
-  <ul>
-    <li><a href="#clone">clone</a></li>
-    <li><a href="#start-here">start-here</a></li>
-    <li><a href="#basic">basic</a>
-      <ul>
-        <li><a href="#basic-1">basic-1</a></li>
-        <li><a href="#basic-2">basic-2</a></li>
-      </ul>
-    </li>
-    <li><a href="#merge">merge</a>
-      <ul>
-        <li><a href="#merge-1">merge-1</a></li>
-        <li><a href="#merge-2">merge-2</a></li>
-        <li><a href="#merge-3">merge-3</a></li>
-        <li><a href="#merge-4">merge-4</a></li>
-        <li><a href="#merge-5">merge-5</a></li>
-      </ul>
-    </li>
-    <li><a href="#log">log</a>
-      <ul>
-        <li><a href="#log-1">log-1</a></li>
-        <li><a href="#log-2">log-2</a></li>
-        <li><a href="#log-3">log-3</a></li>
-        <li><a href="#log-4">log-4</a></li>
-        <li><a href="#log-5">log-5</a></li>
-      </ul>
-    </li>
-    <li><a href="#rebase">rebase</a>
-      <ul>
-        <li><a href="#rebase-1">rebase-1</a></li>
-        <li><a href="#rebase-2">rebase-2</a></li>
-      </ul>
-    </li>
-    <li><a href="#revert">revert</a>
-      <ul>
-        <li><a href="#revert-1">revert-1</a></li>
-      </ul>
-    </li>
-    <li><a href="#tag">tag</a>
-      <ul>
-        <li><a href="#tag-1">tag-1</a></li>
-        <li><a href="#tag-2">tag-2</a></li>
-      </ul>
-    </li>
-    <li><a href="#hooks">hooks</a>
-      <ul>
-        <li><a href="#hooks-1">hooks-1</a></li>
-        <li><a href="#hooks-2">hooks-2</a></li>
-      </ul>
-    </li>
-    <li><a href="#remote">remote</a>
-      <ul>
-        <li><a href="#remote-1">remote-1</a></li>
-      </ul>
-    </li>
-    <li><a href="#conclusion">conclusion</a></li>
-  </ul>
-</nav>
-</aside>
-<content>
-  <p>this is my write up for <a href="https://www.mrnice.dev/ctf/"><code>git ctf</code></a>, a set of challenges centered around <code>git</code> operations</p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>neilsriv blog</title>
+    <link>https://blog.neilsriv.tech/</link>
+    <description>Recent content on neilsriv blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <managingEditor>neil.srivastava1@gmail.com (neil Srivastava)</managingEditor>
+    <webMaster>neil.srivastava1@gmail.com (neil Srivastava)</webMaster>
+    <lastBuildDate>Wed, 05 Mar 2025 20:13:59 -0500</lastBuildDate>
+    <atom:link href="https://blog.neilsriv.tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>git ctf</title>
+      <link>https://blog.neilsriv.tech/tech/git_ctf/</link>
+      <pubDate>Wed, 05 Mar 2025 20:13:59 -0500</pubDate><author>neil.srivastava1@gmail.com (neil Srivastava)</author>
+      <guid>https://blog.neilsriv.tech/tech/git_ctf/</guid>
+      <description>&lt;p&gt;this is my write up for &lt;a href=&#34;https://www.mrnice.dev/ctf/&#34;&gt;&lt;code&gt;git ctf&lt;/code&gt;&lt;/a&gt;, a set of challenges centered around &lt;code&gt;git&lt;/code&gt; operations&lt;/p&gt;&#xA;&lt;p&gt;TLDR:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;every flag is the name of a git branch that you can checkout to start the relevant challenge&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;clone&#34;&gt;clone &lt;a class=&#34;anchor&#34; href=&#34;#clone&#34;&#xA;        title=&#34;Link to section: clone&#34; aria-label=&#34;Link to section: clone&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&#xA;&#xA;&#xA;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;&amp;gt; ssh player@ctf.mrnice.dev -p &lt;span style=&#34;color:#bd93f9&#34;&gt;12345&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;password is &lt;code&gt;player&lt;/code&gt;&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;&amp;gt; git clone gamemaster@localhost:~/ctf-repo&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2&lt;/span&gt;&lt;span&gt;&amp;gt; cat README.md&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3&lt;/span&gt;&lt;span&gt;Now, to proceed - &lt;span style=&#34;color:#f1fa8c&#34;&gt;`&lt;/span&gt;git checkout&lt;span style=&#34;color:#f1fa8c&#34;&gt;`&lt;/span&gt; the branch named &lt;span style=&#34;color:#f1fa8c&#34;&gt;`&lt;/span&gt;start-here&lt;span style=&#34;color:#f1fa8c&#34;&gt;`&lt;/span&gt;, and &lt;span style=&#34;color:#ff79c6&#34;&gt;then&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;read&lt;/span&gt; me again.&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;start-here&#34;&gt;start-here &lt;a class=&#34;anchor&#34; href=&#34;#start-here&#34;&#xA;        title=&#34;Link to section: start-here&#34; aria-label=&#34;Link to section: start-here&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&#xA;&#xA;&#xA;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;&amp;gt; cat README.md&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2&lt;/span&gt;&lt;span&gt;1. Add &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt; files to the root of the repo: &lt;span style=&#34;color:#f1fa8c&#34;&gt;`&lt;/span&gt;alice.txt&lt;span style=&#34;color:#f1fa8c&#34;&gt;`&lt;/span&gt; and &lt;span style=&#34;color:#f1fa8c&#34;&gt;`&lt;/span&gt;bob.txt&lt;span style=&#34;color:#f1fa8c&#34;&gt;`&lt;/span&gt;.&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3&lt;/span&gt;&lt;span&gt;2. Commit your changes &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;should be only one commit!&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;.&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4&lt;/span&gt;&lt;span&gt;3. Push your changes to the remote repo.&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5&lt;/span&gt;&lt;span&gt;4. If you did it right, you should get your flag.&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&#xA;&#xA;&#xA;&#xA;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1&lt;/span&gt;&lt;span&gt;&amp;gt; touch alice.txt bob.txt&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2&lt;/span&gt;&lt;span&gt;&amp;gt; git add .&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3&lt;/span&gt;&lt;span&gt;&amp;gt; gc -m &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;new files&amp;#39;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4&lt;/span&gt;&lt;span&gt;&amp;gt; git push&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5&lt;/span&gt;&lt;span&gt;remote: -&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6&lt;/span&gt;&lt;span&gt;remote: &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7&lt;/span&gt;&lt;span&gt;remote: Pushed a branch: start-here&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8&lt;/span&gt;&lt;span&gt;remote: &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9&lt;/span&gt;&lt;span&gt;remote:         &lt;span style=&#34;color:#ff79c6&#34;&gt;()&lt;/span&gt;__&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10&lt;/span&gt;&lt;span&gt;remote:         &lt;span style=&#34;color:#ff79c6&#34;&gt;||&lt;/span&gt;  Z__&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11&lt;/span&gt;&lt;span&gt;remote:         &lt;span style=&#34;color:#ff79c6&#34;&gt;||&lt;/span&gt;  |   Z____&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12&lt;/span&gt;&lt;span&gt;remote:         &lt;span style=&#34;color:#ff79c6&#34;&gt;||&lt;/span&gt;  |   |    |&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13&lt;/span&gt;&lt;span&gt;remote:         &lt;span style=&#34;color:#ff79c6&#34;&gt;||&lt;/span&gt;  |   |    |&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14&lt;/span&gt;&lt;span&gt;remote:         &lt;span style=&#34;color:#ff79c6&#34;&gt;||&lt;/span&gt;__|   |    |&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15&lt;/span&gt;&lt;span&gt;remote:         &lt;span style=&#34;color:#ff79c6&#34;&gt;||&lt;/span&gt;  /___|    |&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16&lt;/span&gt;&lt;span&gt;remote:         &lt;span style=&#34;color:#ff79c6&#34;&gt;||&lt;/span&gt;      /____/&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17&lt;/span&gt;&lt;span&gt;remote:         &lt;span style=&#34;color:#ff79c6&#34;&gt;||&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18&lt;/span&gt;&lt;span&gt;remote:         &lt;span style=&#34;color:#ff79c6&#34;&gt;||&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19&lt;/span&gt;&lt;span&gt;remote:         &lt;span style=&#34;color:#ff79c6&#34;&gt;||&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20&lt;/span&gt;&lt;span&gt;remote:         /&lt;span style=&#34;color:#f1fa8c&#34;&gt;\ &lt;/span&gt;               &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21&lt;/span&gt;&lt;span&gt;remote:     ___/  &lt;span style=&#34;color:#f1fa8c&#34;&gt;\_&lt;/span&gt;__&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22&lt;/span&gt;&lt;span&gt;remote: &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23&lt;/span&gt;&lt;span&gt;remote: You won! The flag is scorpion-treenware-gestatory &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;basic-1&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24&lt;/span&gt;&lt;span&gt;remote: &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25&lt;/span&gt;&lt;span&gt;remote: -&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;-&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;26&lt;/span&gt;&lt;span&gt;remote: &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;flag = &lt;code&gt;scorpion-treenware-gestatory&lt;/code&gt;&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>this is my write up for <a href="https://www.mrnice.dev/ctf/"><code>git ctf</code></a>, a set of challenges centered around <code>git</code> operations</p>
 <p>TLDR:</p>
 <ul>
 <li>every flag is the name of a git branch that you can checkout to start the relevant challenge</li>
@@ -1081,56 +876,284 @@ looks like they are either simple messages or rich metadata that can be attached
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>remote: You won! The flag is main-levels-done-you-win <span style="color:#ff79c6">(</span>final<span style="color:#ff79c6">)</span></span></span></code></pre></div><p>flag = <code>main-levels-done-you-win</code></p>
 <h2 id="conclusion">conclusion <a class="anchor" href="#conclusion"
         title="Link to section: conclusion" aria-label="Link to section: conclusion">#</a></h2><p>that was fun, probably took a couple hours over a couple days to get through everything</p>
-
-</content>
-</div>
-<hr class="rounded">
-<p>
-  
-  <a href="https://blog.neilsriv.tech/tags/blog/">#blog</a>
-  
-  <a href="https://blog.neilsriv.tech/tags/tech/">#tech</a>
-  
-  <a href="https://blog.neilsriv.tech/tags/git/">#git</a>
-  
-  <a href="https://blog.neilsriv.tech/tags/ctf/">#ctf</a>
-  
-  <a href="https://blog.neilsriv.tech/tags/git_ctf/">#git_ctf</a>
-  
-</p>
-
-  </main>
-  <footer><small>
-  
-  
-  
-  <a class="inline-block" target="_blank" rel="noopener noreferrer" href="https://bsky.app/profile/neilsriv.tech"><img class="" src="/icons/bluesky.svg" alt="bluesky" width="18"></a> | 
-  
-  
-  <a class="inline-block" target="_blank" rel="noopener noreferrer" href="https://github.com/neil-sriv/"><img class="" src="/icons/github.svg" alt="github" width="18"></a> | 
-  
-  made with <a href="https://github.com/clente/hugo-bearcub">ᕦʕ •ᴥ•ʔᕤ</a> &amp; &#x2764;&#xfe0f;
-  
-</small>
-</footer>
-
-  
+]]></content:encoded>
+    </item>
+    <item>
+      <title>setting up a personal blog with hugo</title>
+      <link>https://blog.neilsriv.tech/tech/hugo/</link>
+      <pubDate>Mon, 24 Feb 2025 19:44:43 -0500</pubDate><author>neil.srivastava1@gmail.com (neil Srivastava)</author>
+      <guid>https://blog.neilsriv.tech/tech/hugo/</guid>
+      <description>&lt;link rel=&#34;stylesheet&#34; href=&#34;https://blog.neilsriv.tech/css/vendors/admonitions.5c73bad2903e7d2d44ad118370ebd8c2cf5f239d4d93c283e55c00f2f8d30746.css&#34; integrity=&#34;sha256-XHO60pA&amp;#43;fS1ErRGDcOvYws9fI51Nk8KD5VwA8vjTB0Y=&#34; crossorigin=&#34;anonymous&#34;&gt;&#xA;  &lt;div class=&#34;admonition warning&#34;&gt;&#xA;    &lt;div class=&#34;admonition-header&#34;&gt;&#xA;      &lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 512 512&#34;&gt;&lt;path d=&#34;M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z&#34;/&gt;&lt;/svg&gt;&#xA;      &lt;span&gt;caveat&lt;/span&gt;&#xA;    &lt;/div&gt;&#xA;      &lt;div class=&#34;admonition-content&#34;&gt;&#xA;        &lt;p&gt;I&amp;rsquo;m writing based on my own experiences using &lt;code&gt;hugo&lt;/code&gt; and my understanding of how things work, I&amp;rsquo;ll probably get things wrong so please refer to the &lt;a href=&#34;https://gohugo.io/documentation/&#34;&gt;&lt;code&gt;hugo docs&lt;/code&gt;&lt;/a&gt; for correctness&lt;/p&gt;</description>
+      <content:encoded><![CDATA[
+          <link rel="stylesheet" href="/css/vendors/admonitions.5c73bad2903e7d2d44ad118370ebd8c2cf5f239d4d93c283e55c00f2f8d30746.css" integrity="sha256-XHO60pA&#43;fS1ErRGDcOvYws9fI51Nk8KD5VwA8vjTB0Y=" crossorigin="anonymous">
+  <div class="admonition warning">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+      <span>caveat</span>
+    </div>
+      <div class="admonition-content">
+        <p>I&rsquo;m writing based on my own experiences using <code>hugo</code> and my understanding of how things work, I&rsquo;ll probably get things wrong so please refer to the <a href="https://gohugo.io/documentation/"><code>hugo docs</code></a> for correctness</p>
+      </div>
+  </div>
+<p>maybe it&rsquo;s because I&rsquo;ve been reading a ton of blog posts on <code>bluesky</code> from other engineers and developers or maybe it&rsquo;s because I have an oversized belief that my thoughts are actually interesting (like most software engineers), but I&rsquo;m finally starting a blog.</p>
+<p>after doing a bit of research, I settled on using <code>hugo</code> for my auto-generated website and hosting through <code>github pages</code>. I considered some self-hosting alternatives like <code>nginx</code> and <code>caddy</code>, but the docs on the <code>hugo</code> site made it really easy to auto-deploy on <code>github pages</code>.</p>
 
 
-  
+
+  <blockquote>
+    <p>turns out, auto-deployment is a bitch to solve by yourself on a self-hosted machine. I&rsquo;m not trying to deal with jenkins or buildkite.</p>
+<p>plus the fact that github pages is free doesn&rsquo;t hurt either</p>
+  </blockquote>
+<p>it wasn&rsquo;t even too hard to set-up a custom domain with github pages as well. probably a solid option for static/server-side-rendered website hosting in 2025.</p>
+<h2 id="lets-get-into-it">let&rsquo;s get into it <a class="anchor" href="#lets-get-into-it"
+        title="Link to section: let&rsquo;s get into it" aria-label="Link to section: let&rsquo;s get into it">#</a></h2><p>to be honest, I&rsquo;m not a prolific frontend engineer, I&rsquo;m barely competent with <code>html</code>, and less than competent with <code>css</code>. I&rsquo;ve never used site generators and I use markdown in <code>obsidian</code> just to take notes and keep track of personal documents.</p>
+<p>now the <code>hugo</code> docs may have helped with the deployment, but their ease-of-use ended there. I ended up digging through <code>hugo</code> forums, asking <code>chatgpt</code>, and old fashioned trial&rsquo;n error to eventually get a working site with all the bells and whistles I wanted.</p>
+<h2 id="what-the-heck-is-">what the heck is {{}} <a class="anchor" href="#what-the-heck-is-"
+        title="Link to section: what the heck is {{}}" aria-label="Link to section: what the heck is {{}}">#</a></h2><p><code>hugo</code> has custom syntax, templating, functions, methods, archetypes&hellip; the list goes on forever. it took me quite a while to finally figure out that in <code>.html</code> layout files and <code>.md</code> archetype files you could use  <code>{{ &lt;command&gt; }}</code> to access and work with pages, tags, and other data from my website. you can use this to create relative links, set-up reusable page structures, and plenty more.</p>
+<p>this is a snippet that displays links to the 5 most recent posts on my site with the date they were posted</p>
 
 
 
 
 
-<script>
-  if ('serviceWorker' in navigator) {
-  window.addEventListener('DOMContentLoaded', function() {
-    navigator.serviceWorker.register('\/sw.js');
-  });
-}
-</script>
+<div class="highlight" id="shortcode"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>{{ $recent_posts := ( (where .Site.Pages &#34;IsPage&#34; true).ByDate.Reverse) | first 5 }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>&lt;p&gt;here&#39;s a list of my most recent posts&lt;/p&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>&lt;ul&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>{{ range $recent_posts }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>&lt;li&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    &lt;time datetime=&#34;{{ .Date.Format &#34;Jan 02, 2006&#34; }}&#34;&gt;{{ .Date.Format &#34;Jan 02, 2006&#34; }}&lt;/time&gt;:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    &lt;a href=&#34;{{ .RelPermalink }}&#34;&gt;{{.LinkTitle}}&lt;/a&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>&lt;/li&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>{{ end }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>&lt;/ul&gt;</span></span></code></pre></div><p>note how you can grab posts from the site with <code>.Site.Pages</code> and filter/sort them using methods like <code>where</code> and <code>.ByDate</code>.</p>
+<h2 id="bear">ʕ•ᴥ•ʔ <a class="anchor" href="#bear"
+        title="Link to section: ʕ•ᴥ•ʔ" aria-label="Link to section: ʕ•ᴥ•ʔ">#</a></h2><p>one of the first big mistakes I made was using the <a href="https://github.com/janraasch/hugo-bearblog"><code>hugo-bearblog</code></a> theme. now I have nothing against it, but the example site and styling left much to be desired. I didn&rsquo;t like that you were limited to only a <code>blog</code> section header, code block styling was atrocious, and honestly, probably since it was my first attempt, I had lots of trouble updating the layouts with my own ideas.</p>
+<p>thankfully, I eventually found <a href="https://github.com/clente/hugo-bearcub"><code>hugo-bearcub</code></a> that seems to be just as fast as <code>hugo-bearblog</code>, highly accessible, and with a less opinionated structure. I was able to implement my own sections and updated the <code>nav.html</code> layout to render any a header link for any section I care to generate.</p>
 
-</body>
 
-</html>
+
+
+
+<div class="highlight" id="nav.html"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>&lt;a href=&#34;{{ &#34;&#34; | relURL }}&#34;&gt;home&lt;/a&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>{{ range .Site.Menus.main }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>&lt;a href=&#34;{{ .URL }}&#34;&gt;{{ lower .Name }}&lt;/a&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>{{ end }}</span></span></code></pre></div><p>the <code>range</code> function syntax pattern is a bit strange to me coming from a mostly <code>python</code> and <code>java</code> background, but it reminds for a <code>for each</code> loop.</p>
+<p>the other really strange thing to me about <code>hugo</code> syntax is that you have to use a <code>.</code> to reference the current local variable (<em>I think?</em>)</p>
+<h2 id="layouts-archetypes-and-lookup-order-oh-my">layouts, archetypes, and lookup order, oh my! <a class="anchor" href="#layouts-archetypes-and-lookup-order-oh-my"
+        title="Link to section: layouts, archetypes, and lookup order, oh my!" aria-label="Link to section: layouts, archetypes, and lookup order, oh my!">#</a></h2>
+  <div class="admonition caution">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+      <span>help</span>
+    </div>
+      <div class="admonition-content">
+        <p>I have no idea how <code>hugo</code> site generation works</p>
+      </div>
+  </div>
+<p><code>hugo</code> seems to generate the static site into the <code>public/</code> directory following the template that is described in <code>layouts/</code></p>
+<p>I think it starts from <code>layouts/_defaults/baseof.html</code> and uses references to other <code>layouts</code> and <code>partials</code> to generate more html.</p>
+<p>layouts allow you to pre-define html rendering patterns for parts of the webpage, like the above <a href="#nav.html"><code>nav.html</code></a></p>
+<p><code>archetypes</code> are similar to <code>layouts</code> except they define the template for generating new content (new markdown pages). they can even use <code>hugo</code> functions and <a href="#shortcodes-or-longcodes"><code>shortcodes</code></a></p>
+<p>lastly, lookup order in <code>hugo</code> is not exactly straightforward. there&rsquo;s more explanation in the docs but the primary thing for me to note:</p>
+
+  <div class="admonition caution">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+      <span>Caution</span>
+    </div>
+      <div class="admonition-content">
+        <p>when using a theme, layouts from the <code>themes/</code> directory are applied first unless they are overwritten in the top-level <code>layouts/</code> directory</p>
+      </div>
+  </div>
+<h3 id="markup-layouts">markup layouts <a class="anchor" href="#markup-layouts"
+        title="Link to section: markup layouts" aria-label="Link to section: markup layouts">#</a></h3><p><strong>UPDATE: I have moved to start using <a href="https://github.com/KKKZOZ/hugo-admonitions"><code>hugo-admonitions</code></a> to render blockquotes.</strong></p>
+<p>not all markdown features comes out of the box unfortunately, specifically <code>blockquotes</code>. normally you can specify a type of <code>blockquote</code> style, like <code>NOTE</code> or <code>WARNING</code>, and you get a nicely formatted and colored section:</p>
+<p><img src="blockquote.png" alt="image of properly rendered blockquotes on github"></p>
+<p>unfortunately for me, the way <code>hugo</code> generates html for markdown blockquotes does not support types. so I had to write a new markup template:</p>
+
+  <div class="admonition tip">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M272 384c9.6-31.9 29.5-59.1 49.2-86.2c0 0 0 0 0 0c5.2-7.1 10.4-14.2 15.4-21.4c19.8-28.5 31.4-63 31.4-100.3C368 78.8 289.2 0 192 0S16 78.8 16 176c0 37.3 11.6 71.9 31.4 100.3c5 7.2 10.2 14.3 15.4 21.4c0 0 0 0 0 0c19.8 27.1 39.7 54.4 49.2 86.2l160 0zM192 512c44.2 0 80-35.8 80-80l0-16-160 0 0 16c0 44.2 35.8 80 80 80zM112 176c0 8.8-7.2 16-16 16s-16-7.2-16-16c0-61.9 50.1-112 112-112c8.8 0 16 7.2 16 16s-7.2 16-16 16c-44.2 0-80 35.8-80 80z"/></svg>
+      <span>success!</span>
+    </div>
+      <div class="admonition-content">
+        <p>and by &ldquo;write&rdquo;, I of course mean, &ldquo;find on github&rdquo;</p>
+      </div>
+  </div>
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>{{ $emojis := dict
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>  &#34;caution&#34; &#34;:exclamation:&#34;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>  &#34;important&#34; &#34;:information_source:&#34;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>  &#34;note&#34; &#34;:information_source:&#34;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>  &#34;tip&#34; &#34;:bulb:&#34;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>  &#34;warning&#34; &#34;:warning:&#34;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>}}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>{{ if eq .Type &#34;alert&#34; }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>  &lt;blockquote class=&#34;alert alert-{{ .AlertType }}&#34;&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    &lt;p class=&#34;alert-heading&#34;&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>      {{ transform.Emojify (index $emojis .AlertType) }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>      {{ with .AlertTitle }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>        {{ . }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>      {{ else }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>        {{ or (i18n .AlertType) (title .AlertType) }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>      {{ end }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>    &lt;/p&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>    {{ .Text }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>  &lt;/blockquote&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>{{ else }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>  &lt;blockquote&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>    {{ .Text }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>  &lt;/blockquote&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>{{ end }}</span></span></code></pre></div><h2 id="pagination---bless-jmooring">pagination - bless <a href="https://github.com/jmooring">jmooring</a> <a class="anchor" href="#pagination---bless-jmooring"
+        title="Link to section: pagination - bless jmooring" aria-label="Link to section: pagination - bless jmooring">#</a></h2><p>I was able to seamlessly implement pagination for any multi-page blog posts thanks to super helpful comments and gists posted by <code>jmooring</code>. you can find the relevant code here: <a href="https://github.com/jmooring/hugo-testing/tree/hugo-forum-topic-29161">jmooring multipage example</a></p>
+<p>by simply adding <code>layout = &quot;multipage&quot;</code> to the params of a content page, it&rsquo;ll automatically render links to next page</p>
+
+
+
+  <blockquote>
+    <p>looks like <code>jmooring</code> is one of the contributors of <code>hugo</code> and super responsive on the <code>hugo</code> forum!</p>
+  </blockquote>
+<h2 id="shortcodes-or-longcodes">shortcodes or longcodes <a class="anchor" href="#shortcodes-or-longcodes"
+        title="Link to section: shortcodes or longcodes" aria-label="Link to section: shortcodes or longcodes">#</a></h2><p><code>hugo</code> has support for a feature called <code>shortcodes</code> that allow you to write custom logic functions within your markdown content pages. I&rsquo;m able to use the <a href="#shortcode"><code>recent_posts</code> shortcode</a> as follows in a <code>.md</code> file</p>
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>{{\&lt; recent_posts &gt;}}</span></span></code></pre></div>
+
+
+
+
+
+
+<p>here's a list of my most recent posts</p>
+<ul>
+
+  
+  
+    
+  
+<li>
+    <time datetime="Mar 05, 2025">Mar 05, 2025</time>:
+    <a href="/tech/git_ctf/">git ctf</a>
+</li>
+
+  
+  
+    
+  
+<li>
+    <time datetime="Feb 24, 2025">Feb 24, 2025</time>:
+    <a href="/tech/hugo/">setting up a personal blog with hugo</a>
+</li>
+
+  
+  
+    
+  
+<li>
+    <time datetime="Feb 12, 2025">Feb 12, 2025</time>:
+    <a href="/now/">now</a>
+</li>
+
+</ul>
+
+
+  <div class="admonition error">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/></svg>
+      <span>formatting</span>
+    </div>
+      <div class="admonition-content">
+        <p><code>hugo</code> is incredibly precise about the <code>shortcode</code> invocation.</p>
+<p>the format must be {{&lt; shortcode &gt;}} with that exact spacing</p>
+      </div>
+  </div>
+<h2 id="anchor-links">anchor links <a class="anchor" href="#anchor-links"
+        title="Link to section: anchor links" aria-label="Link to section: anchor links">#</a></h2><p>there is anchor link support in markdown by default with the pattern</p>
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>## heading name {#heading}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>[heading link](#heading)</span></span></code></pre></div><p>for example:
+<a href="#bear">ʕ•ᴥ•ʔ</a></p>
+<p>but I did miss the on-hover, click-to-copy anchor link pattern from <code>confluence</code> and <code>quip</code>. I fortunately found this super in-depth <a href="https://dariusz.wieckiewicz.org/en/supercharge-your-headings-in-hugo-with-render-hooks/">guide</a> that helped me formulate automatic generation of anchor tags based on the headings with copy-on-click and appear-on-hover.</p>
+<p>the partial template essentially just adds an <code>&lt;a&gt;</code> tag to every heading with an <code>anchor</code> classname.</p>
+
+
+
+
+
+<div class="highlight" id="render-heading.html"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>&lt;h{{ .Level }} id=&#34;{{ .Anchor | safeURL }}&#34;&gt;{{ .Text | safeHTML }} &lt;a class=&#34;anchor&#34; href=&#34;#{{ .Anchor | safeURL }}&#34;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>        title=&#34;Link to section: {{ .Text | safeHTML }}&#34; aria-label=&#34;Link to section: {{ .Text | safeHTML }}&#34;&gt;#&lt;/a&gt;&lt;/h{{
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    .Level }}&gt;</span></span></code></pre></div><p>the majority of the benefit comes from <code>css</code> and I barely know how it works other than changing the opacity to 0 while not being hovered over. I copied the <code>original.css</code> style sheet from the <code>hugo-bearcub</code> theme and added the following styling.</p>
+
+
+
+
+
+<div class="highlight" id="original.css"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>:root {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#ff79c6">--</span>main: <span style="color:#6272a4">#137faa;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>a<span style="color:#ff79c6">.</span>anchor {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    color: <span style="color:#ff79c6">var</span>(<span style="color:#ff79c6">--</span>main);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    text<span style="color:#ff79c6">-</span>decoration: none <span style="color:#ff79c6">!</span>important;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>  @media (hover: hover) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>      a<span style="color:#ff79c6">.</span>anchor {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>        opacity: <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>      }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    h1:hover a<span style="color:#ff79c6">.</span>anchor,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>    h2:hover a<span style="color:#ff79c6">.</span>anchor,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>    h3:hover a<span style="color:#ff79c6">.</span>anchor,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>    h4:hover a<span style="color:#ff79c6">.</span>anchor,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>    h5:hover a<span style="color:#ff79c6">.</span>anchor,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>    h6:hover a<span style="color:#ff79c6">.</span>anchor {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>      opacity: <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>  @media (hover: none) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>      a<span style="color:#ff79c6">.</span>anchor {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>        opacity: <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>      }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>  }</span></span></code></pre></div><h2 id="anything-else">anything else? <a class="anchor" href="#anything-else"
+        title="Link to section: anything else?" aria-label="Link to section: anything else?">#</a></h2><p>the only annoying part of the workflow left  at this point (besides pretty much any site framework changes), is that to actually publish a new post, I have to move the content from my editor, <code>obsidian</code>, to my <code>hugo</code> git repository and push my changes. it may be possible to use <code>rsync</code> or symlinks to link my <code>obsidian</code> content directory directly to a directory in my blog repo, but I&rsquo;m thinking about exploring ways to access my <code>obsidian</code> synced vaults via an API.</p>
+<p>I think it&rsquo;d be a fun challenge to somehow set up <code>bluesky</code> comments on my blog posts, I&rsquo;ve seen others do something similar a few times but haven&rsquo;t looked into it.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>now</title>
+      <link>https://blog.neilsriv.tech/now/</link>
+      <pubDate>Wed, 12 Feb 2025 00:11:35 -0500</pubDate><author>neil.srivastava1@gmail.com (neil Srivastava)</author>
+      <guid>https://blog.neilsriv.tech/now/</guid>
+      <description>&lt;h1 id=&#34;what-am-i-doing-right-now&#34;&gt;what am I doing right now? &lt;a class=&#34;anchor&#34; href=&#34;#what-am-i-doing-right-now&#34;&#xA;        title=&#34;Link to section: what am I doing right now?&#34; aria-label=&#34;Link to section: what am I doing right now?&#34;&gt;#&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;This page is inspired by &lt;a href=&#34;https://nownownow.com/about&#34;&gt;now page&lt;/a&gt; and is a work in progress.&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Last updated: 2025-02-12 from New York City, NY&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;moving-to-new-york&#34;&gt;moving to new york &lt;a class=&#34;anchor&#34; href=&#34;#moving-to-new-york&#34;&#xA;        title=&#34;Link to section: moving to new york&#34; aria-label=&#34;Link to section: moving to new york&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;I finally moved to NYC in January 2025! After 2.5 years in San Francisco, I&amp;rsquo;ve moved over to the East Coast. Living in Manhattan for now and still working at &lt;a href=&#34;https://www.benchling.com/&#34;&gt;Benchling&lt;/a&gt;.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<h1 id="what-am-i-doing-right-now">what am I doing right now? <a class="anchor" href="#what-am-i-doing-right-now"
+        title="Link to section: what am I doing right now?" aria-label="Link to section: what am I doing right now?">#</a></h1><p>This page is inspired by <a href="https://nownownow.com/about">now page</a> and is a work in progress.</p>
+<p><em>Last updated: 2025-02-12 from New York City, NY</em></p>
+<h2 id="moving-to-new-york">moving to new york <a class="anchor" href="#moving-to-new-york"
+        title="Link to section: moving to new york" aria-label="Link to section: moving to new york">#</a></h2><p>I finally moved to NYC in January 2025! After 2.5 years in San Francisco, I&rsquo;ve moved over to the East Coast. Living in Manhattan for now and still working at <a href="https://www.benchling.com/">Benchling</a>.</p>
+<h2 id="building-a-personal-newsletter-service-for-my-friends-ring">building a personal newsletter service for my friends: ring <a class="anchor" href="#building-a-personal-newsletter-service-for-my-friends-ring"
+        title="Link to section: building a personal newsletter service for my friends: ring" aria-label="Link to section: building a personal newsletter service for my friends: ring">#</a></h2><p>It&rsquo;s been about a year since I started working on a personal newsletter service for my friends and about 6 months since I published it for us to use. With about 45 monthly users, that&rsquo;s 3 unique groups (1 of which I&rsquo;m not even part of!), it&rsquo;s been a really fun journey evolving the platform.</p>
+<p>Of course the whole service is very overengineered: I&rsquo;m using individual docker containers for all the services (nginx, celery, redis, fastapi), multiple AWS services (postgres RDS, SES, S3 + cloudfront), all hosted on a single EC2 machine with 1 GB of memory that costs <strong>absolutely nothing</strong> per month!</p>
+<h2 id="location">location: <a class="anchor" href="#location"
+        title="Link to section: location:" aria-label="Link to section: location:">#</a></h2><p>new york, new york, u.s.a.</p>
+<h2 id="professional-title">professional title: <a class="anchor" href="#professional-title"
+        title="Link to section: professional title:" aria-label="Link to section: professional title:">#</a></h2><p>software engineer | thought leader | yuno ball</p>
+<h2 id="what-do-you-do">what do you do? <a class="anchor" href="#what-do-you-do"
+        title="Link to section: what do you do?" aria-label="Link to section: what do you do?">#</a></h2><p>I like building random things</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

@@ -105,11 +105,11 @@ enableEmoji = true
     path = "github.com/KKKZOZ/hugo-admonitions"
 
 [outputs]
-  home = ['HTML', 'Offline', 'WebAppManifest']
+  home = ['HTML', 'Offline', 'WebAppManifest', 'RSS']
   section = ['HTML', 'Offline']
   taxonomy = ['HTML', 'Offline', 'WebAppManifest']
   term = ['HTML', 'Offline']
-  page = ['HTML', 'Offline']
+  page = ['HTML', 'Offline', 'RSS']
   # home = ['HTML', 'RSS', 'Offline', 'WebAppManifest']
 
 [params.pwa]
