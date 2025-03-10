@@ -33,6 +33,7 @@
         {{ range $key, $value := $taxonomyObj.ByCount}}
             {{range where $value.WeightedPages "Section" $currSection}}
             <a href="{{ $value.Page.Permalink }}">#{{ lower $value.Page.Title }}</a>&nbsp;
+            {{ break }}
             {{end}}
         {{ end }}
       </div>
