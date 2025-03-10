@@ -16,11 +16,11 @@ after doing a bit of research, I settled on using `hugo` for my auto-generated w
 
 it wasn't even too hard to set-up a custom domain with github pages as well. probably a solid option for static/server-side-rendered website hosting in 2025.
 
-### let's get into it
+## let's get into it
 to be honest, I'm not a prolific frontend engineer, I'm barely competent with `html`, and less than competent with `css`. I've never used site generators and I use markdown in `obsidian` just to take notes and keep track of personal documents. 
 
 now the `hugo` docs may have helped with the deployment, but their ease-of-use ended there. I ended up digging through `hugo` forums, asking `chatgpt`, and old fashioned trial'n error to eventually get a working site with all the bells and whistles I wanted.
-### what the heck is {{}}
+## what the heck is {{}}
 `hugo` has custom syntax, templating, functions, methods, archetypes... the list goes on forever. it took me quite a while to finally figure out that in `.html` layout files and `.md` archetype files you could use  `{{ <command> }}` to access and work with pages, tags, and other data from my website. you can use this to create relative links, set-up reusable page structures, and plenty more.
 
 this is a snippet that displays links to the 5 most recent posts on my site with the date they were posted
@@ -38,7 +38,7 @@ this is a snippet that displays links to the 5 most recent posts on my site with
 </ul>
 ```
 note how you can grab posts from the site with `.Site.Pages` and filter/sort them using methods like `where` and `.ByDate`.
-### ʕ•ᴥ•ʔ {#bear}
+## ʕ•ᴥ•ʔ {#bear}
 one of the first big mistakes I made was using the [`hugo-bearblog`](https://github.com/janraasch/hugo-bearblog) theme. now I have nothing against it, but the example site and styling left much to be desired. I didn't like that you were limited to only a `blog` section header, code block styling was atrocious, and honestly, probably since it was my first attempt, I had lots of trouble updating the layouts with my own ideas.
 
 thankfully, I eventually found [`hugo-bearcub`](https://github.com/clente/hugo-bearcub) that seems to be just as fast as `hugo-bearblog`, highly accessible, and with a less opinionated structure. I was able to implement my own sections and updated the `nav.html` layout to render any a header link for any section I care to generate.
@@ -51,7 +51,7 @@ thankfully, I eventually found [`hugo-bearcub`](https://github.com/clente/hugo-b
 the `range` function syntax pattern is a bit strange to me coming from a mostly `python` and `java` background, but it reminds for a `for each` loop.
 
 the other really strange thing to me about `hugo` syntax is that you have to use a `.` to reference the current local variable (*I think?*)
-### layouts, archetypes, and lookup order, oh my!
+## layouts, archetypes, and lookup order, oh my!
 > [!CAUTION] help
 > I have no idea how `hugo` site generation works
 
@@ -66,7 +66,7 @@ layouts allow you to pre-define html rendering patterns for parts of the webpage
 lastly, lookup order in `hugo` is not exactly straightforward. there's more explanation in the docs but the primary thing for me to note:
 > [!CAUTION]
 > when using a theme, layouts from the `themes/` directory are applied first unless they are overwritten in the top-level `layouts/` directory
-#### markup layouts
+### markup layouts
 
 **UPDATE: I have moved to start using [`hugo-admonitions`](https://github.com/KKKZOZ/hugo-admonitions) to render blockquotes.**
 
@@ -106,14 +106,14 @@ unfortunately for me, the way `hugo` generates html for markdown blockquotes doe
   </blockquote>
 {{ end }}
 ```
-### pagination - bless [jmooring](https://github.com/jmooring)
+## pagination - bless [jmooring](https://github.com/jmooring)
 I was able to seamlessly implement pagination for any multi-page blog posts thanks to super helpful comments and gists posted by `jmooring`. you can find the relevant code here: [jmooring multipage example](https://github.com/jmooring/hugo-testing/tree/hugo-forum-topic-29161)
 
 by simply adding `layout = "multipage"` to the params of a content page, it'll automatically render links to next page
 
 > looks like `jmooring` is one of the contributors of `hugo` and super responsive on the `hugo` forum!
 
-### shortcodes or longcodes
+## shortcodes or longcodes
 `hugo` has support for a feature called `shortcodes` that allow you to write custom logic functions within your markdown content pages. I'm able to use the [`recent_posts` shortcode](#shortcode) as follows in a `.md` file
 ```
 {{\< recent_posts >}}
@@ -123,10 +123,10 @@ by simply adding `layout = "multipage"` to the params of a content page, it'll a
 > `hugo` is incredibly precise about the `shortcode` invocation.
 > 
 > the format must be {{\< shortcode >}} with that exact spacing
-### anchor links
+## anchor links
 there is anchor link support in markdown by default with the pattern
 ```
-### heading name {#heading}
+## heading name {#heading}
 
 [heading link](#heading)
 ```
@@ -173,7 +173,7 @@ a.anchor {
       }
   }
 ```
-### anything else? {#anything-else}
+## anything else? {#anything-else}
 
 the only annoying part of the workflow left  at this point (besides pretty much any site framework changes), is that to actually publish a new post, I have to move the content from my editor, `obsidian`, to my `hugo` git repository and push my changes. it may be possible to use `rsync` or symlinks to link my `obsidian` content directory directly to a directory in my blog repo, but I'm thinking about exploring ways to access my `obsidian` synced vaults via an API.
 

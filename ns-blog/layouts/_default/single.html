@@ -7,9 +7,14 @@
     </time>
   </i>
 </p>
+<hr class="rounded">
+<div class="wrapper">
 <content>
   {{ .Content }}
 </content>
+{{- partial "toc.html" . -}}
+</div>
+<hr class="rounded">
 <p>
   {{ range (.GetTerms "tags") }}
   <a href="{{ .Permalink }}">#{{ lower .LinkTitle }}</a>
