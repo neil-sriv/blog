@@ -106,9 +106,9 @@ enableEmoji = true
 
 [outputs]
   home = ['HTML', 'Offline', 'WebAppManifest', 'RSS']
-  section = ['HTML', 'Offline']
-  taxonomy = ['HTML', 'Offline', 'WebAppManifest']
-  term = ['HTML', 'Offline']
+  section = ['HTML', 'Offline', 'RSS']
+  taxonomy = ['HTML', 'Offline', 'WebAppManifest', 'RSS']
+  term = ['HTML', 'Offline', 'RSS']
   page = ['HTML', 'Offline', 'RSS']
   # home = ['HTML', 'RSS', 'Offline', 'WebAppManifest']
 
