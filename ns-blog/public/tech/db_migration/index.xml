@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>migrating my aws database to cockroach labs in 12 hours on neilsriv blog</title>
+    <link>https://blog.neilsriv.tech/tech/db_migration/</link>
+    <description>Recent content in migrating my aws database to cockroach labs in 12 hours on neilsriv blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <managingEditor>neil.srivastava1@gmail.com (neil Srivastava)</managingEditor>
+    <webMaster>neil.srivastava1@gmail.com (neil Srivastava)</webMaster>
+    <lastBuildDate>Wed, 09 Apr 2025 01:01:56 -0400</lastBuildDate>
+    <atom:link href="https://blog.neilsriv.tech/tech/db_migration/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

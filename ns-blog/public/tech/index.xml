@@ -8,8 +8,220 @@
     <language>en-US</language>
     <managingEditor>neil.srivastava1@gmail.com (neil Srivastava)</managingEditor>
     <webMaster>neil.srivastava1@gmail.com (neil Srivastava)</webMaster>
-    <lastBuildDate>Wed, 05 Mar 2025 20:13:59 -0500</lastBuildDate>
+    <lastBuildDate>Wed, 09 Apr 2025 01:01:56 -0400</lastBuildDate>
     <atom:link href="https://blog.neilsriv.tech/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>migrating my aws database to cockroach labs in 12 hours</title>
+      <link>https://blog.neilsriv.tech/tech/db_migration/</link>
+      <pubDate>Wed, 09 Apr 2025 01:01:56 -0400</pubDate><author>neil.srivastava1@gmail.com (neil Srivastava)</author>
+      <guid>https://blog.neilsriv.tech/tech/db_migration/</guid>
+      <description>&lt;p&gt;if you don&amp;rsquo;t know, I run a side project called Ring, a small newsletter platform where groups of friends answer monthly questions that are collected and sent in an email. the entire project is hosted for free on AWS on a single EC2 machine with 1GB of memory and a postgres rds instance. unfortunately, these free tier benefits only last 1 year&amp;hellip;&lt;/p&gt;&#xA;&lt;p&gt;so at the beginning of march, I finally get the dreaded email that my aws free tier benefits were ending on the 31st. I, of course, immediately forget about this and procrastinate doing anything about it. to be fair, I was moving into a new apartment and was very distracted. regardless, I found myself on March 31st with about 12 hours before I was about to get hit by an estimated $60 monthly bill for running everything.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>if you don&rsquo;t know, I run a side project called Ring, a small newsletter platform where groups of friends answer monthly questions that are collected and sent in an email. the entire project is hosted for free on AWS on a single EC2 machine with 1GB of memory and a postgres rds instance. unfortunately, these free tier benefits only last 1 year&hellip;</p>
+<p>so at the beginning of march, I finally get the dreaded email that my aws free tier benefits were ending on the 31st. I, of course, immediately forget about this and procrastinate doing anything about it. to be fair, I was moving into a new apartment and was very distracted. regardless, I found myself on March 31st with about 12 hours before I was about to get hit by an estimated $60 monthly bill for running everything.</p>
+<p>the bill breakdown was about:</p>
+<ul>
+<li>$45 for 750 hours (24/7 up-time) 10 GB postgres rds database</li>
+<li>$10 for 750 hours (24/7 up-time) 1 GB EC2 machine</li>
+<li>&lt;$5 for miscellaneous aws services (S3, VPC, CDN, etc.)</li>
+</ul>
+<p>so with a limited timeline, I decided to just focus on the high database cost problem for now.</p>
+<p>TL;DR: I migrated my 2GB Postgres database from AWS RDS to CockroachDB in a day to avoid a $60/month bill. here’s how I pulled it off (and how TLS almost broke me).</p>
+<h2 id="so-what-do-i-actually-need">so what do I actually need? <a class="anchor" href="#so-what-do-i-actually-need"
+        title="Link to section: so what do I actually need?" aria-label="Link to section: so what do I actually need?">#</a></h2><ul>
+<li>a managed RDS database</li>
+<li>free if possible</li>
+<li>current DB size is about 2GB so probably at least 5 GB would be good</li>
+<li>750 hours of uptime</li>
+<li>compatibility with postgres, sqlalchemy, and alembic all preferred</li>
+</ul>
+<h2 id="are-there-really-no-free-databases-these-days">are there really no free databases these days?? <a class="anchor" href="#are-there-really-no-free-databases-these-days"
+        title="Link to section: are there really no free databases these days??" aria-label="Link to section: are there really no free databases these days??">#</a></h2><p>unfortunately not really! it&rsquo;s been long since the days where you could spin up heroku compute instances, mongodb nosql databases, or most personal usage of common software infrastructure for free. <em>well at least the limits are way lower now and the timelines are shortish.</em> I began searching around for options of free managed database hosting services; chatgpt is great for enumerating options and giving pros/cons but make sure you double check what&rsquo;s provided. I was misled a couple times and thought certain options were possible but they had sunset their free options or the limits were too strict.</p>
+
+
+
+  <blockquote>
+    <p>specifically planetscale has no more free tier and supabase limits are too low</p>
+  </blockquote>
+<h2 id="bugs-to-the-rescue">bugs to the rescue <a class="anchor" href="#bugs-to-the-rescue"
+        title="Link to section: bugs to the rescue" aria-label="Link to section: bugs to the rescue">#</a></h2><p>my savior ended up being <a href="https://www.cockroachlabs.com/pricing/"><strong>cockroach labs</strong></a> with 10GB of free storage (amazing) and 50 million read units (no idea what that means). I&rsquo;d never heard of cockroach before but it&rsquo;s a distributed database service, meaning it was built with replication and sharding across multiple database nodes as the primary focus. I don&rsquo;t really need all that but it does implement the postgres wire protocol, so the majority of all postgres features should work out of the box. there is additionally a sqlalchemy extension that enabled working with cockroach and alembic should work automatically.</p>
+<h2 id="how-do-you-actually-migrate-a-database">how do you actually migrate a database <a class="anchor" href="#how-do-you-actually-migrate-a-database"
+        title="Link to section: how do you actually migrate a database" aria-label="Link to section: how do you actually migrate a database">#</a></h2><p>well the correct way is through something called logical replication and dual writing data to two databases concurrently. but I have a 2 GB database with about 19 tables, so I can get away with just pg_dumping the database to a file and then executing the sql in it directly.</p>
+<h2 id="downtime">downtime <a class="anchor" href="#downtime"
+        title="Link to section: downtime" aria-label="Link to section: downtime">#</a></h2><p>downtime considerations are incredibly critical when migrating a database. if you have an &ldquo;always available&rdquo; service, downtime is likely not an actual option for you. in that case, you must use dual-writing and a cut-over to actually migrate onto another database. however, my newsletter service gets spiky traffic and has no real concerns with downtime as long as there are no newsletters scheduled soon. so I pushed a frontend image that was a simple downtime page informing users that the web-app would be up and running in a few days.</p>
+<h2 id="lets-get-started">let&rsquo;s get started <a class="anchor" href="#lets-get-started"
+        title="Link to section: let&rsquo;s get started" aria-label="Link to section: let&rsquo;s get started">#</a></h2><p>time to get my hands dirty and jump in.</p>
+<p>I have a local database used for development and testing. it runs in a docker container with a persisted volume. can I do the same thing with cockroach and test running my app locally, migrating all the data from my local postgres container, and running alembic migrations?</p>
+<h3 id="docker-containers">docker containers <a class="anchor" href="#docker-containers"
+        title="Link to section: docker containers" aria-label="Link to section: docker containers">#</a></h3>
+          <link rel="stylesheet" href="/css/vendors/admonitions.5c73bad2903e7d2d44ad118370ebd8c2cf5f239d4d93c283e55c00f2f8d30746.css" integrity="sha256-XHO60pA&#43;fS1ErRGDcOvYws9fI51Nk8KD5VwA8vjTB0Y=" crossorigin="anonymous">
+  <div class="admonition note">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 125.7-86.8 86.8c-10.3 10.3-17.5 23.1-21 37.2l-18.7 74.9c-2.3 9.2-1.8 18.8 1.3 27.5L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128zM549.8 235.7l14.4 14.4c15.6 15.6 15.6 40.9 0 56.6l-29.4 29.4-71-71 29.4-29.4c15.6-15.6 40.9-15.6 56.6 0zM311.9 417L441.1 287.8l71 71L382.9 487.9c-4.1 4.1-9.2 7-14.9 8.4l-60.1 15c-5.5 1.4-11.2-.2-15.2-4.2s-5.6-9.7-4.2-15.2l15-60.1c1.4-5.6 4.3-10.8 8.4-14.9z"/></svg>
+      <span>docker vs orbstack</span>
+    </div>
+      <div class="admonition-content">
+        <p>since I develop on macOS, I actually use <code>orbstack</code> instead of <code>docker desktop</code> with no issues</p>
+      </div>
+  </div>
+<p>so my current postgres container is set up like this</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ff79c6">db</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#ff79c6">restart</span>: unless-stopped
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    <span style="color:#ff79c6">container_name</span>: ring-db
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    <span style="color:#ff79c6">image</span>: postgres:16.1
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    <span style="color:#ff79c6">volumes</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>      - pgdata:/var/lib/postgresql/data
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    <span style="color:#ff79c6">ports</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>      - <span style="color:#bd93f9">8004</span>:<span style="color:#bd93f9">5432</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>    <span style="color:#ff79c6">expose</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>      - <span style="color:#bd93f9">5432</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    <span style="color:#ff79c6">environment</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>      - POSTGRES_USER=REDACTED
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>      - POSTGRES_PASSWORD=REDACTED
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>      - POSTGRES_DB=ring
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>    <span style="color:#ff79c6">profiles</span>: [ <span style="color:#f1fa8c">&#34;dev&#34;</span> ]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>    <span style="color:#ff79c6">networks</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>      - default</span></span></code></pre>
+</figure>
+<p>and it was pretty simple to get the cockroach container to run as well</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>  <span style="color:#ff79c6">cockroach</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#ff79c6">image</span>: cockroachdb/cockroach:latest
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    <span style="color:#ff79c6">container_name</span>: ring-cockroach
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    <span style="color:#ff79c6">restart</span>: unless-stopped
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    <span style="color:#ff79c6">profiles</span>: [ <span style="color:#f1fa8c">&#34;dev&#34;</span> ]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    <span style="color:#ff79c6">command</span>: start-single-node --certs-dir=/root/.cockroach-certs
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    <span style="color:#ff79c6">ports</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>      - <span style="color:#bd93f9">26257</span>:<span style="color:#bd93f9">26257</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>      - <span style="color:#bd93f9">8007</span>:<span style="color:#bd93f9">8080</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    <span style="color:#ff79c6">environment</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>      - COCKROACH_USER=ringcockroach
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>      - COCKROACH_PASSWORD=ringcockroach
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>      - COCKROACH_DATABASE=ring
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    <span style="color:#ff79c6">volumes</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>      - cockroach-data:/cockroach/cockroach-data
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>      - ./certs:/root/.cockroach-certs
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>    <span style="color:#ff79c6">networks</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>      - default</span></span></code></pre>
+</figure>
+<p>note the command: <code>start-single-node</code> since I don&rsquo;t need to spin up multiple nodes with replication or sharding.</p>
+<p>the docs suggested spinning up in <code>--insecure-mode</code>, but that caused failures to create the default <code>COCKROACH_USER</code> with <code>COCKROACH_PASSWORD</code>. using the <em>secure</em> mode with ssl ended up being <em>interesting&hellip;</em></p>
+
+  <div class="admonition error">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/></svg>
+      <span>TLS 😭</span>
+    </div>
+      <div class="admonition-content">
+        <p>I honestly don&rsquo;t know what TLS is and I am too lazy to really figure it out.
+however
+that really blew up in my face when trying to manage my <code>cockroachdb</code> local docker container.</p>
+
+
+
+  <blockquote>
+    <p>for my production server, the <code>cockroach</code> cloud set-up gives you the exact cert that you need and tells you where to mount it 🤷‍♂️. no problems there so far</p>
+  </blockquote>
+<p>the docs kept talking about doing things in insecure mode for local development, but then it wouldn&rsquo;t auto create the db user that I wanted. when naively doing things in secure mode, I thought it worked automatically; but that&rsquo;s only because I
+first started the container in insecure mode so it auto created my db user and database, then took it down and restarted it in secure mode so it automatically generated TLS certs for the cockroach user. and then since I&rsquo;m using docker volumes to persist the state, things were working fine for the first day or two</p>
+<p>but when I had to nuke my docker volume and restore from a backup because I messed up my database, I ended up in TLS hell.</p>
+<p>the iteration cycle was spin up docker container while viewing logs -&gt; things break -&gt; take down container -&gt; delete volume -&gt; start again, over and over I was doing this with different certs, mounting the certs in different locations, trying different commands (e.g. cockroach start-single-node &ndash;cert-principal-map).</p>
+<p>I eventually succeeded by creating the CA cert, the node cert, and a client cert for the &ldquo;root&rdquo; user and mounting all of those into a specified certs dir in my <code>cockroachdb</code> container. then when spinning up the container for the first time, it would auto create a client cert for the specified <code>COCKROACH_USER</code> I wanted. and now I can finally spin up and down the container as many times as I want. I don&rsquo;t get why I need all these certs <strong>and</strong> a &ldquo;root&rdquo; client cert when I only want access as the <code>COCKROACH_USER</code>.</p>
+
+
+
+  <blockquote>
+    <p>noting that if I remove my volume in the future for a hard reset, I will need to remove the autogenerated cert files from my certs directory mount</p>
+  </blockquote>
+      </div>
+  </div>
+<p>it was really convenient to be able to just <code>docker volume rm</code> and reset the persisted database as I was iterating on trying to get the <code>cockroach</code> db container up and running correctly</p>
+<h3 id="fastapi-x-sqlalchemy-x-cockroach">fastapi x sqlalchemy x cockroach <a class="anchor" href="#fastapi-x-sqlalchemy-x-cockroach"
+        title="Link to section: fastapi x sqlalchemy x cockroach" aria-label="Link to section: fastapi x sqlalchemy x cockroach">#</a></h3><p>replacing <code>postgres</code> with <code>cockroach</code> was really simple since I use <code>sqlalchemy</code> to connect to my database.</p>
+<p>all I had to do was set my connection string to reference my <code>cockroach</code> container and pass the user and password for the <code>ring</code> database</p>
+
+<figure class="highlight">
+  <figcaption>
+    <span class="title">.env</span>
+  </figcaption>
+  <pre tabindex="0" class="chroma"><code class="language-env" data-lang="env"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#8be9fd;font-style:italic">COCKROACH_DATABASE_URI</span><span style="color:#ff79c6">=</span>cockroachdb://COCKROACH_USER:COCKROACH_PASSWORD@cockroach:26257/ring?sslmode<span style="color:#ff79c6">=</span>require</span></span></code></pre>
+</figure>
+<p>then I added the <code>sqlalchemy-cockroachdb</code> library using <code>uv</code></p>
+
+  <div class="admonition note">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 125.7-86.8 86.8c-10.3 10.3-17.5 23.1-21 37.2l-18.7 74.9c-2.3 9.2-1.8 18.8 1.3 27.5L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128zM549.8 235.7l14.4 14.4c15.6 15.6 15.6 40.9 0 56.6l-29.4 29.4-71-71 29.4-29.4c15.6-15.6 40.9-15.6 56.6 0zM311.9 417L441.1 287.8l71 71L382.9 487.9c-4.1 4.1-9.2 7-14.9 8.4l-60.1 15c-5.5 1.4-11.2-.2-15.2-4.2s-5.6-9.7-4.2-15.2l15-60.1c1.4-5.6 4.3-10.8 8.4-14.9z"/></svg>
+      <span>uv</span>
+    </div>
+      <div class="admonition-content">
+        <p>I use <code>uv</code> to manage my python project with a <code>pyproject.toml</code> which keeps things in sync and manages dependencies automatically</p>
+      </div>
+  </div>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>uv add sqlalchemy-cockroachdb</span></span></code></pre>
+</figure>
+<p>I was able to create my <code>sqlalchemy</code> database engine in the exact same way I was doing it with <code>postgres</code> and just swapped the connection string.</p>
+
+<figure class="highlight">
+  <figcaption>
+    <span class="title">sqlalchemy_base.py</span>
+  </figcaption>
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>engine <span style="color:#ff79c6">=</span> create_engine(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    get_config()<span style="color:#ff79c6">.</span>cockroach_database_uri,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>)</span></span></code></pre>
+</figure>
+
+  <div class="admonition note">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 125.7-86.8 86.8c-10.3 10.3-17.5 23.1-21 37.2l-18.7 74.9c-2.3 9.2-1.8 18.8 1.3 27.5L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128zM549.8 235.7l14.4 14.4c15.6 15.6 15.6 40.9 0 56.6l-29.4 29.4-71-71 29.4-29.4c15.6-15.6 40.9-15.6 56.6 0zM311.9 417L441.1 287.8l71 71L382.9 487.9c-4.1 4.1-9.2 7-14.9 8.4l-60.1 15c-5.5 1.4-11.2-.2-15.2-4.2s-5.6-9.7-4.2-15.2l15-60.1c1.4-5.6 4.3-10.8 8.4-14.9z"/></svg>
+      <span>get_config</span>
+    </div>
+      <div class="admonition-content">
+        <p><code>get_config</code> is a cached function I wrote that just returns a <code>BaseSettings</code> object for my <code>fastapi</code> project. <code>BaseSettings</code> allows you to pass configuration settings to your <code>fastapi</code> app on startup through environment variables with <code>pydantic</code> features like field validation and computed fields.</p>
+      </div>
+  </div>
+<p>for <code>alembic</code> and <code>pytest</code>, I used the same approach of swapping the connection string and had no issues</p>
+
+<figure class="highlight">
+  <figcaption>
+    <span class="title">env.py</span>
+  </figcaption>
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>config<span style="color:#ff79c6">.</span>set_main_option(<span style="color:#f1fa8c">&#34;sqlalchemy.url&#34;</span>, get_config()<span style="color:#ff79c6">.</span>cockroach_database_uri)</span></span></code></pre>
+</figure>
+
+<figure class="highlight">
+  <figcaption>
+    <span class="title">conftest.py</span>
+  </figcaption>
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>engine <span style="color:#ff79c6">=</span> create_engine(config<span style="color:#ff79c6">.</span>cockroach_database_uri)</span></span></code></pre>
+</figure>
+<p>this is all it took to swap over to using <code>cockroach</code> for my local development environment, testing environment, and alembic configuration</p>
+<h3 id="migrating-my-data---pg_dump-for-the-win">migrating my data - pg_dump for the win <a class="anchor" href="#migrating-my-data---pg_dump-for-the-win"
+        title="Link to section: migrating my data - pg_dump for the win" aria-label="Link to section: migrating my data - pg_dump for the win">#</a></h3><p>dumping an entire database is as simple as running a single command</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>docker <span style="color:#8be9fd;font-style:italic">exec</span> ring-db pg_dump -U ring-postgres -d ring &gt; local.sql</span></span></code></pre>
+</figure>
+<p>and then importing that into my <code>cockroach</code> container also only took a single command</p>
+
+<figure class="highlight">
+  <pre tabindex="0"><code class="language-" data-lang="">docker exec -i ring-cockroach ./cockroach sql -d ring --url=&#34;postgresql://ringcockroach@127.0.0.1:26257/ring?sslcert=%2Froot%2F.cockroach-certs%2Fclient.root.crt&amp;sslkey=%2Froot%2F.cockroach-certs%2Fclient.root.key&amp;sslmode=verify-full&amp;sslrootcert=%2Froot%2F.cockroach-certs%2Fca.crt&#34; &lt; local.sql</code></pre>
+</figure>
+<p>if you are wondering where I got the connection url from, <code>cockroach</code> actually prints it out for you on container start which is super convenient (since, again, I don&rsquo;t know how TLS works)</p>
+<p>I did basically the same thing for my production database with the only added complexity being that I had to upload my dump from the EC2 to S3 and I used my production database connection string and password.</p>
+<h2 id="cutover-time">cutover time <a class="anchor" href="#cutover-time"
+        title="Link to section: cutover time" aria-label="Link to section: cutover time">#</a></h2><p>at this point, I merged and pushed my changes to production since I was relatively sure that I could start reading from my new database and I wanted to start live testing before I decommissioned my postgres DB. I felt safe doing this because I had my pg_dump backup of all production data and knew that I could always restore from there.</p>
+<p>and just like magic, the site worked perfectly on my first try.</p>
+<p>no, I&rsquo;m serious!</p>
+<p>it was a pretty cool feeling to be able to just switch databases and have no issues or real user impact.</p>
+<h2 id="whats-next">what&rsquo;s next <a class="anchor" href="#whats-next"
+        title="Link to section: what&rsquo;s next" aria-label="Link to section: what&rsquo;s next">#</a></h2><p>I haven&rsquo;t dove into any of the <code>cockroachdb</code> special stuff yet, sharding, replication, or other distributed database features but that will be on the back-burner. next step is to migrate off my EC2 container! I think that the couple dollars for S3 and Cloudfront CDN are pretty cheap but I don&rsquo;t want to pay $10 for the EC2.</p>
+<p>finding a free hosting provider for a 750 hour uptime 1 GB EC2 is pretty difficult (okay maybe impossible). so I think this is a good opportunity to remove my celery dependency for async scheduled task execution and be able to use either serverless or cold start servers for my fastAPI backend. I&rsquo;m not sure what my celery replacement will be yet but for the API server, there are options like Neon and Fly.io.</p>
+]]></content:encoded>
+    </item>
     <item>
       <title>git ctf</title>
       <link>https://blog.neilsriv.tech/tech/git_ctf/</link>
@@ -977,6 +1189,15 @@ looks like they are either simple messages or rich metadata that can be attached
 
 <p>here's a list of my most recent posts</p>
 <ul>
+
+  
+  
+    
+  
+<li>
+    <time datetime="Apr 09, 2025">Apr 09, 2025</time>:
+    <a href="/tech/db_migration/">migrating my aws database to cockroach labs in 12 hours</a>
+</li>
 
   
   
