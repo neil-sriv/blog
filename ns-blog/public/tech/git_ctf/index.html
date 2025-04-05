@@ -109,7 +109,7 @@ every flag is the name of a git branch that you can checkout to start the releva
 1&gt; git clone gamemaster@localhost:~/ctf-repo 2&gt; cat README.md 3Now, to proceed - `git checkout` the branch named `start-here`, and then read me again. start-here # 1&gt; cat README.md 21. Add 2 files to the root of the repo: `alice.txt` and `bob.txt`. 32. Commit your changes (should be only one commit!). 43. Push your changes to the remote repo. 54. If you did it right, you should get your flag. 1&gt; touch alice.txt bob.txt 2&gt; git add . 3&gt; gc -m &#39;new files&#39; 4&gt; git push 5remote: -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 6remote: 7remote: Pushed a branch: start-here 8remote: 9remote: ()__ 10remote: || Z__ 11remote: || | Z____ 12remote: || | | | 13remote: || | | | 14remote: ||__| | | 15remote: || /___| | 16remote: || /____/ 17remote: || 18remote: || 19remote: || 20remote: /\ 21remote: ___/ \___ 22remote: 23remote: You won! The flag is scorpion-treenware-gestatory (basic-1) 24remote: 25remote: -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- 26remote: flag = scorpion-treenware-gestatory">
   <meta itemprop="datePublished" content="2025-03-05T20:13:59-05:00">
   <meta itemprop="dateModified" content="2025-03-05T20:13:59-05:00">
-  <meta itemprop="wordCount" content="3139">
+  <meta itemprop="wordCount" content="3143">
   <meta itemprop="keywords" content="Blog,Tech,Git,Ctf,Git_ctf">
 
 <meta name="referrer" content="no-referrer-when-downgrade" />
@@ -318,7 +318,10 @@ every flag is the name of a git branch that you can checkout to start the releva
 <p>now we finally have more an involved challenge. Let&rsquo;s take a look at <code>runme.py</code></p>
 
 <figure class="highlight">
-  <pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#6272a4">#!/usr/bin/env python3</span>
+  <figcaption>
+    <span class="title">runme.py</span>
+  </figcaption>
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#6272a4">#!/usr/bin/env python3</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">print_something_cool</span>():
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    <span style="color:#6272a4"># I&#39;ll finish the rest of the work in another branch... zZzZ</span>
@@ -337,7 +340,10 @@ every flag is the name of a git branch that you can checkout to start the releva
 <p>This branch also has a <code>runme.py</code> file</p>
 
 <figure class="highlight">
-  <pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#6272a4">#!/usr/bin/env python3</span>
+  <figcaption>
+    <span class="title">runme.py</span>
+  </figcaption>
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#6272a4">#!/usr/bin/env python3</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#ff79c6">import</span> base64
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>
@@ -484,7 +490,10 @@ flags = <code>twee-enfamish-stropharia</code> &amp; <code>parallelizing-barnhard
 <p>let&rsquo;s take the grammatically correct one</p>
 
 <figure class="highlight">
-  <pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">print_another_cool_thing</span>():
+  <figcaption>
+    <span class="title">runme.py</span>
+  </figcaption>
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">print_another_cool_thing</span>():
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    message <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;You&#39;re cool (*/?~I＼*)&#34;</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    <span style="color:#8be9fd;font-style:italic">print</span>(message)</span></span></code></pre>
 </figure>
@@ -503,7 +512,10 @@ flags = <code>twee-enfamish-stropharia</code> &amp; <code>parallelizing-barnhard
         title="Link to section: merge-4" aria-label="Link to section: merge-4">#</a></h3><p>this time the <code>README.md</code> directly lists what branch we need to go look at, <code>unconvincing-mesothermal-miles</code>, but let&rsquo;s take a look at the <code>runme.py</code> first</p>
 
 <figure class="highlight">
-  <pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">print_yet_another_thing</span>():
+  <figcaption>
+    <span class="title">runme.py</span>
+  </figcaption>
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">print_yet_another_thing</span>():
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    process <span style="color:#ff79c6">=</span> subprocess<span style="color:#ff79c6">.</span>Popen([<span style="color:#f1fa8c">&#39;git&#39;</span>, <span style="color:#f1fa8c">&#39;--version&#39;</span>], stdout<span style="color:#ff79c6">=</span>subprocess<span style="color:#ff79c6">.</span>PIPE, stderr<span style="color:#ff79c6">=</span>subprocess<span style="color:#ff79c6">.</span>PIPE)
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    stdout, stderr <span style="color:#ff79c6">=</span> process<span style="color:#ff79c6">.</span>communicate()
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;The current git version you&#39;re playing with is &#34;</span> <span style="color:#ff79c6">+</span> stdout<span style="color:#ff79c6">.</span>decode())</span></span></code></pre>

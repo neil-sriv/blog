@@ -104,7 +104,7 @@ Take a look at the runme.py script. It's unfinished, and the rest of the work is
 
 now we finally have more an involved challenge. Let's take a look at `runme.py`
 
-```py runme.py
+```python {title = "runme.py"}
 #!/usr/bin/env python3
 
 def print_something_cool():
@@ -122,7 +122,7 @@ if __name__ == "__main__":
 > gco steek-shabandar-taenifuge
 ```
 This branch also has a `runme.py` file
-```py
+```python {title="runme.py"}
 #!/usr/bin/env python3
 
 import base64
@@ -262,7 +262,7 @@ def print_another_cool_thing():
     print(message)
 ```
 let's take the grammatically correct one
-```py
+```python {title="runme.py"}
 def print_another_cool_thing():
     message = "You're cool (*/?~I＼*)"
     print(message)
@@ -280,7 +280,7 @@ flags = `multichord-ethicalism-fenestration` & `lomentaceous-mididae-hexadecane`
 
 ### merge-4
 this time the `README.md` directly lists what branch we need to go look at, `unconvincing-mesothermal-miles`, but let's take a look at the `runme.py` first
-```py
+```python {title="runme.py"}
 def print_yet_another_thing():
     process = subprocess.Popen(['git', '--version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()

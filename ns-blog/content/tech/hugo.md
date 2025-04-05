@@ -25,7 +25,7 @@ now the `hugo` docs may have helped with the deployment, but their ease-of-use e
 
 this is a snippet that displays links to the 5 most recent posts on my site with the date they were posted
 
-``` recent_posts shortcode {#shortcode}
+```html {title = "recent_posts"} shortcode {#shortcode}
 {{ $recent_posts := ( (where .Site.Pages "IsPage" true).ByDate.Reverse) | first 5 }}
 <p>here's a list of my most recent posts</p>
 <ul>
@@ -42,7 +42,7 @@ note how you can grab posts from the site with `.Site.Pages` and filter/sort the
 one of the first big mistakes I made was using the [`hugo-bearblog`](https://github.com/janraasch/hugo-bearblog) theme. now I have nothing against it, but the example site and styling left much to be desired. I didn't like that you were limited to only a `blog` section header, code block styling was atrocious, and honestly, probably since it was my first attempt, I had lots of trouble updating the layouts with my own ideas.
 
 thankfully, I eventually found [`hugo-bearcub`](https://github.com/clente/hugo-bearcub) that seems to be just as fast as `hugo-bearblog`, highly accessible, and with a less opinionated structure. I was able to implement my own sections and updated the `nav.html` layout to render any a header link for any section I care to generate.
-``` {#nav.html}
+```html {title="nav.html"} {#nav.html}
 <a href="{{ "" | relURL }}">home</a>
 {{ range .Site.Menus.main }}
 <a href="{{ .URL }}">{{ lower .Name }}</a>
@@ -70,7 +70,6 @@ lastly, lookup order in `hugo` is not exactly straightforward. there's more expl
 
 **UPDATE: I have moved to start using [`hugo-admonitions`](https://github.com/KKKZOZ/hugo-admonitions) to render blockquotes.**
 
-
 not all markdown features comes out of the box unfortunately, specifically `blockquotes`. normally you can specify a type of `blockquote` style, like `NOTE` or `WARNING`, and you get a nicely formatted and colored section:
 
 ![image of properly rendered blockquotes on github](blockquote.png)
@@ -79,7 +78,7 @@ unfortunately for me, the way `hugo` generates html for markdown blockquotes doe
 > [!TIP] success!
 > and by "write", I of course mean, "find on github"
 
-```
+```html
 {{ $emojis := dict
   "caution" ":exclamation:"
   "important" ":information_source:"
@@ -115,7 +114,7 @@ by simply adding `layout = "multipage"` to the params of a content page, it'll a
 
 ## shortcodes or longcodes
 `hugo` has support for a feature called `shortcodes` that allow you to write custom logic functions within your markdown content pages. I'm able to use the [`recent_posts` shortcode](#shortcode) as follows in a `.md` file
-```
+```html
 {{\< recent_posts >}}
 ```
 {{< recent_posts >}}
@@ -125,7 +124,7 @@ by simply adding `layout = "multipage"` to the params of a content page, it'll a
 > the format must be {{\< shortcode >}} with that exact spacing
 ## anchor links
 there is anchor link support in markdown by default with the pattern
-```
+```md
 ## heading name {#heading}
 
 [heading link](#heading)
@@ -136,14 +135,14 @@ for example:
 but I did miss the on-hover, click-to-copy anchor link pattern from `confluence` and `quip`. I fortunately found this super in-depth [guide](https://dariusz.wieckiewicz.org/en/supercharge-your-headings-in-hugo-with-render-hooks/) that helped me formulate automatic generation of anchor tags based on the headings with copy-on-click and appear-on-hover.
 
 the partial template essentially just adds an `<a>` tag to every heading with an `anchor` classname. 
-``` {#render-heading.html}
+```html {title="render-heading.html"} {#render-heading.html}
 <h{{ .Level }} id="{{ .Anchor | safeURL }}">{{ .Text | safeHTML }} <a class="anchor" href="#{{ .Anchor | safeURL }}"
         title="Link to section: {{ .Text | safeHTML }}" aria-label="Link to section: {{ .Text | safeHTML }}">#</a></h{{
     .Level }}>
 ```
 
 the majority of the benefit comes from `css` and I barely know how it works other than changing the opacity to 0 while not being hovered over. I copied the `original.css` style sheet from the `hugo-bearcub` theme and added the following styling.
-``` {#original.css}
+```css {title="original.css"} {#original.css}
 :root {
     --main: #137faa;
   }
