@@ -147,7 +147,7 @@ dumping an entire database is as simple as running a single command
 docker exec ring-db pg_dump -U ring-postgres -d ring > local.sql
 ```
 and then importing that into my `cockroach` container also only took a single command
-```
+```sh
 docker exec -i ring-cockroach ./cockroach sql -d ring --url="postgresql://ringcockroach@127.0.0.1:26257/ring?sslcert=%2Froot%2F.cockroach-certs%2Fclient.root.crt&sslkey=%2Froot%2F.cockroach-certs%2Fclient.root.key&sslmode=verify-full&sslrootcert=%2Froot%2F.cockroach-certs%2Fca.crt" < local.sql
 ```
 if you are wondering where I got the connection url from, `cockroach` actually prints it out for you on container start which is super convenient (since, again, I don't know how TLS works)

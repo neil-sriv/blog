@@ -208,7 +208,7 @@ first started the container in insecure mode so it auto created my db user and d
 <p>and then importing that into my <code>cockroach</code> container also only took a single command</p>
 
 <figure class="highlight">
-  <pre tabindex="0"><code class="language-" data-lang="">docker exec -i ring-cockroach ./cockroach sql -d ring --url=&#34;postgresql://ringcockroach@127.0.0.1:26257/ring?sslcert=%2Froot%2F.cockroach-certs%2Fclient.root.crt&amp;sslkey=%2Froot%2F.cockroach-certs%2Fclient.root.key&amp;sslmode=verify-full&amp;sslrootcert=%2Froot%2F.cockroach-certs%2Fca.crt&#34; &lt; local.sql</code></pre>
+  <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>docker <span style="color:#8be9fd;font-style:italic">exec</span> -i ring-cockroach ./cockroach sql -d ring --url<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;postgresql://ringcockroach@127.0.0.1:26257/ring?sslcert=%2Froot%2F.cockroach-certs%2Fclient.root.crt&amp;sslkey=%2Froot%2F.cockroach-certs%2Fclient.root.key&amp;sslmode=verify-full&amp;sslrootcert=%2Froot%2F.cockroach-certs%2Fca.crt&#34;</span> &lt; local.sql</span></span></code></pre>
 </figure>
 <p>if you are wondering where I got the connection url from, <code>cockroach</code> actually prints it out for you on container start which is super convenient (since, again, I don&rsquo;t know how TLS works)</p>
 <p>I did basically the same thing for my production database with the only added complexity being that I had to upload my dump from the EC2 to S3 and I used my production database connection string and password.</p>
