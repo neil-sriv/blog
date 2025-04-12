@@ -114,3 +114,5 @@ enableEmoji = true
 
 [params.pwa]
   icon_path="/images/favicon.png"
+  [params.pwa.manifest]
+    manifest_version = "1.0.1"
