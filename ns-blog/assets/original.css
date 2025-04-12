@@ -277,3 +277,18 @@ a.anchor {
       }
   }
   
+/* STYLING OVERRIDES FOR PHONE */
+@media (max-width: 768px) {
+  .wrapper {
+    display: block;
+  }
+
+  .custom-toc {
+    position: static;
+    height: auto;
+    overflow: visible;
+    padding-top: 0;
+    margin-bottom: 20px;
+    padding: 0;
+  }
+}
