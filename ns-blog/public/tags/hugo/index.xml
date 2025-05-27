@@ -386,6 +386,15 @@ first started the container in insecure mode so it auto created my db user and d
     
   
 <li>
+    <time datetime="Jun 02, 2025">Jun 02, 2025</time>:
+    <a href="/tech/search/">building semantic and keyword search on cockroachdb</a>
+</li>
+
+  
+  
+    
+  
+<li>
     <time datetime="Apr 09, 2025">Apr 09, 2025</time>:
     <a href="/tech/db_migration/">migrating my aws database to cockroach labs in 12 hours</a>
 </li>

@@ -8,8 +8,266 @@
     <language>en-US</language>
     <managingEditor>neil.srivastava1@gmail.com (neil Srivastava)</managingEditor>
     <webMaster>neil.srivastava1@gmail.com (neil Srivastava)</webMaster>
-    <lastBuildDate>Wed, 09 Apr 2025 01:01:56 -0400</lastBuildDate>
+    <lastBuildDate>Mon, 02 Jun 2025 11:25:06 -0600</lastBuildDate>
     <atom:link href="https://blog.neilsriv.tech/tags/database/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>building semantic and keyword search on cockroachDB</title>
+      <link>https://blog.neilsriv.tech/tech/search/</link>
+      <pubDate>Mon, 02 Jun 2025 11:25:06 -0600</pubDate><author>neil.srivastava1@gmail.com (neil Srivastava)</author>
+      <guid>https://blog.neilsriv.tech/tech/search/</guid>
+      <description>&lt;h2 id=&#34;why-is-search-interesting&#34;&gt;why is search interesting? &lt;a class=&#34;anchor&#34; href=&#34;#why-is-search-interesting&#34;&#xA;        title=&#34;Link to section: why is search interesting?&#34; aria-label=&#34;Link to section: why is search interesting?&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;code&gt;search&lt;/code&gt; as a concept has dominated software since even before &lt;code&gt;Google&lt;/code&gt;&amp;rsquo;s success in monetizing it from graph searching algorithms to networking to vector databases. personally, I find the implementation details quite interesting because there are a myriad of optimizations, algorithms, and implementations to help store &lt;em&gt;relevant&lt;/em&gt; information about a piece of data, such that you can identify when it is the correct time to fetch that data.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<h2 id="why-is-search-interesting">why is search interesting? <a class="anchor" href="#why-is-search-interesting"
+        title="Link to section: why is search interesting?" aria-label="Link to section: why is search interesting?">#</a></h2><p><code>search</code> as a concept has dominated software since even before <code>Google</code>&rsquo;s success in monetizing it from graph searching algorithms to networking to vector databases. personally, I find the implementation details quite interesting because there are a myriad of optimizations, algorithms, and implementations to help store <em>relevant</em> information about a piece of data, such that you can identify when it is the correct time to fetch that data.</p>
+<p>it&rsquo;s not the most commonly worked on topic either. the majority of software engineers can build a simple CRUD application with sign-in, but they often use third-party libraries or services for search implementations. and we aren&rsquo;t talking about pure frontend search over arrays of objects. I&rsquo;m referring to specialized indexes and databases of search <em>documents</em>.</p>
+<p>I was also partially inspired by <code>cockroach labs</code> <a href="https://www.cockroachlabs.com/blog/vector-search-pgvector-cockroachdb/">post</a> on building vector search in the first place.</p>
+<h2 id="why-not-elasticsearch">why not elasticsearch <a class="anchor" href="#why-not-elasticsearch"
+        title="Link to section: why not elasticsearch" aria-label="Link to section: why not elasticsearch">#</a></h2><p>for the simple reason of not wanting to pay for a managed search service or use valuable memory and storage on a dedicated search container and index on my deploy. plus, the added benefit of showing that you don&rsquo;t need the fanciest tools to get a basic search implementation.</p>
+<h2 id="what-is-semantic-search">what is &ldquo;semantic&rdquo; search <a class="anchor" href="#what-is-semantic-search"
+        title="Link to section: what is &ldquo;semantic&rdquo; search" aria-label="Link to section: what is &ldquo;semantic&rdquo; search">#</a></h2><p>the last thing to talk about before getting into the technicals is <code>semantic search</code>. there are simple implementations of text search that essentially just do &ldquo;keyword searching&rdquo; and <code>elasticsearch</code> includes features like indexing on attributes of data, but both of these solutions usually fail to parse the <em>meaning</em> of a piece of text before indexing it. <em>meaning</em> can be subjective but typically it&rsquo;s helpful to think about the context of a word in a sentence or paragraph. it&rsquo;s sometimes helpful to know that a phrase is &ldquo;positive&rdquo; or perhaps more relevant to specific locations and people rather than if someone searches for an exact keyword that is in the search entry.</p>
+<h2 id="implementation-overview">implementation overview <a class="anchor" href="#implementation-overview"
+        title="Link to section: implementation overview" aria-label="Link to section: implementation overview">#</a></h2><p>the basic implementation plan is to create a table of search <code>documents</code> that includes a raw text column, a column for keyword search values, and a column for semantic search values. the keyword search values will be computed using a stored/computed db column with <code>to_tsvector</code>, a <code>postgres</code> built-in function to convert text to a form optimized for text search. the semantic search values are computed using optimized text embedding models like <code>nomic-embed-text</code> and google&rsquo;s <code>models/text-embedding-004</code>. lastly, I&rsquo;ll add an index for each column: an inverted index for keyword search and a vector index for semantic search.</p>
+<p>I&rsquo;ll also need to create an association table to map the models I want to search over to their relevant search documents. for now it will be fine to assume that each model will only correspond to one document.</p>
+<h3 id="cockroachdb-custom-set-up"><code>cockroachdb</code> custom set-up <a class="anchor" href="#cockroachdb-custom-set-up"
+        title="Link to section: cockroachdb custom set-up" aria-label="Link to section: cockroachdb custom set-up">#</a></h3><p>referring to <code>cockroach labs</code> vector search <a href="https://www.cockroachlabs.com/docs/stable/full-text-search">post</a> and their full-text search <a href="https://www.cockroachlabs.com/docs/stable/full-text-search">docs</a>, I knew that <code>pgvector</code> was supported, vector indexing was coming in <code>v25.2.0</code>, and <code>tsvector</code> was already supported.</p>
+<p>I did have to pull the unstable <code>v25.2.0</code> image (<code>cockroachdb/cockroach-unstable:v25.2.0-rc.1</code>) for local development and enable vector indexing with</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ff79c6">SET</span> <span style="color:#ff79c6">CLUSTER</span> SETTING feature.vector_index.enabled <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>;</span></span></code></pre>
+</figure>
+<h3 id="document-model">document model <a class="anchor" href="#document-model"
+        title="Link to section: document model" aria-label="Link to section: document model">#</a></h3><p>let&rsquo;s take a look at the document model</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ff79c6">from</span> pgvector <span style="color:#ff79c6">import</span> Vector
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">HybridSearchDocument</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>	<span style="color:#ff79c6">...</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    raw_text: Mapped[<span style="color:#8be9fd;font-style:italic">str</span>] <span style="color:#ff79c6">=</span> mapped_column(nullable<span style="color:#ff79c6">=</span><span style="color:#ff79c6">False</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    text_tsv_expr_literal <span style="color:#ff79c6">=</span> literal_column(<span style="color:#f1fa8c">&#34;text_tsv&#34;</span>, type_<span style="color:#ff79c6">=</span>TSVECTOR)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>    text_embedding_768: Mapped[Vector] <span style="color:#ff79c6">=</span> mapped_column(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>        Vector(dim<span style="color:#ff79c6">=</span><span style="color:#bd93f9">768</span>), nullable<span style="color:#ff79c6">=</span><span style="color:#ff79c6">False</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    )</span></span></code></pre>
+</figure>
+<p>there are only 3 interesting columns:</p>
+<ul>
+<li><code>raw_text</code>: the raw text that users may be searching for. This will be compiled at document creation time and filled with relevant content for the corresponding model, like <code>name</code>, <code>description</code>, <code>creator</code>, etc.</li>
+<li><code>text_tsv_expr_literal</code>: this is a <code>literal</code> column, meaning not managed by <code>sqlalchemy</code> directly since <code>sqlalchemy</code> seemed to have issues with computed columns. the column is instantiated through a database migration and is a &ldquo;STORED&rdquo; column that will directly compute the <code>ts_vector</code> value of the <code>raw_text</code> column:</li>
+</ul>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ff79c6">ALTER</span> <span style="color:#ff79c6">TABLE</span> hybrid_search_document <span style="color:#ff79c6">ADD</span> <span style="color:#ff79c6">COLUMN</span> <span style="color:#ff79c6">IF</span> <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">EXISTS</span> text_tsv TSVECTOR <span style="color:#ff79c6">AS</span> (to_tsvector(<span style="color:#f1fa8c">&#39;english&#39;</span>, raw_text)) STORED;</span></span></code></pre>
+</figure>
+<ul>
+<li><code>text_embedding_768</code>: the vector generated by an embedding model based off the <code>raw_text</code>. This will be computed at document creation time. I use <code>768</code> as the dimension size since that is the most common dimension size computed by embedding models.</li>
+</ul>
+<h3 id="indexes">indexes <a class="anchor" href="#indexes"
+        title="Link to section: indexes" aria-label="Link to section: indexes">#</a></h3><p>to more efficiently execute an actual search query, I need some important indexes:</p>
+<p>an inverted index on the computed <code>tsvector</code> column</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ff79c6">CREATE</span> INVERTED <span style="color:#ff79c6">INDEX</span> <span style="color:#ff79c6">IF</span> <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">EXISTS</span> content_search_inverted_idx <span style="color:#ff79c6">ON</span> hybrid_search_document (text_tsv);</span></span></code></pre>
+</figure>
+<p>inverted indexes are probably the most common kind of index for search data since I am pretty much always searching for the actual contents of a <code>document</code> and never for a specific <code>document</code> itself. Basically I am never going from <code>document</code> -&gt; <code>search values</code>.</p>
+<p>and a <code>Vector</code> index on the embedded <code>Vector</code> column</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ff79c6">CREATE</span> VECTOR <span style="color:#ff79c6">INDEX</span> <span style="color:#ff79c6">IF</span> <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">EXISTS</span> embedding_768_vector_idx <span style="color:#ff79c6">ON</span> hybrid_search_document (text_embedding_768);</span></span></code></pre>
+</figure>
+<p>unfortunately, neither of these indexes could be managed by <code>sqlalchemy</code> either and had to be manually added to the tables via migration as well.</p>
+<p>so the search document table is actually fully set-up now and I can add documents and construct search queries. But how will I know what model/data the document actually represents? simplest solution is an association table</p>
+<h3 id="association-table">association table <a class="anchor" href="#association-table"
+        title="Link to section: association table" aria-label="Link to section: association table">#</a></h3><p>the association table will actually be fairly abstract in this scenario since I don&rsquo;t want to add <code>ForeignKeys</code> every time a new searchable model is added. so I use weak references to a model&rsquo;s unique identifier and hydrate the model references after each search query. this can be optimized with batching queries per model table as well.</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">HybridSearchDocumentAssociation</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    hybrid_search_document_id: Mapped[<span style="color:#8be9fd;font-style:italic">int</span>] <span style="color:#ff79c6">=</span> mapped_column(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>        ForeignKey(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>            <span style="color:#f1fa8c">&#34;hybrid_search_document.id&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>            name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;association_hybrid_search_document_id_fkey&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>            ondelete<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;CASCADE&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>        ),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        nullable<span style="color:#ff79c6">=</span><span style="color:#ff79c6">False</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>    )
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    model_api_identifier: Mapped[<span style="color:#8be9fd;font-style:italic">str</span>] <span style="color:#ff79c6">=</span> mapped_column(nullable<span style="color:#ff79c6">=</span><span style="color:#ff79c6">False</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    model_type: Mapped[<span style="color:#8be9fd;font-style:italic">str</span>] <span style="color:#ff79c6">=</span> mapped_column(nullable<span style="color:#ff79c6">=</span><span style="color:#ff79c6">False</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>    document: Mapped[<span style="color:#f1fa8c">&#34;HybridSearchDocument&#34;</span>] <span style="color:#ff79c6">=</span> relationship(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>        back_populates<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;associations&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>    )
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">HybridSearchDocument</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>	<span style="color:#ff79c6">...</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>	associations: Mapped[<span style="color:#8be9fd;font-style:italic">list</span>[HybridSearchDocumentAssociation]] <span style="color:#ff79c6">=</span> relationship(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>	<span style="color:#f1fa8c">&#34;HybridSearchDocumentAssociation&#34;</span>, back_populates<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;document&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>    )</span></span></code></pre>
+</figure>
+<p>the 3 interesting columns this time are:</p>
+<ul>
+<li><code>hybrid_search_document_id</code>: a foreign key column that links an association to a document. the delete behavior is set to remove associations if a document is removed</li>
+<li><code>model_api_identifier</code>: a weak reference to the unique identifier for the model that is related to the search query. for now, each model will be one-to-one with a search document.</li>
+<li><code>model_type</code>: just a quick categorization column to help batch hydration queries</li>
+</ul>
+<p>I also added <code>sqlalchemy</code> relationships on both the document class and the association class so that I can reference the associations from its document after a search query.</p>
+<h3 id="search-queries">search queries <a class="anchor" href="#search-queries"
+        title="Link to section: search queries" aria-label="Link to section: search queries">#</a></h3><p>I ended up writing 3 query functions: one for semantic search, one for keyword search, and one for a union of the two.</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">semantic_search_hybrid_search_document</span>(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    db: Session, query: <span style="color:#8be9fd;font-style:italic">str</span>, limit: <span style="color:#8be9fd;font-style:italic">int</span> <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">10</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>) <span style="color:#ff79c6">-&gt;</span> <span style="color:#8be9fd;font-style:italic">list</span>[HybridSearchDocument]:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    text_embedding <span style="color:#ff79c6">=</span> _generate_text_embedding(query)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    <span style="color:#ff79c6">return</span> (
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>        db<span style="color:#ff79c6">.</span>query(HybridSearchDocument)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>        <span style="color:#ff79c6">.</span>filter(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>            HybridSearchDocument<span style="color:#ff79c6">.</span>text_embedding_768<span style="color:#ff79c6">.</span>l2_distance(text_embedding)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>            <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">0.5</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>        )
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>        <span style="color:#ff79c6">.</span>order_by(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>            HybridSearchDocument<span style="color:#ff79c6">.</span>text_embedding_768<span style="color:#ff79c6">.</span>l2_distance(text_embedding)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>        )
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>        <span style="color:#ff79c6">.</span>limit(limit)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>        <span style="color:#ff79c6">.</span>all()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>    )</span></span></code></pre>
+</figure>
+<p>for semantic search, it&rsquo;s necessary to first generate a text embedding from the search query and use that to find search results. <code>Vector</code> columns from <code>pgvector</code> have an <code>l2_distance</code> comparator which compares the euclidian distance from an input embedding. and I arbitrarily chose <code>0.5</code> as my distance limit.</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">keyword_search_hybrid_search_document</span>(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    db: Session, query: <span style="color:#8be9fd;font-style:italic">str</span>, limit: <span style="color:#8be9fd;font-style:italic">int</span> <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">10</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>) <span style="color:#ff79c6">-&gt;</span> <span style="color:#8be9fd;font-style:italic">list</span>[HybridSearchDocument]:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    tsquery <span style="color:#ff79c6">=</span> func<span style="color:#ff79c6">.</span>plainto_tsquery(<span style="color:#f1fa8c">&#34;english&#34;</span>, query)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    <span style="color:#ff79c6">return</span> (
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>        db<span style="color:#ff79c6">.</span>query(HybridSearchDocument)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>        <span style="color:#ff79c6">.</span>filter(HybridSearchDocument<span style="color:#ff79c6">.</span>text_tsv_expr_literal<span style="color:#ff79c6">.</span>op(<span style="color:#f1fa8c">&#34;@@&#34;</span>)(tsquery))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        <span style="color:#ff79c6">.</span>order_by(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>            func<span style="color:#ff79c6">.</span>ts_rank(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>                HybridSearchDocument<span style="color:#ff79c6">.</span>text_tsv_expr_literal, tsquery
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>            )<span style="color:#ff79c6">.</span>desc()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>        )
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>        <span style="color:#ff79c6">.</span>limit(limit)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>        <span style="color:#ff79c6">.</span>all()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>    )</span></span></code></pre>
+</figure>
+<p>for keyword search, I used a specific query function which will tokenize the search query. and then the actual comparator operator is <code>@@</code> which is the <code>postgres</code> text search match operator.</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">dual_search_hybrid_search_document</span>(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    db: Session, query: <span style="color:#8be9fd;font-style:italic">str</span>, limit: <span style="color:#8be9fd;font-style:italic">int</span> <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">10</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>) <span style="color:#ff79c6">-&gt;</span> <span style="color:#8be9fd;font-style:italic">list</span>[HybridSearchDocument]:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    text_embedding <span style="color:#ff79c6">=</span> _generate_text_embedding(query)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    tsquery <span style="color:#ff79c6">=</span> func<span style="color:#ff79c6">.</span>plainto_tsquery(<span style="color:#f1fa8c">&#34;english&#34;</span>, query)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    <span style="color:#ff79c6">return</span> (
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>        db<span style="color:#ff79c6">.</span>query(HybridSearchDocument)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        <span style="color:#ff79c6">.</span>filter(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>            or_(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>                HybridSearchDocument<span style="color:#ff79c6">.</span>text_embedding_768<span style="color:#ff79c6">.</span>l2_distance(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>                    text_embedding
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>                )
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>                <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">0.5</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>                HybridSearchDocument<span style="color:#ff79c6">.</span>text_tsv_expr_literal<span style="color:#ff79c6">.</span>op(<span style="color:#f1fa8c">&#34;@@&#34;</span>)(tsquery),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>            )
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>        )
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>        <span style="color:#ff79c6">.</span>order_by(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>            HybridSearchDocument<span style="color:#ff79c6">.</span>text_embedding_768<span style="color:#ff79c6">.</span>l2_distance(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>                text_embedding
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>            ),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>            func<span style="color:#ff79c6">.</span>ts_rank(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>                HybridSearchDocument<span style="color:#ff79c6">.</span>text_tsv_expr_literal, tsquery
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>            )<span style="color:#ff79c6">.</span>desc(),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>        )
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>        <span style="color:#ff79c6">.</span>limit(limit)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>        <span style="color:#ff79c6">.</span>all()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>    )</span></span></code></pre>
+</figure>
+<p>lastly for dual search, I just <code>or</code> the two filters together.</p>
+<h3 id="result-hydration">result hydration <a class="anchor" href="#result-hydration"
+        title="Link to section: result hydration" aria-label="Link to section: result hydration">#</a></h3><p>the search queries just return search documents, so next I have to &ldquo;hydrate&rdquo; my search results with the models they are associated with.</p>
+<p>I already have model getters based on their reference ids and the tables have the necessary index to make it fast</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">get_models</span>(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    db: Session, model_cls: <span style="color:#8be9fd;font-style:italic">type</span>[API_CLS], api_ids: <span style="color:#8be9fd;font-style:italic">list</span>[<span style="color:#8be9fd;font-style:italic">str</span>]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>) <span style="color:#ff79c6">-&gt;</span> Sequence[API_CLS]:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>	<span style="color:#ff79c6">return</span> db<span style="color:#ff79c6">.</span>query(model_cls)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>		<span style="color:#ff79c6">.</span>filter(model_cls<span style="color:#ff79c6">.</span>api_identifier<span style="color:#ff79c6">.</span>in_(api_ids))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>		<span style="color:#ff79c6">.</span>all()</span></span></code></pre>
+</figure>
+<p>the more interesting part was linking each model to it&rsquo;s search association rows by <code>HybridSearchDocumentAssociation.model_type</code>. I use a <code>registry pattern</code> to register searchable sqlalchemy models with their search <code>model_type</code>:</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>SEARCH_MODEL_REGISTRY: RegistrationDict[<span style="color:#8be9fd;font-style:italic">str</span>, <span style="color:#8be9fd;font-style:italic">type</span>[APIIdentified]] <span style="color:#ff79c6">=</span> (
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    RegistrationDict(<span style="color:#f1fa8c">&#34;SEARCH_MODEL_REGISTRY&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">register_searchable_model</span>(model_type: <span style="color:#8be9fd;font-style:italic">str</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">decorator</span>(cls: <span style="color:#8be9fd;font-style:italic">type</span>[APIIdentified]) <span style="color:#ff79c6">-&gt;</span> <span style="color:#8be9fd;font-style:italic">type</span>[APIIdentified]:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>        @wraps(cls)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">wrapper</span>(<span style="color:#ff79c6">*</span>args, <span style="color:#ff79c6">**</span>kwargs):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>            <span style="color:#ff79c6">return</span> cls(<span style="color:#ff79c6">*</span>args, <span style="color:#ff79c6">**</span>kwargs)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>        SEARCH_MODEL_REGISTRY[model_type] <span style="color:#ff79c6">=</span> cls
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>        <span style="color:#ff79c6">return</span> cls
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    <span style="color:#ff79c6">return</span> decorator</span></span></code></pre>
+</figure>
+<p>the actual usage becomes very simple:</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>@register_searchable_model(<span style="color:#f1fa8c">&#34;letter&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">Letter</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>	<span style="color:#ff79c6">...</span></span></span></code></pre>
+</figure>
+
+          <link rel="stylesheet" href="/css/vendors/admonitions.5c73bad2903e7d2d44ad118370ebd8c2cf5f239d4d93c283e55c00f2f8d30746.css" integrity="sha256-XHO60pA&#43;fS1ErRGDcOvYws9fI51Nk8KD5VwA8vjTB0Y=" crossorigin="anonymous">
+  <div class="admonition note">
+    <div class="admonition-header">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 125.7-86.8 86.8c-10.3 10.3-17.5 23.1-21 37.2l-18.7 74.9c-2.3 9.2-1.8 18.8 1.3 27.5L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128zM549.8 235.7l14.4 14.4c15.6 15.6 15.6 40.9 0 56.6l-29.4 29.4-71-71 29.4-29.4c15.6-15.6 40.9-15.6 56.6 0zM311.9 417L441.1 287.8l71 71L382.9 487.9c-4.1 4.1-9.2 7-14.9 8.4l-60.1 15c-5.5 1.4-11.2-.2-15.2-4.2s-5.6-9.7-4.2-15.2l15-60.1c1.4-5.6 4.3-10.8 8.4-14.9z"/></svg>
+      <span>caveat about registration pattern</span>
+    </div>
+      <div class="admonition-content">
+        <p>this relies on all models being imported when my app starts up to ensure that the <code>SEARCH_MODEL_REGISTRY</code> is fully populated. I achieve this by ensuring that I run a function <code>import_all_sqla_models</code> which imports all <code>sqla</code> models at startup</p>
+      </div>
+  </div>
+<h2 id="whats-left">what&rsquo;s left? <a class="anchor" href="#whats-left"
+        title="Link to section: what&rsquo;s left?" aria-label="Link to section: what&rsquo;s left?">#</a></h2><h3 id="document-creation-and-backfills">document creation and backfills <a class="anchor" href="#document-creation-and-backfills"
+        title="Link to section: document creation and backfills" aria-label="Link to section: document creation and backfills">#</a></h3><h4 id="creation">creation <a class="anchor" href="#creation"
+        title="Link to section: creation" aria-label="Link to section: creation">#</a></h4><p>I have 5 different models that will be searchable in the initial release:
+two party-type models</p>
+<ul>
+<li><code>User</code></li>
+<li><code>Group</code>
+content-type models that have large text strings</li>
+<li><code>Letter</code></li>
+<li><code>Question</code></li>
+<li><code>Response</code></li>
+</ul>
+<p>I need to add logic for creating a search document when each individual model is created, something like</p>
+
+<figure class="highlight">
+  <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">create_user</span>(<span style="color:#ff79c6">...</span>):
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>	user <span style="color:#ff79c6">=</span> User<span style="color:#ff79c6">.</span>create(<span style="color:#ff79c6">...</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>	<span style="color:#6272a4"># TODO: define the raw text for a user</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>	raw_text <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;name:</span><span style="color:#f1fa8c">{</span>user<span style="color:#ff79c6">.</span>name<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">;email:</span><span style="color:#f1fa8c">{</span>user<span style="color:#ff79c6">.</span>email<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>	user_document <span style="color:#ff79c6">=</span> create_hybrid_search_document(raw_text, user<span style="color:#ff79c6">.</span>api_identifier, <span style="color:#f1fa8c">&#34;user&#34;</span>)</span></span></code></pre>
+</figure>
+<p>defining the text shape for each model will be the bulk of the work here but there is lots of room to iterate and test things out.\</p>
+<h4 id="backfills">backfills <a class="anchor" href="#backfills"
+        title="Link to section: backfills" aria-label="Link to section: backfills">#</a></h4><p>I&rsquo;ll need to create scripts to backfill documents for all existing models in production. these scripts will be idempotent so they can be re-run to regenerate search documents in case the logic for converting models to representative text changes.</p>
+<h3 id="search-filtering">search filtering <a class="anchor" href="#search-filtering"
+        title="Link to section: search filtering" aria-label="Link to section: search filtering">#</a></h3><p>it would be useful to filter to just types of models that a user wanted in particular or even filter on the attributes of a model. for example, searching for only <code>users</code> or searching for <code>users</code> that are in a particular <code>group</code></p>
+<h3 id="model-relationships">model relationships <a class="anchor" href="#model-relationships"
+        title="Link to section: model relationships" aria-label="Link to section: model relationships">#</a></h3><p>if you think about all the models as a connected, bi-directional, cyclic graph, keeping track of the edges could be useful from a search perspective. for example, if I search for a user&rsquo;s email, maybe it would be good to also see all the groups they are in.</p>
+<p>the overhead of maintaining this may be tough though, especially because we are not dealing with a <code>dag</code> or a <code>polytree</code>.</p>
+<h2 id="future-use-cases-for-embedded-text-vectors">future use-cases for embedded text vectors <a class="anchor" href="#future-use-cases-for-embedded-text-vectors"
+        title="Link to section: future use-cases for embedded text vectors" aria-label="Link to section: future use-cases for embedded text vectors">#</a></h2><ul>
+<li>RAG-implementations can use semantic search to find related content to improve the context for an LLM</li>
+<li>data-science use-cases like clustering and anomaly detection</li>
+<li>recommendations by finding content that similar to a user&rsquo;s content</li>
+</ul>
+]]></content:encoded>
+    </item>
     <item>
       <title>migrating my aws database to cockroach labs in 12 hours</title>
       <link>https://blog.neilsriv.tech/tech/db_migration/</link>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>building semantic and keyword search on cockroachDB on neilsriv blog</title>
+    <link>https://blog.neilsriv.tech/tech/search/</link>
+    <description>Recent content in building semantic and keyword search on cockroachDB on neilsriv blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <managingEditor>neil.srivastava1@gmail.com (neil Srivastava)</managingEditor>
+    <webMaster>neil.srivastava1@gmail.com (neil Srivastava)</webMaster>
+    <lastBuildDate>Mon, 02 Jun 2025 11:25:06 -0600</lastBuildDate>
+    <atom:link href="https://blog.neilsriv.tech/tech/search/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

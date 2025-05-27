@@ -2,22 +2,67 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://blog.neilsriv.tech/tags/aws/</loc>
-    <lastmod>2025-04-09T01:01:56-04:00</lastmod>
-  </url><url>
     <loc>https://blog.neilsriv.tech/tags/blog/</loc>
-    <lastmod>2025-04-09T01:01:56-04:00</lastmod>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tech/search/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
   </url><url>
     <loc>https://blog.neilsriv.tech/tags/cockroach/</loc>
-    <lastmod>2025-04-09T01:01:56-04:00</lastmod>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
   </url><url>
     <loc>https://blog.neilsriv.tech/tags/cockroachlabs/</loc>
-    <lastmod>2025-04-09T01:01:56-04:00</lastmod>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
   </url><url>
     <loc>https://blog.neilsriv.tech/tags/database/</loc>
-    <lastmod>2025-04-09T01:01:56-04:00</lastmod>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/elasticsearch/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/embedding/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
   </url><url>
     <loc>https://blog.neilsriv.tech/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/pgvector/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/postgres/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/rds/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/search/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/semantic/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/semanticsearch/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/software/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/swe/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tech/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/tech/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/vector/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/vectorsearch/</loc>
+    <lastmod>2025-06-02T11:25:06-06:00</lastmod>
+  </url><url>
+    <loc>https://blog.neilsriv.tech/tags/aws/</loc>
     <lastmod>2025-04-09T01:01:56-04:00</lastmod>
   </url><url>
     <loc>https://blog.neilsriv.tech/tags/hugo/</loc>
@@ -27,24 +72,6 @@
     <lastmod>2025-04-09T01:01:56-04:00</lastmod>
   </url><url>
     <loc>https://blog.neilsriv.tech/tags/migration/</loc>
-    <lastmod>2025-04-09T01:01:56-04:00</lastmod>
-  </url><url>
-    <loc>https://blog.neilsriv.tech/tags/postgres/</loc>
-    <lastmod>2025-04-09T01:01:56-04:00</lastmod>
-  </url><url>
-    <loc>https://blog.neilsriv.tech/tags/rds/</loc>
-    <lastmod>2025-04-09T01:01:56-04:00</lastmod>
-  </url><url>
-    <loc>https://blog.neilsriv.tech/tags/software/</loc>
-    <lastmod>2025-04-09T01:01:56-04:00</lastmod>
-  </url><url>
-    <loc>https://blog.neilsriv.tech/tags/swe/</loc>
-    <lastmod>2025-04-09T01:01:56-04:00</lastmod>
-  </url><url>
-    <loc>https://blog.neilsriv.tech/tech/</loc>
-    <lastmod>2025-04-09T01:01:56-04:00</lastmod>
-  </url><url>
-    <loc>https://blog.neilsriv.tech/tags/tech/</loc>
     <lastmod>2025-04-09T01:01:56-04:00</lastmod>
   </url><url>
     <loc>https://blog.neilsriv.tech/tags/ctf/</loc>
