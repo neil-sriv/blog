@@ -2,7 +2,7 @@
 title = "building semantic and keyword search on cockroachDB"
 date = "2025-06-02T11:25:06-06:00"
 
-tags = ["blog","cockroach","cockroachlabs","database","postgres","rds","software","swe","tech","search", "elasticsearch", "vector","vectorsearch", "semantic", "semanticsearch", "pgvector", "embedding"]
+tags = ["blog","cockroach","cockroachlabs","database","postgres","rds","software","swe","tech","search", "elasticsearch", "vector","vectorsearch", "semantic", "semanticsearch", "pgvector", "embedding", "semantic-search"]
 +++
 ## why is search interesting?
 `search` as a concept has dominated software since even before `Google`'s success in monetizing it from graph searching algorithms to networking to vector databases. personally, I find the implementation details quite interesting because there are a myriad of optimizations, algorithms, and implementations to help store *relevant* information about a piece of data, such that you can identify when it is the correct time to fetch that data. 
@@ -31,6 +31,51 @@ I did have to pull the unstable `v25.2.0` image (`cockroachdb/cockroach-unstable
 SET CLUSTER SETTING feature.vector_index.enabled = true;
 ```
 
+
+```mermaid
+erDiagram
+    HybridSearchDocument ||--o{ HybridSearchDocumentAssociation : has
+    HybridSearchDocument {
+        int id
+        string raw_text
+        tsvector text_tsv
+        vector[768] text_embedding_768
+    }
+
+    HybridSearchDocumentAssociation {
+        int id
+        int hybrid_search_document_id FK
+        string model_api_identifier
+        string model_type
+    }
+
+    HybridSearchDocumentAssociation }o--|| User : references
+    HybridSearchDocumentAssociation }o--|| Group : references
+    HybridSearchDocumentAssociation }o--|| Letter : references
+    HybridSearchDocumentAssociation }o--|| Question : references
+    HybridSearchDocumentAssociation }o--|| Response : references
+
+    User {
+        string api_identifier PK
+    }
+
+    Group {
+        string api_identifier PK
+    }
+
+    Letter {
+        string api_identifier PK
+    }
+
+    Question {
+        string api_identifier PK
+    }
+
+    Response {
+        string api_identifier PK
+    }
+
+```
 ### document model
 let's take a look at the document model
 

@@ -10,7 +10,7 @@
 <meta name="title" content="building semantic and keyword search on cockroachDB" />
 <meta name="description" content="why is search interesting? #search as a concept has dominated software since even before Google&rsquo;s success in monetizing it from graph searching algorithms to networking to vector databases. personally, I find the implementation details quite interesting because there are a myriad of optimizations, algorithms, and implementations to help store relevant information about a piece of data, such that you can identify when it is the correct time to fetch that data." />
 <meta name="author" content="" />
-<meta name="keywords" content="blog,cockroach,cockroachlabs,database,postgres,rds,software,swe,tech,search,elasticsearch,vector,vectorsearch,semantic,semanticsearch,pgvector,embedding," />
+<meta name="keywords" content="blog,cockroach,cockroachlabs,database,postgres,rds,software,swe,tech,search,elasticsearch,vector,vectorsearch,semantic,semanticsearch,pgvector,embedding,semantic-search," />
 
 
 
@@ -48,8 +48,8 @@
   <meta itemprop="description" content="why is search interesting? #search as a concept has dominated software since even before Google’s success in monetizing it from graph searching algorithms to networking to vector databases. personally, I find the implementation details quite interesting because there are a myriad of optimizations, algorithms, and implementations to help store relevant information about a piece of data, such that you can identify when it is the correct time to fetch that data.">
   <meta itemprop="datePublished" content="2025-06-02T11:25:06-06:00">
   <meta itemprop="dateModified" content="2025-06-02T11:25:06-06:00">
-  <meta itemprop="wordCount" content="1810">
-  <meta itemprop="keywords" content="Blog,Cockroach,Cockroachlabs,Database,Postgres,Rds,Software,Swe,Tech,Search,Elasticsearch,Vector,Vectorsearch,Semantic,Semanticsearch,Pgvector,Embedding">
+  <meta itemprop="wordCount" content="1894">
+  <meta itemprop="keywords" content="Blog,Cockroach,Cockroachlabs,Database,Postgres,Rds,Software,Swe,Tech,Search,Elasticsearch,Vector,Vectorsearch,Semantic,Semanticsearch,Pgvector,Embedding,Semantic-Search">
 
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -137,6 +137,49 @@
 <figure class="highlight">
   <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ff79c6">SET</span> <span style="color:#ff79c6">CLUSTER</span> SETTING feature.vector_index.enabled <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>;</span></span></code></pre>
 </figure>
+<pre class="mermaid">
+  erDiagram
+    HybridSearchDocument ||--o{ HybridSearchDocumentAssociation : has
+    HybridSearchDocument {
+        int id
+        string raw_text
+        tsvector text_tsv
+        vector[768] text_embedding_768
+    }
+
+    HybridSearchDocumentAssociation {
+        int id
+        int hybrid_search_document_id FK
+        string model_api_identifier
+        string model_type
+    }
+
+    HybridSearchDocumentAssociation }o--|| User : references
+    HybridSearchDocumentAssociation }o--|| Group : references
+    HybridSearchDocumentAssociation }o--|| Letter : references
+    HybridSearchDocumentAssociation }o--|| Question : references
+    HybridSearchDocumentAssociation }o--|| Response : references
+
+    User {
+        string api_identifier PK
+    }
+
+    Group {
+        string api_identifier PK
+    }
+
+    Letter {
+        string api_identifier PK
+    }
+
+    Question {
+        string api_identifier PK
+    }
+
+    Response {
+        string api_identifier PK
+    }
+</pre>
 <h3 id="document-model">document model <a class="anchor" href="#document-model"
         title="Link to section: document model" aria-label="Link to section: document model">#</a></h3><p>let&rsquo;s take a look at the document model</p>
 
@@ -409,6 +452,8 @@ content-type models that have large text strings</li>
   
   <a href="https://blog.neilsriv.tech/tags/embedding/">#embedding</a>
   
+  <a href="https://blog.neilsriv.tech/tags/semantic-search/">#semantic-search</a>
+  
 </p>
 
   </main>
@@ -443,6 +488,11 @@ content-type models that have large text strings</li>
 }
 </script>
 
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'base' });
+  </script>
 </body>
 
 </html>

@@ -34,6 +34,49 @@
 <figure class="highlight">
   <pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ff79c6">SET</span> <span style="color:#ff79c6">CLUSTER</span> SETTING feature.vector_index.enabled <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>;</span></span></code></pre>
 </figure>
+<pre class="mermaid">
+  erDiagram
+    HybridSearchDocument ||--o{ HybridSearchDocumentAssociation : has
+    HybridSearchDocument {
+        int id
+        string raw_text
+        tsvector text_tsv
+        vector[768] text_embedding_768
+    }
+
+    HybridSearchDocumentAssociation {
+        int id
+        int hybrid_search_document_id FK
+        string model_api_identifier
+        string model_type
+    }
+
+    HybridSearchDocumentAssociation }o--|| User : references
+    HybridSearchDocumentAssociation }o--|| Group : references
+    HybridSearchDocumentAssociation }o--|| Letter : references
+    HybridSearchDocumentAssociation }o--|| Question : references
+    HybridSearchDocumentAssociation }o--|| Response : references
+
+    User {
+        string api_identifier PK
+    }
+
+    Group {
+        string api_identifier PK
+    }
+
+    Letter {
+        string api_identifier PK
+    }
+
+    Question {
+        string api_identifier PK
+    }
+
+    Response {
+        string api_identifier PK
+    }
+</pre>
 <h3 id="document-model">document model <a class="anchor" href="#document-model"
         title="Link to section: document model" aria-label="Link to section: document model">#</a></h3><p>let&rsquo;s take a look at the document model</p>
 
