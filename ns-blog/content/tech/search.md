@@ -32,6 +32,9 @@ SET CLUSTER SETTING feature.vector_index.enabled = true;
 ```
 
 
+
+### document model
+here's a brief mermaid diagram outlining our models and relationships, I'll break this down incrementally.
 ```mermaid
 erDiagram
     HybridSearchDocument ||--o{ HybridSearchDocumentAssociation : has
@@ -76,8 +79,8 @@ erDiagram
     }
 
 ```
-### document model
-let's take a look at the document model
+
+first, take a look at the document model
 
 ```python
 from pgvector import Vector
