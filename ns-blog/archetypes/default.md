@@ -16,7 +16,7 @@ menu = "main"
 #
 # tags are optional
 #
-# tags = [{{ range $plural, $terms := .Site.Taxonomies }}{{ range $term, $val := $terms }}"{{ printf "%s" $term }}",{{ end }}{{ end }}]
+# tags = ["example"]
 +++
 
 This is a page about »{{ replace .Name "-" " " | title }}«.
