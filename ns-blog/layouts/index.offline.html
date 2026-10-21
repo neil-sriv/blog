@@ -1,0 +1,111 @@
+{{ $title := i18n "offline_title" }}
+{{ $style := resources.Get "original.css" | minify }}
+<!DOCTYPE html>
+<html lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{- $title -}}</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg-void: #07090c;
+        --bg: #0e1218;
+        --bg-elev: #161c27;
+        --fg: #d7dee9;
+        --fg-dim: #7d8b9e;
+        --accent: #5eecc4;
+        --on-accent: #0e1218;
+        --line: #2c3546;
+        --line-strong: #465066;
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          color-scheme: light;
+          --bg-void: #d5dbe3;
+          --bg: #f7f8fa;
+          --bg-elev: #e8edf2;
+          --fg: #1a1f29;
+          --fg-dim: #4c5666;
+          --accent: #0c6b52;
+          --on-accent: #f7f8fa;
+          --line: #c5ced8;
+          --line-strong: #8b97a6;
+        }
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg-void);
+        color: var(--fg);
+        font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+      }
+      .shell {
+        width: min(40rem, calc(100% - 2rem));
+        margin: 1rem auto;
+        background: var(--bg);
+        border: 1px solid var(--line-strong);
+      }
+      .titlebar {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+        padding: 0.45rem 0.9rem;
+        background: var(--bg-elev);
+        color: var(--fg-dim);
+        border-bottom: 1px solid var(--line);
+      }
+      .titlebar span:nth-child(2) {
+        flex: 1;
+        border-top: 1px dashed var(--line-strong);
+      }
+      .offline {
+        padding: 1.1rem 0.9rem 1.25rem;
+      }
+      a {
+        color: var(--accent);
+      }
+      .offline-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .offline-action {
+        padding: 0.4rem 0.5rem;
+        border: 1px solid var(--line-strong);
+        text-decoration: none;
+      }
+      .offline-action:hover {
+        background: var(--accent);
+        color: var(--on-accent);
+      }
+    </style>
+    <link href="{{ $style.RelPermalink }}" rel="stylesheet">
+  </head>
+  <body>
+    <div class="shell">
+      <div class="titlebar">
+        <span>neil@blog</span>
+        <span aria-hidden="true"></span>
+        <span>offline</span>
+      </div>
+      <div class="offline">
+        <h1 class="offline-title">{{- $title -}}</h1>
+        <div class="offline-info">
+          {{ i18n "offline_info" | safeHTML }}
+        </div>
+        <div class="offline-actions">
+          <a class="offline-action offline-action-home" href="{{ .Site.Home.RelPermalink }}">
+            <span aria-hidden="true">$ </span>{{- i18n "home" -}}
+          </a>
+          <a class="offline-action offline-action-go-back" href="javascript: window.history.back();">
+            <span aria-hidden="true">$ </span>{{- i18n "go_back" -}}
+          </a>
+          <a class="offline-action offline-action-try-again" href="javascript: window.location.reload();">
+            <span aria-hidden="true">$ </span>{{- i18n "try_again" -}}
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

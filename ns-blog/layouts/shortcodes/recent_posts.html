@@ -1,9 +1,15 @@
-<p>here's a list of my most recent posts</p>
-<ul>
-{{ range first 5 ((where .Site.Pages "IsPage" true).ByDate.Reverse) }}
-<li>
-    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02, 2006" }}</time>:
-    <a href="{{ .RelPermalink }}">{{ lower .LinkTitle }}</a>
-</li>
-{{ end }}
-</ul>
+<p class="cmd" aria-hidden="true"><span class="ps1">$</span> ls -t | head -5</p>
+<div class="listing">
+  <div class="listing-head" aria-hidden="true">
+    <span>date</span>
+    <span>name</span>
+  </div>
+  <ul class="blog-posts">
+    {{ range first 5 ((where .Site.Pages "IsPage" true).ByDate.Reverse) }}
+    <li>
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02 Jan, 2006" }}</time>
+      <a href="{{ .RelPermalink }}">{{ lower .LinkTitle }}</a>
+    </li>
+    {{ end }}
+  </ul>
+</div>

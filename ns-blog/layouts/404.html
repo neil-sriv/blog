@@ -1,0 +1,8 @@
+{{ define "title" }}404{{ end }}
+
+{{ define "main" }}
+<h1>404</h1>
+<pre class="term-block"><span class="ps1">$</span> cat ./this-page
+cat: ./this-page: No such file or directory</pre>
+<p><a href="{{ "" | relURL }}"><span class="ps1" aria-hidden="true">$</span> home</a></p>
+{{ end }}

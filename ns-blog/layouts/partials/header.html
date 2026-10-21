@@ -1,0 +1,16 @@
+<a class="skip-link" href="#main-content">{{ i18n "skip-link" }}</a>
+<div class="titlebar">
+  <span class="titlebar-id">neil@blog</span>
+  <span class="titlebar-rule" aria-hidden="true"></span>
+  <span class="titlebar-tty">tty1</span>
+</div>
+<p class="site-line">
+  <a class="site-title" href="{{ relURL .Site.Home.RelPermalink }}">
+    <span class="ps1" aria-hidden="true">neil@blog:~$</span>
+    <span class="site-name">{{ .Site.Title }}</span>
+    <span class="caret" aria-hidden="true"></span>
+  </a>
+</p>
+<nav aria-label="Primary">
+  {{- partial "nav.html" . -}}
+</nav>

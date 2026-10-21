@@ -1,23 +1,24 @@
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
-<p>
-  <i>
-    <time datetime='{{ .Date.Format "2006-01-02" }}'>
+<article class="post">
+  {{ with .File }}
+  <p class="cmd" aria-hidden="true"><span class="ps1">$</span> cat {{ .Path }}</p>
+  {{ end }}
+  <h1>{{ .Title }}</h1>
+  <p class="byline">
+    <time datetime="{{ .Date.Format "2006-01-02" }}">
       {{ .Date.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}
     </time>
-  </i>
-</p>
-<hr class="rounded">
-<div class="wrapper">
-{{- partial "toc.html" . -}}
-<content>
-  {{ .Content }}
-</content>
-</div>
-<hr class="rounded">
-<p>
-  {{ range (.GetTerms "tags") }}
-  <a href="{{ .Permalink }}">#{{ lower .LinkTitle }}</a>
-  {{ end }}
-</p>
+  </p>
+  <div class="wrapper">
+    {{- partial "toc.html" . -}}
+    <content>
+      {{ .Content }}
+    </content>
+  </div>
+  <p class="tag-row">
+    {{ range (.GetTerms "tags") }}
+    <a class="blog-tags" href="{{ .Permalink }}">#{{ lower .LinkTitle }}</a>
+    {{ end }}
+  </p>
+</article>
 {{ end }}

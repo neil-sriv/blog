@@ -2,6 +2,32 @@
 {{ if .Page.Store.Get "hasMermaid" }}
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js" integrity="sha384-1ggI9FC3CkghppRD/XCR4aD+jp4DxwXlJIW0wxhyTLNKuiZEW3c4BwcjKXl0iVAJ" crossorigin="anonymous"></script>
   <script>
-    mermaid.initialize({ startOnLoad: true, theme: 'base' });
+    (function () {
+      var light = window.matchMedia("(prefers-color-scheme: light)").matches;
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "base",
+        themeVariables: {
+          darkMode: !light,
+          background: "transparent",
+          fontFamily: "IBM Plex Mono, ui-monospace, monospace",
+          primaryColor: light ? "#e5f4ef" : "#14332c",
+          primaryTextColor: light ? "#1a1f29" : "#d7dee9",
+          primaryBorderColor: light ? "#0c6b52" : "#5eecc4",
+          secondaryColor: light ? "#e8edf2" : "#161c27",
+          secondaryTextColor: light ? "#1a1f29" : "#d7dee9",
+          tertiaryColor: light ? "#fbfcfe" : "#0b0e14",
+          tertiaryTextColor: light ? "#1a1f29" : "#d7dee9",
+          lineColor: light ? "#3d4654" : "#9aa6b8",
+          textColor: light ? "#1a1f29" : "#d7dee9",
+          mainBkg: light ? "#e5f4ef" : "#14332c",
+          nodeBorder: light ? "#0c6b52" : "#5eecc4",
+          clusterBkg: light ? "#e8edf2" : "#161c27",
+          titleColor: light ? "#0c6b52" : "#5eecc4",
+          edgeLabelBackground: light ? "#fbfcfe" : "#0b0e14",
+          nodeTextColor: light ? "#1a1f29" : "#d7dee9"
+        }
+      });
+    })();
   </script>
 {{ end }}
