@@ -23,7 +23,7 @@ the basic implementation plan is to create a table of search `documents` that in
 I'll also need to create an association table to map the models I want to search over to their relevant search documents. for now it will be fine to assume that each model will only correspond to one document.
 
 ### `cockroachdb` custom set-up
-referring to `cockroach labs` vector search [post](https://www.cockroachlabs.com/docs/stable/full-text-search) and their full-text search [docs](https://www.cockroachlabs.com/docs/stable/full-text-search), I knew that `pgvector` was supported, vector indexing was coming in `v25.2.0`, and `tsvector` was already supported.
+referring to `cockroach labs` vector search [post](https://www.cockroachlabs.com/blog/vector-search-pgvector-cockroachdb/) and their full-text search [docs](https://docs.cockroachlabs.com/docs/stable/full-text-search), I knew that `pgvector` was supported, vector indexing was coming in `v25.2.0`, and `tsvector` was already supported.
 
 I did have to pull the unstable `v25.2.0` image (`cockroachdb/cockroach-unstable:v25.2.0-rc.1`) for local development and enable vector indexing with
 

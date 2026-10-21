@@ -72,7 +72,7 @@ lastly, lookup order in `hugo` is not exactly straightforward. there's more expl
 
 not all markdown features comes out of the box unfortunately, specifically `blockquotes`. normally you can specify a type of `blockquote` style, like `NOTE` or `WARNING`, and you get a nicely formatted and colored section:
 
-![image of properly rendered blockquotes on github](blockquote.png)
+![image of properly rendered blockquotes on github](/tech/hugo/blockquote.png)
 
 unfortunately for me, the way `hugo` generates html for markdown blockquotes does not support types. so I had to write a new markup template:
 > [!TIP] success!
@@ -105,8 +105,8 @@ unfortunately for me, the way `hugo` generates html for markdown blockquotes doe
   </blockquote>
 {{ end }}
 ```
-## pagination - bless [jmooring](https://github.com/jmooring)
-I was able to seamlessly implement pagination for any multi-page blog posts thanks to super helpful comments and gists posted by `jmooring`. you can find the relevant code here: [jmooring multipage example](https://github.com/jmooring/hugo-testing/tree/hugo-forum-topic-29161)
+## pagination - bless jmooring {#pagination}
+I was able to seamlessly implement pagination for any multi-page blog posts thanks to super helpful comments and gists posted by [`jmooring`](https://github.com/jmooring). you can find the relevant code here: [jmooring multipage example](https://github.com/jmooring/hugo-testing/tree/hugo-forum-topic-29161)
 
 by simply adding `layout = "multipage"` to the params of a content page, it'll automatically render links to next page
 
