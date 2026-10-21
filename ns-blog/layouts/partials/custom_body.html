@@ -2,6 +2,42 @@
 {{ if .Page.Store.Get "hasMermaid" }}
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js" integrity="sha384-1ggI9FC3CkghppRD/XCR4aD+jp4DxwXlJIW0wxhyTLNKuiZEW3c4BwcjKXl0iVAJ" crossorigin="anonymous"></script>
   <script>
-    mermaid.initialize({ startOnLoad: true, theme: 'base' });
+    (function () {
+      var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var ink = dark ? "#f3eadf" : "#1c1612";
+      var paper = dark ? "#161311" : "#f6f1e7";
+      var raised = dark ? "#221e1a" : "#fbf7f0";
+      var accent = dark ? "#ef7d72" : "#8e2c2c";
+      var rule = dark ? "#5c4e44" : "#c4b6a4";
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "base",
+        darkMode: dark,
+        themeVariables: {
+          background: paper,
+          primaryColor: raised,
+          primaryTextColor: ink,
+          primaryBorderColor: accent,
+          secondaryColor: paper,
+          secondaryTextColor: ink,
+          secondaryBorderColor: rule,
+          tertiaryColor: raised,
+          tertiaryTextColor: ink,
+          tertiaryBorderColor: rule,
+          lineColor: accent,
+          textColor: ink,
+          mainBkg: raised,
+          nodeBorder: accent,
+          clusterBkg: paper,
+          clusterBorder: rule,
+          titleColor: ink,
+          edgeLabelBackground: paper,
+          fontFamily: "\"Source Serif 4\", Palatino, Georgia, serif",
+          nodeTextColor: ink,
+          attributeBackgroundColorOdd: raised,
+          attributeBackgroundColorEven: paper
+        }
+      });
+    })();
   </script>
 {{ end }}

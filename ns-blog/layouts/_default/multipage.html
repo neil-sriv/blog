@@ -3,13 +3,31 @@
   {{ $paginator := .Paginate (.RegularPages.ByParam "page_number") 1 }}
 
   {{ range $paginator.Pages }}
-    {{ if eq $paginator.PageNumber 1 }}
-      <h1>{{ $title }}</h1>
-    {{ else }}
-    <h1>{{ $title }} (part {{ $paginator.PageNumber }})</h1>
-    {{ end }}
-    {{ .TableOfContents }}
-    {{ .Content }}
+    <article class="article">
+      <header class="article-head">
+        {{ with $.Section }}
+        <p class="kicker"><a href="{{ printf "/%s/" . | relURL }}">{{ . }}</a></p>
+        {{ end }}
+        {{ if eq $paginator.PageNumber 1 }}
+        <h1>{{ $title }}</h1>
+        {{ else }}
+        <h1>{{ $title }} (part {{ $paginator.PageNumber }})</h1>
+        {{ end }}
+        <p class="byline">
+          <time datetime="{{ $.Date.Format "2006-01-02" }}">{{ $.Date.Format "2 January 2006" }}</time>
+          {{ with $.Params.author }}
+          <span class="byline-sep" aria-hidden="true">·</span>
+          <span>{{ . }}</span>
+          {{ end }}
+        </p>
+      </header>
+      <div class="wrapper">
+        {{- partial "toc.html" . -}}
+        <content class="prose">
+          {{ .Content }}
+        </content>
+      </div>
+    </article>
   {{ end }}
 
   {{- if .Site.Params.multipage.displayPaginator -}}
@@ -18,13 +36,14 @@
     {{ end }}
   {{- end -}}
 
-  {{- if .Site.Params.multipage.displayPrevAndNext -}}
-    {{ if $paginator.HasPrev }}
-      <a href="{{ $paginator.Prev.URL }}">Previous</a>
-    {{ end }}
-    {{ if $paginator.HasNext }}
-      <a href="{{ $paginator.Next.URL }}">Next</a>
-    {{ end }}
+  {{- if and .Site.Params.multipage.displayPrevAndNext (or $paginator.HasPrev $paginator.HasNext) -}}
+    <nav class="pager" aria-label="Parts">
+      {{ if $paginator.HasPrev }}
+      <a class="pager-prev" href="{{ $paginator.Prev.URL }}">Previous</a>
+      {{ end }}
+      {{ if $paginator.HasNext }}
+      <a class="pager-next" href="{{ $paginator.Next.URL }}">Next</a>
+      {{ end }}
+    </nav>
   {{- end -}}
-
 {{ end }}

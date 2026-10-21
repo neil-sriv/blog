@@ -1,6 +1,7 @@
-{{ with .TableOfContents }}
-<aside class="custom-toc">
-  <h2 class="toc-title">table of contents</h2>
-  {{ . }}
+{{ $toc := .TableOfContents }}
+{{ if strings.Contains $toc "<a " }}
+<aside class="custom-toc" aria-labelledby="toc-title">
+  <h2 id="toc-title" class="toc-title">Contents</h2>
+  {{ $toc }}
 </aside>
 {{ end }}

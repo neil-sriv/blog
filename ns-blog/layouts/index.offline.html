@@ -1,0 +1,132 @@
+{{ $title := i18n "offline_title" }}
+<!DOCTYPE html>
+<html lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}">
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {{- partial "favicon.html" . -}}
+  <title>{{ $title }} | {{ .Site.Title }}</title>
+  <style>
+    @font-face {
+      font-family: "Newsreader";
+      font-style: normal;
+      font-weight: 400 600;
+      font-display: swap;
+      src: url("/fonts/newsreader-roman.woff2") format("woff2");
+    }
+    @font-face {
+      font-family: "Source Serif 4";
+      font-style: normal;
+      font-weight: 400 600;
+      font-display: swap;
+      src: url("/fonts/source-serif-4-roman.woff2") format("woff2");
+    }
+    @font-face {
+      font-family: "Source Sans 3";
+      font-style: normal;
+      font-weight: 400 600;
+      font-display: swap;
+      src: url("/fonts/source-sans-3-roman.woff2") format("woff2");
+    }
+    :root {
+      color-scheme: light;
+      --paper: #f6f1e7;
+      --ink: #1c1612;
+      --ink-soft: #5c5148;
+      --accent: #8e2c2c;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color-scheme: dark;
+        --paper: #161311;
+        --ink: #f3eadf;
+        --ink-soft: #cbbba8;
+        --accent: #ef7d72;
+      }
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Source Serif 4", Palatino, Georgia, serif;
+      font-size: 1.125rem;
+      line-height: 1.65;
+    }
+    main {
+      width: min(36rem, calc(100% - 2.5rem));
+      border-top: 4px solid var(--ink);
+      padding-top: 1.25rem;
+    }
+    .name {
+      font-family: "Newsreader", Palatino, Georgia, serif;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin: 0 0 1.25rem;
+    }
+    .name a {
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .kicker {
+      font-family: "Source Sans 3", Helvetica, Arial, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 0.4rem;
+    }
+    h1 {
+      font-family: "Newsreader", Palatino, Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(2.1rem, 5vw, 2.8rem);
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.8rem;
+    }
+    .offline-info {
+      color: var(--ink);
+      white-space: pre-line;
+      margin-bottom: 1.5rem;
+    }
+    .actions {
+      font-family: "Source Sans 3", Helvetica, Arial, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+    }
+    .actions a {
+      color: var(--accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.25em;
+    }
+    a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="name"><a href="{{ .Site.Home.RelPermalink }}">{{ .Site.Title }}</a></p>
+    <p class="kicker">Offline</p>
+    <h1>{{ $title }}</h1>
+    <div class="offline-info">{{ i18n "offline_info" | safeHTML }}</div>
+    <p class="actions">
+      <a href="{{ .Site.Home.RelPermalink }}">{{ i18n "home" }}</a>
+      <a href="javascript:window.history.back();">{{ i18n "go_back" }}</a>
+      <a href="javascript:window.location.reload();">{{ i18n "try_again" }}</a>
+    </p>
+  </main>
+</body>
+</html>

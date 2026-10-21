@@ -1,23 +1,33 @@
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
-<p>
-  <i>
-    <time datetime='{{ .Date.Format "2006-01-02" }}'>
-      {{ .Date.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}
-    </time>
-  </i>
-</p>
-<hr class="rounded">
-<div class="wrapper">
-{{- partial "toc.html" . -}}
-<content>
-  {{ .Content }}
-</content>
-</div>
-<hr class="rounded">
-<p>
-  {{ range (.GetTerms "tags") }}
-  <a href="{{ .Permalink }}">#{{ lower .LinkTitle }}</a>
+<article class="article">
+  <header class="article-head">
+    {{ with .Section }}
+    <p class="kicker"><a href="{{ printf "/%s/" . | relURL }}">{{ . }}</a></p>
+    {{ end }}
+    <h1>{{ .Title }}</h1>
+    <p class="byline">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 January 2006" }}</time>
+      {{ with .Params.author }}
+      <span class="byline-sep" aria-hidden="true">·</span>
+      <span>{{ . }}</span>
+      {{ end }}
+    </p>
+  </header>
+  <div class="wrapper">
+    {{- partial "toc.html" . -}}
+    <content class="prose">
+      {{ .Content }}
+    </content>
+  </div>
+  {{ with .GetTerms "tags" }}
+  <footer class="article-foot">
+    <p class="kicker">Filed under</p>
+    <p class="tag-index">
+      {{ range . }}
+      <a href="{{ .Permalink }}">#{{ lower .LinkTitle }}</a>
+      {{ end }}
+    </p>
+  </footer>
   {{ end }}
-</p>
+</article>
 {{ end }}

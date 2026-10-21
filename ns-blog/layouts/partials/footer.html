@@ -1,8 +1,12 @@
-<small>
-  {{ $m := dict "bluesky" "https://bsky.app/profile/neilsriv.tech" "github" "https://github.com/neil-sriv/" }}
-  {{ range $key, $value := $m }}
-  {{ $url := printf "/icons/%s.svg" $key }}
-  <a class="inline-block" target="_blank" rel="noopener noreferrer" href="{{ $value }}"><img class="" src="{{ $url }}" alt="{{ $key }}" width="18"></a> |
-  {{ end }}
-  {{ with .Site.Params.madeWith }}{{ markdownify . }}{{ end }}
+<small class="colophon">
+  {{- $links := slice
+    (dict "name" "bluesky" "label" "Bluesky" "href" "https://bsky.app/profile/neilsriv.tech")
+    (dict "name" "github" "label" "GitHub" "href" "https://github.com/neil-sriv/")
+  -}}
+  {{- range $links }}
+  <a class="social" href="{{ .href }}" target="_blank" rel="noopener noreferrer" aria-label="{{ .label }}">
+    <span class="social-icon social-{{ .name }}" aria-hidden="true"></span>
+  </a>
+  {{- end }}
+  <span class="colophon-credit">{{ with .Site.Params.madeWith }}{{ markdownify . }}{{ end }}</span>
 </small>

@@ -1,0 +1,12 @@
+{{- $label := .AlertTitle -}}
+{{- if not $label -}}
+  {{- $label = or (T (printf "admonitions.%s" .AlertType)) (title .AlertType) -}}
+{{- end -}}
+<aside class="admonition admonition-{{ .AlertType }}">
+  <p class="admonition-header">{{ $label }}</p>
+  {{- with .Text }}
+  <div class="admonition-content">
+    {{ . }}
+  </div>
+  {{- end }}
+</aside>

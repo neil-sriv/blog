@@ -1,0 +1,13 @@
+<a class="skip-link" href="#main-content">{{ i18n "skip-link" }}</a>
+<div class="masthead">
+  <p class="dateline">
+    <time datetime="{{ now.Format "2006-01-02" }}">{{ now.Format "2 January 2006" }}</time>
+    <span aria-hidden="true">·</span>
+    {{ .Site.Params.author.name }}
+  </p>
+  <a class="title" href="{{ relURL .Site.Home.RelPermalink }}">{{ .Site.Title }}</a>
+  {{ with .Site.Params.description }}<p class="tagline">{{ . }}</p>{{ end }}
+  <nav aria-label="Primary">
+    {{- partial "nav.html" . -}}
+  </nav>
+</div>

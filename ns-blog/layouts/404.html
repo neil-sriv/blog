@@ -1,0 +1,10 @@
+{{ define "title" }}404 | {{ .Site.Title }}{{ end }}
+
+{{ define "main" }}
+<article class="issue issue-404">
+  <p class="kicker">Not in this issue</p>
+  <h1>404</h1>
+  <p class="dek">This page is not in the issue. The address may be wrong, or the piece was pulled.</p>
+  <p><a href="{{ "/" | relURL }}">Return home</a></p>
+</article>
+{{ end }}

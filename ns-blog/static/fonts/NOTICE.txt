@@ -1,0 +1,14 @@
+Latin (U+0000-00FF and common punctuation) webfont subsets, self-hosted.
+
+Newsreader
+  Copyright 2020 The Newsreader Project Authors (https://github.com/productiontype/Newsreader)
+Source Serif 4
+  Copyright 2014-2023 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'.
+Source Sans 3
+  Copyright 2014-2023 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'.
+IBM Plex Mono
+  Copyright 2017 IBM Corp. (https://github.com/IBM/plex), with Reserved Font Name 'Plex'.
+
+These fonts are licensed under the SIL Open Font License, Version 1.1.
+The license text is in OFL.txt alongside these files.
+https://scripts.sil.org/OFL
