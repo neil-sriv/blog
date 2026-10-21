@@ -165,9 +165,15 @@ main {
   top: var(--space-2);
   z-index: 2;
   padding: var(--space-2) var(--space-3);
+  transform: translateY(-200%);
+}
+
+.skip-link:link,
+.skip-link:visited,
+.skip-link:hover,
+.skip-link:focus {
   background: var(--accent);
   color: var(--on-accent);
-  transform: translateY(-200%);
 }
 
 .skip-link:focus {
@@ -499,44 +505,6 @@ blockquote p:first-child {
 
 blockquote p:last-child {
   margin-bottom: 0;
-}
-
-blockquote.alert {
-  --alert: var(--accent);
-  padding: 0.7rem 0.9rem;
-  border: var(--rule);
-  border-left: 3px solid var(--alert);
-  background: var(--bg-elev);
-  color: var(--fg);
-  font-style: normal;
-}
-
-blockquote.alert-note {
-  --alert: var(--blue);
-}
-
-blockquote.alert-tip {
-  --alert: var(--green);
-}
-
-blockquote.alert-important {
-  --alert: var(--purple);
-}
-
-blockquote.alert-warning {
-  --alert: var(--amber);
-}
-
-blockquote.alert-caution,
-blockquote.alert-error {
-  --alert: var(--red);
-}
-
-.alert-heading {
-  margin-bottom: var(--space-2);
-  color: var(--alert, var(--accent));
-  font-style: normal;
-  font-weight: 600;
 }
 
 .listing {
@@ -880,6 +848,7 @@ body .admonition {
   background: var(--bg-elev);
   box-shadow: none;
   color: var(--fg);
+  transition: none;
 }
 
 body .admonition-header,
@@ -888,13 +857,17 @@ body .admonition-content {
   background: transparent;
   box-shadow: none;
   color: var(--fg);
+  transition: none;
 }
 
-body .admonition-header {
+body .admonition[class] .admonition-header {
   padding: 0.55rem 0.9rem 0;
+  border-bottom: 0;
+  background: transparent;
   color: var(--adm-accent, var(--accent));
   font-size: var(--text-sm);
   font-weight: 600;
+  transition: none;
 }
 
 body .admonition-header svg {
@@ -956,16 +929,6 @@ body .admonition.danger {
 body .admonition.memo,
 body .admonition.quote {
   --adm-accent: var(--fg-dim);
-}
-
-.helptext {
-  color: var(--fg-dim);
-  font-size: var(--text-sm);
-}
-
-.errorlist {
-  color: var(--amber);
-  font-size: var(--text-sm);
 }
 
 @media (max-width: 768px) {
