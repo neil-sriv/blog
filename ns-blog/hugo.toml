@@ -32,8 +32,11 @@ enableEmoji = true
 #   tags = "/blog/:slug"
 
 [params]
-  # The "description" of your website. This is used in the meta data of your generated html.
-  description = "made with [ᕦʕ •ᴥ•ʔᕤ](https://github.com/clente/hugo-bearcub) & :heart:"
+  # Plain text. The theme copies this into meta description, Open Graph, and the web manifest.
+  description = "Notes on software, databases, and whatever else I'm working on."
+
+  # Markdown credit rendered in the footer. Kept separate so it does not leak into meta tags.
+  madeWith = "made with [ᕦʕ •ᴥ•ʔᕤ](https://github.com/clente/hugo-bearcub) & :heart:"
   
 
   # The path to your "favicon". This should be a square (at least 32px x 32px) png-file.
@@ -67,13 +70,13 @@ enableEmoji = true
   displayPrevAndNext = true
 
 
-[params.social]
-  bluesky = ""
-  github = ""
-
 [params.author]
-  name = "neil Srivastava"
+  name = "Neil Srivastava"
   email = "neil.srivastava1@gmail.com"
+
+# The theme's author meta reads the page param, not the site author.
+[[cascade]]
+author = "Neil Srivastava"
 
 
 [markup]
