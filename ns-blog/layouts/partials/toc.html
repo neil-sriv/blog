@@ -1,6 +1,8 @@
+{{ $tocID := anchorize (printf "toc-%s" .RelPermalink) }}
 {{ with .TableOfContents }}
 <aside class="custom-toc">
-  <h2 class="toc-title">table of contents</h2>
+  <input class="toc-toggle" type="checkbox" id="{{ $tocID }}">
+  <label class="toc-title" for="{{ $tocID }}">Contents</label>
   {{ . }}
 </aside>
 {{ end }}

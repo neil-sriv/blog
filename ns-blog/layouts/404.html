@@ -1,0 +1,10 @@
+{{ define "title" }}404{{ end }}
+
+{{ define "main" }}
+<div class="status">
+  <p class="status-index">404</p>
+  <h1>Page not found</h1>
+  <p>This coordinate is empty.</p>
+  <a class="status-link" href="{{ .Site.Home.RelPermalink }}">Return to index</a>
+</div>
+{{ end }}

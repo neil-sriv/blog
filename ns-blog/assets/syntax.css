@@ -1,0 +1,121 @@
+.chroma {
+  color: var(--ink);
+  background: transparent;
+}
+
+.chroma .lnlinks {
+  outline: none;
+  text-decoration: none;
+  color: inherit;
+}
+
+.chroma .lntd {
+  vertical-align: top;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.chroma .lntable {
+  border-spacing: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  width: auto;
+}
+
+.chroma .hl {
+  background: var(--signal-wash);
+}
+
+.chroma .lnt,
+.chroma .ln {
+  margin-right: 0.75em;
+  padding-right: 0.75em;
+  border-right: 1px solid var(--rule);
+  color: var(--muted);
+  user-select: none;
+  white-space: pre;
+}
+
+.chroma .line {
+  display: flex;
+}
+
+.chroma .k,
+.chroma .kc,
+.chroma .kd,
+.chroma .kn,
+.chroma .kp,
+.chroma .kr,
+.chroma .kt,
+.chroma .m,
+.chroma .mb,
+.chroma .mf,
+.chroma .mh,
+.chroma .mi,
+.chroma .il,
+.chroma .mo,
+.chroma .cp,
+.chroma .cpf {
+  color: var(--signal);
+}
+
+.chroma .c,
+.chroma .ch,
+.chroma .cm,
+.chroma .c1,
+.chroma .cs,
+.chroma .gd,
+.chroma .go {
+  color: var(--muted);
+}
+
+.chroma .nf,
+.chroma .nx,
+.chroma .nc,
+.chroma .na,
+.chroma .nb,
+.chroma .ne,
+.chroma .nn,
+.chroma .nt,
+.chroma .nv,
+.chroma .vc,
+.chroma .vg,
+.chroma .vi,
+.chroma .s,
+.chroma .sa,
+.chroma .sb,
+.chroma .sc,
+.chroma .dl,
+.chroma .sd,
+.chroma .s2,
+.chroma .se,
+.chroma .sh,
+.chroma .si,
+.chroma .sx,
+.chroma .sr,
+.chroma .s1,
+.chroma .ss,
+.chroma .o,
+.chroma .ow {
+  color: var(--ink);
+}
+
+.chroma .gh,
+.chroma .gi,
+.chroma .gu,
+.chroma .gs {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.chroma .ge,
+.chroma .gl {
+  color: var(--ink);
+  font-style: italic;
+}
+
+.chroma .err {
+  color: var(--signal);
+}

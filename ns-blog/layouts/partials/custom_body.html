@@ -2,6 +2,50 @@
 {{ if .Page.Store.Get "hasMermaid" }}
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js" integrity="sha384-1ggI9FC3CkghppRD/XCR4aD+jp4DxwXlJIW0wxhyTLNKuiZEW3c4BwcjKXl0iVAJ" crossorigin="anonymous"></script>
   <script>
-    mermaid.initialize({ startOnLoad: true, theme: 'base' });
+    (function () {
+      var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var ink = dark ? "#f4f4f4" : "#0a0a0a";
+      var paper = dark ? "#0a0a0a" : "#ffffff";
+      var signal = dark ? "#ff4d4d" : "#c4001d";
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "base",
+        themeVariables: {
+          darkMode: dark,
+          fontFamily: "Inter, Helvetica Neue, Helvetica, Arial, sans-serif",
+          fontSize: "15px",
+          background: paper,
+          primaryColor: paper,
+          primaryTextColor: ink,
+          primaryBorderColor: ink,
+          secondaryColor: paper,
+          secondaryTextColor: ink,
+          secondaryBorderColor: signal,
+          tertiaryColor: paper,
+          tertiaryTextColor: ink,
+          tertiaryBorderColor: ink,
+          lineColor: ink,
+          textColor: ink,
+          mainBkg: paper,
+          nodeBorder: ink,
+          clusterBkg: paper,
+          clusterBorder: ink,
+          titleColor: ink,
+          edgeLabelBackground: paper,
+          actorBorder: ink,
+          actorBkg: paper,
+          actorTextColor: ink,
+          signalColor: ink,
+          signalTextColor: ink,
+          labelBoxBkgColor: paper,
+          labelTextColor: ink,
+          noteBkgColor: paper,
+          noteTextColor: ink,
+          noteBorderColor: signal,
+          attributeBackgroundColorEven: paper,
+          attributeBackgroundColorOdd: paper
+        }
+      });
+    })();
   </script>
 {{ end }}

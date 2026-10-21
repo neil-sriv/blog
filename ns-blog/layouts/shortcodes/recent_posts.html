@@ -1,9 +1,14 @@
-<p>here's a list of my most recent posts</p>
-<ul>
-{{ range first 5 ((where .Site.Pages "IsPage" true).ByDate.Reverse) }}
-<li>
-    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02, 2006" }}</time>:
-    <a href="{{ .RelPermalink }}">{{ lower .LinkTitle }}</a>
-</li>
-{{ end }}
-</ul>
+<section class="post-index-block">
+  <p class="kicker">Recent</p>
+  <ol class="post-index">
+    {{- range $i, $p := first 5 ((where .Site.Pages "IsPage" true).ByDate.Reverse) }}
+    <li>
+      <a href="{{ $p.RelPermalink }}">
+        <span class="num">{{ printf "%02d" (add $i 1) }}</span>
+        <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "2006.01.02" }}</time>
+        <span class="post-index-title">{{ lower $p.LinkTitle }}</span>
+      </a>
+    </li>
+    {{- end }}
+  </ol>
+</section>

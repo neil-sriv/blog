@@ -3,13 +3,18 @@
   {{ $paginator := .Paginate (.RegularPages.ByParam "page_number") 1 }}
 
   {{ range $paginator.Pages }}
-    {{ if eq $paginator.PageNumber 1 }}
-      <h1>{{ $title }}</h1>
-    {{ else }}
-    <h1>{{ $title }} (part {{ $paginator.PageNumber }})</h1>
-    {{ end }}
-    {{ .TableOfContents }}
-    {{ .Content }}
+    <header class="page-head">
+      <div class="page-head-copy">
+        <p class="kicker">Part {{ $paginator.PageNumber }}</p>
+        <h1>{{ $title }}{{ if ne $paginator.PageNumber 1 }} / {{ $paginator.PageNumber }}{{ end }}</h1>
+      </div>
+    </header>
+    <div class="wrapper">
+      {{- partial "toc.html" . -}}
+      <content>
+        {{ .Content }}
+      </content>
+    </div>
   {{ end }}
 
   {{- if .Site.Params.multipage.displayPaginator -}}
@@ -19,12 +24,15 @@
   {{- end -}}
 
   {{- if .Site.Params.multipage.displayPrevAndNext -}}
-    {{ if $paginator.HasPrev }}
-      <a href="{{ $paginator.Prev.URL }}">Previous</a>
-    {{ end }}
-    {{ if $paginator.HasNext }}
-      <a href="{{ $paginator.Next.URL }}">Next</a>
-    {{ end }}
+    <nav class="pager" aria-label="Pagination">
+      {{ if $paginator.HasPrev }}
+        <a href="{{ $paginator.Prev.URL }}">Previous</a>
+      {{ else }}
+        <span></span>
+      {{ end }}
+      {{ if $paginator.HasNext }}
+        <a href="{{ $paginator.Next.URL }}">Next</a>
+      {{ end }}
+    </nav>
   {{- end -}}
-
 {{ end }}

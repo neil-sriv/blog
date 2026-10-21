@@ -1,0 +1,9 @@
+{{- $type := .AlertType -}}
+<aside class="admonition {{ $type }}">
+  <p class="admonition-header">{{ or .AlertTitle (i18n (printf "admonitions.%s" .AlertType)) (title .AlertType) }}</p>
+  {{- with .Text }}
+  <div class="admonition-content">
+    {{ . }}
+  </div>
+  {{- end }}
+</aside>

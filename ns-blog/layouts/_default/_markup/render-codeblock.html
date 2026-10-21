@@ -1,16 +1,15 @@
-{{/* this file is exists at `layouts/_default/_markup/` in your Hugo project */}}
+{{- .Page.Store.Set "hasCodeBlock" true -}}
 <figure class="highlight">
-  {{- with .Attributes.title }}
+  {{- $lang := .Type -}}
+  {{- $title := .Attributes.title -}}
+  {{- if or $lang $title }}
   <figcaption>
-    <span class="title">{{ . | markdownify }}</span>
+    {{- with $lang }}<span class="code-lang">{{ . }}</span>{{ end }}
+    {{- with $title }}<span class="title">{{ . | markdownify }}</span>{{ end }}
   </figcaption>
   {{- end }}
   {{- if transform.CanHighlight .Type }}
-  <pre tabindex="0" class="chroma"><code class="language-{{ .Type }}" data-lang="{{ .Type }}">
-      {{- with transform.HighlightCodeBlock . -}}
-      {{ .Inner }}
-      {{- end -}}
-    </code></pre>
+  <pre tabindex="0" class="chroma"><code class="language-{{ .Type }}" data-lang="{{ .Type }}">{{- with transform.HighlightCodeBlock . }}{{ .Inner }}{{ end -}}</code></pre>
   {{- else }}
   <pre tabindex="0"><code class="language-{{ .Type }}" data-lang="{{ .Type }}">{{ .Inner }}</code></pre>
   {{- end }}

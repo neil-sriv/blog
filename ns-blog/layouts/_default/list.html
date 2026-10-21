@@ -1,43 +1,46 @@
 {{ define "main" }}
+<header class="page-head">
+  <div class="page-head-copy">
+    {{- if .Data.Singular }}
+    <p class="kicker">{{ i18n "filtering-for" }}</p>
+    {{- else }}
+    <p class="kicker">Index</p>
+    {{- end }}
+    <h1>{{ .Title }}</h1>
+    {{- if .Data.Singular }}
+    <p class="filter-clear"><a href="{{ "" | relURL }}">Remove filter</a></p>
+    {{- end }}
+  </div>
+  <p class="page-index" aria-hidden="true">{{ printf "%02d" (len .Pages) }}</p>
+</header>
 <content>
-  {{ if .Data.Singular }}
-  <h3 style="margin-bottom:0">Filtering for "{{ .Title }}"</h3>
-  <small>
-    <a href="{{ "" | relURL }}">Remove filter</a>
-  </small>
-  {{ end }}
-  <ul class="blog-posts">
-    {{ range .Pages }}
+  <ol class="post-index">
+    {{- range $i, $p := .Pages }}
     <li>
-      <span>
-        <i>
-          <time datetime='{{ .Date.Format "2006-01-02" }}'>
-            {{ .Date.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}
-          </time>
-        </i>
-      </span>
-      <a href="{{ .Permalink }}">{{lower .Title }}</a>
+      <a href="{{ $p.Permalink }}">
+        <span class="num">{{ printf "%02d" (add $i 1) }}</span>
+        {{- if not $p.Date.IsZero }}
+        <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "2006.01.02" }}</time>
+        {{- else }}
+        <span></span>
+        {{- end }}
+        <span class="post-index-title">{{ lower $p.Title }}</span>
+      </a>
     </li>
-    {{ else }}
-    <li>
-      No posts yet
-    </li>
-    {{ end }}
-  </ul>
-  {{ if .Data.Singular }}
-  {{else}}
-    <small>
-      <div>
-        {{$currSection := .Page.Section}}
-        {{ $taxonomyObj := .Site.Taxonomies.tags }}
-        {{ range $key, $value := $taxonomyObj.ByCount}}
-            {{range where $value.WeightedPages "Section" $currSection}}
-            <a href="{{ $value.Page.Permalink }}">#{{ lower $value.Page.Title }}</a>&nbsp;
-            {{ break }}
-            {{end}}
-        {{ end }}
-      </div>
-    </small>
-    {{ end }}
+    {{- else }}
+    <li class="post-index-empty">{{ i18n "no-posts" }}</li>
+    {{- end }}
+  </ol>
+  {{- if not .Data.Singular }}
+  <nav class="tag-row" aria-label="Tags">
+    {{- $currSection := .Page.Section }}
+    {{- range $key, $value := .Site.Taxonomies.tags.ByCount }}
+      {{- range where $value.WeightedPages "Section" $currSection }}
+      <a class="tag" href="{{ $value.Page.Permalink }}">#{{ lower $value.Page.Title }}</a>
+      {{- break }}
+      {{- end }}
+    {{- end }}
+  </nav>
+  {{- end }}
 </content>
 {{ end }}
