@@ -1,43 +1,29 @@
 {{ define "main" }}
-<content>
+<header class="page-header">
   {{ if .Data.Singular }}
-  <h3 style="margin-bottom:0">Filtering for "{{ .Title }}"</h3>
-  <small>
-    <a href="{{ "" | relURL }}">Remove filter</a>
-  </small>
+  <p class="eyebrow">Tag</p>
+  <h1>{{ i18n "filtering-for" }} “{{ .Title }}”</h1>
+  <a class="text-link" href="{{ "" | relURL }}">Remove filter</a>
+  {{ else }}
+  <h1>{{ .Title }}</h1>
   {{ end }}
-  <ul class="blog-posts">
-    {{ range .Pages }}
-    <li>
-      <span>
-        <i>
-          <time datetime='{{ .Date.Format "2006-01-02" }}'>
-            {{ .Date.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}
-          </time>
-        </i>
-      </span>
-      <a href="{{ .Permalink }}">{{lower .Title }}</a>
-    </li>
-    {{ else }}
-    <li>
-      No posts yet
-    </li>
+</header>
+<ul class="post-list">
+  {{ range .Pages }}
+  {{ partial "post-card.html" . }}
+  {{ else }}
+  <li class="empty">{{ i18n "no-posts" }}</li>
+  {{ end }}
+</ul>
+{{ if not .Data.Singular }}
+<div class="tag-row">
+  {{ $currSection := .Page.Section }}
+  {{ range $key, $value := .Site.Taxonomies.tags.ByCount }}
+    {{ range where $value.WeightedPages "Section" $currSection }}
+    <a class="tag" href="{{ $value.Page.RelPermalink }}">#{{ lower $value.Page.Title }}</a>
+    {{ break }}
     {{ end }}
-  </ul>
-  {{ if .Data.Singular }}
-  {{else}}
-    <small>
-      <div>
-        {{$currSection := .Page.Section}}
-        {{ $taxonomyObj := .Site.Taxonomies.tags }}
-        {{ range $key, $value := $taxonomyObj.ByCount}}
-            {{range where $value.WeightedPages "Section" $currSection}}
-            <a href="{{ $value.Page.Permalink }}">#{{ lower $value.Page.Title }}</a>&nbsp;
-            {{ break }}
-            {{end}}
-        {{ end }}
-      </div>
-    </small>
-    {{ end }}
-</content>
+  {{ end }}
+</div>
+{{ end }}
 {{ end }}

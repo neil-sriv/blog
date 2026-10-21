@@ -90,8 +90,8 @@ author = "Neil Srivastava"
     lineNoStart = 1
     lineNos = true
     lineNumbersInTable = false
-    noClasses = true
-    style = 'dracula'
+    noClasses = false
+    style = 'github'
     tabWidth = 4
     wrapperClass = 'highlight'
   [markup.goldmark]
@@ -107,8 +107,14 @@ author = "Neil Srivastava"
   [[module.imports]]
     path = "github.com/KKKZOZ/hugo-admonitions"
 
+[outputFormats.SearchIndex]
+  mediaType = "application/json"
+  baseName = "search-index"
+  isPlainText = true
+  notAlternative = true
+
 [outputs]
-  home = ['HTML', 'Offline', 'WebAppManifest', 'RSS']
+  home = ['HTML', 'Offline', 'WebAppManifest', 'RSS', 'SearchIndex']
   section = ['HTML', 'Offline', 'RSS']
   taxonomy = ['HTML', 'Offline', 'WebAppManifest', 'RSS']
   term = ['HTML', 'Offline', 'RSS']

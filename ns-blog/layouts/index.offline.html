@@ -1,0 +1,107 @@
+{{ $title := i18n "offline_title" }}
+<!DOCTYPE html>
+<html lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en{{ end }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ $title }}</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --background: #ffffff;
+        --foreground: #09090b;
+        --muted-foreground: #71717a;
+        --border: #e4e4e7;
+        --primary: #18181b;
+        --primary-foreground: #fafafa;
+        --card: #ffffff;
+        --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.05);
+        --radius-sm: 0.375rem;
+        --radius-lg: 0.75rem;
+      }
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --background: #09090b;
+        --foreground: #fafafa;
+        --muted-foreground: #a1a1aa;
+        --border: #27272a;
+        --primary: #fafafa;
+        --primary-foreground: #18181b;
+        --card: #09090b;
+        --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          color-scheme: dark;
+          --background: #09090b;
+          --foreground: #fafafa;
+          --muted-foreground: #a1a1aa;
+          --border: #27272a;
+          --primary: #fafafa;
+          --primary-foreground: #18181b;
+          --card: #09090b;
+          --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background: var(--background);
+        color: var(--foreground);
+        font-family: Geist, Inter, ui-sans-serif, system-ui, sans-serif;
+        line-height: 1.6;
+      }
+      .panel {
+        width: min(28rem, 100%);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        background: var(--card);
+        box-shadow: var(--shadow-sm);
+        padding: 2rem 1.5rem;
+        text-align: center;
+      }
+      h1 { font-size: 1.875rem; letter-spacing: -0.03em; line-height: 1.15; margin: 0 0 0.75rem; }
+      .offline-info { color: var(--muted-foreground); white-space: pre-line; margin-bottom: 1.5rem; }
+      .actions { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--primary);
+        background: var(--primary);
+        color: var(--primary-foreground);
+        padding: 0.45rem 0.8rem;
+        font: inherit;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .button.secondary { background: transparent; color: var(--foreground); border-color: var(--border); }
+    </style>
+    <script>
+      (function () {
+        var stored = localStorage.getItem("theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="panel">
+      <h1>{{ $title }}</h1>
+      <div class="offline-info">{{ i18n "offline_info" | safeHTML }}</div>
+      <div class="actions">
+        <a class="button" href="{{ .Site.Home.RelPermalink }}">{{ i18n "home" }}</a>
+        <button type="button" class="button secondary" onclick="history.back()">{{ i18n "go_back" }}</button>
+        <button type="button" class="button secondary" onclick="location.reload()">{{ i18n "try_again" }}</button>
+      </div>
+    </div>
+  </body>
+</html>

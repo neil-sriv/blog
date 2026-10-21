@@ -1,4 +1,4 @@
-<pre class="mermaid">
+<pre class="mermaid" data-source="{{ .Inner | htmlEscape }}">
   {{ .Inner | htmlEscape | safeHTML}}
 </pre>
 {{ .Page.Store.Set "hasMermaid" true }}

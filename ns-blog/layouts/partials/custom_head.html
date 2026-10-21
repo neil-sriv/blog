@@ -1,2 +1,17 @@
 {{ partialCached "pwa/assets/meta" . }}
 <link rel="canonical" href="{{ .Permalink }}">
+<meta name="theme-color" content="#ffffff">
+<script>
+(function () {
+  var stored = localStorage.getItem("theme");
+  if (stored === "light" || stored === "dark") {
+    document.documentElement.setAttribute("data-theme", stored);
+  }
+  var theme = document.documentElement.getAttribute("data-theme");
+  if (theme !== "light" && theme !== "dark") {
+    theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = theme === "dark" ? "#09090b" : "#ffffff";
+})();
+</script>

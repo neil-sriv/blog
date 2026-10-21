@@ -1,0 +1,9 @@
+{{- $raw := .RawContent -}}
+{{- $raw = $raw | replaceRE `(?s)\x60{3}.*?\x60{3}` " " -}}
+{{- $raw = $raw | replaceRE `(?m)^>.*$` " " -}}
+{{- $raw = $raw | replaceRE `(?m)^#{1,6}[ \t]*` "" -}}
+{{- $raw = $raw | replaceRE `!\[[^\]]*\]\([^)]*\)` " " -}}
+{{- $raw = $raw | replaceRE `\[([^\]]*)\]\([^)]*\)` "$1" -}}
+{{- $raw = $raw | replaceRE `[#*~\x60]` "" -}}
+{{- $raw = $raw | replaceRE `\s+` " " | strings.TrimSpace -}}
+{{- return ($raw | truncate 160) -}}

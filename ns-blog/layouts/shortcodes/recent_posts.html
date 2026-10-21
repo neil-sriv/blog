@@ -1,9 +1,6 @@
-<p>here's a list of my most recent posts</p>
-<ul>
-{{ range first 5 ((where .Site.Pages "IsPage" true).ByDate.Reverse) }}
-<li>
-    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02, 2006" }}</time>:
-    <a href="{{ .RelPermalink }}">{{ lower .LinkTitle }}</a>
-</li>
+<p class="section-label">here's a list of my most recent posts</p>
+<ul class="post-list">
+{{ range first 5 .Site.RegularPages.ByDate.Reverse }}
+{{ partial "post-card.html" . }}
 {{ end }}
 </ul>

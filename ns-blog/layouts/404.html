@@ -1,0 +1,10 @@
+{{ define "title" }}404 | {{ .Site.Title }}{{ end }}
+
+{{ define "main" }}
+<div class="empty-state">
+  <p class="eyebrow">404</p>
+  <h1>Page not found</h1>
+  <p>That URL isn’t on this site.</p>
+  <a class="button" href="{{ "" | relURL }}">Back home</a>
+</div>
+{{ end }}

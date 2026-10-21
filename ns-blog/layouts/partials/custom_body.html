@@ -2,6 +2,37 @@
 {{ if .Page.Store.Get "hasMermaid" }}
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js" integrity="sha384-1ggI9FC3CkghppRD/XCR4aD+jp4DxwXlJIW0wxhyTLNKuiZEW3c4BwcjKXl0iVAJ" crossorigin="anonymous"></script>
   <script>
-    mermaid.initialize({ startOnLoad: true, theme: 'base' });
+    (function () {
+      function variables(dark) {
+        return dark
+          ? { background: "#09090b", primaryColor: "#27272a", primaryTextColor: "#fafafa", primaryBorderColor: "#3f3f46", lineColor: "#a1a1aa", secondaryColor: "#18181b", tertiaryColor: "#27272a", textColor: "#fafafa" }
+          : { background: "#ffffff", primaryColor: "#f4f4f5", primaryTextColor: "#09090b", primaryBorderColor: "#d4d4d8", lineColor: "#52525b", secondaryColor: "#fafafa", tertiaryColor: "#f4f4f5", textColor: "#09090b" };
+      }
+      window.renderMermaid = function () {
+        var theme = document.documentElement.getAttribute("data-theme");
+        var dark = theme === "dark" || (theme !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+        document.querySelectorAll(".mermaid").forEach(function (node) {
+          node.removeAttribute("data-processed");
+          if (node.dataset.source) node.textContent = node.dataset.source;
+        });
+        mermaid.initialize({ startOnLoad: false, theme: dark ? "dark" : "neutral", themeVariables: variables(dark) });
+        mermaid.run();
+      };
+      window.renderMermaid();
+    })();
   </script>
+{{ end }}
+{{ with resources.Get "admonitions.css" | minify }}
+<link rel="stylesheet" href="{{ .RelPermalink }}">
+{{ end }}
+<dialog id="search-dialog" class="search-dialog" aria-labelledby="search-label" data-index="{{ with .Site.Home.OutputFormats.Get "SearchIndex" }}{{ .RelPermalink }}{{ end }}">
+  <div class="search-panel" role="search">
+    <label id="search-label" class="sr-only" for="search-input">Search posts</label>
+    <input id="search-input" type="search" placeholder="Search posts" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="search-results" aria-expanded="true">
+    <ul id="search-results" class="search-results" role="listbox"></ul>
+    <p class="search-hint"><kbd>↑</kbd> <kbd>↓</kbd> move · <kbd>↵</kbd> open · <kbd>esc</kbd> close</p>
+  </div>
+</dialog>
+{{ with resources.Get "neutral.js" | minify }}
+<script src="{{ .RelPermalink }}" defer></script>
 {{ end }}

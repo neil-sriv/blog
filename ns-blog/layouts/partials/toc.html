@@ -1,6 +1,8 @@
 {{ with .TableOfContents }}
-<aside class="custom-toc">
-  <h2 class="toc-title">table of contents</h2>
-  {{ . }}
+<aside class="toc">
+  <details open>
+    <summary>On this page</summary>
+    {{ . }}
+  </details>
 </aside>
 {{ end }}

@@ -1,0 +1,124 @@
+.admonition[class] {
+  margin: var(--space-5) 0;
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: none;
+}
+
+.admonition[class] .admonition-header {
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--muted);
+  color: var(--foreground);
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.admonition .admonition-header svg {
+  width: 1rem;
+  height: 1rem;
+  margin-right: var(--space-2);
+  color: var(--muted-foreground);
+}
+
+.admonition .admonition-content {
+  padding: var(--space-3) var(--space-4);
+  background: var(--card);
+  color: var(--foreground);
+  border-radius: 0;
+  transition: none;
+}
+
+.admonition .admonition-content p:last-child {
+  margin-bottom: 0;
+}
+
+.admonition .admonition-content code {
+  background: var(--muted);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.admonition .admonition-content blockquote {
+  border-left-color: var(--border);
+  color: var(--muted-foreground);
+}
+
+.admonition.note,
+.admonition.info,
+.admonition.abstract,
+.admonition.question,
+.admonition.notify {
+  border-left-color: var(--adm-note);
+}
+
+.admonition.note .admonition-header svg,
+.admonition.info .admonition-header svg,
+.admonition.abstract .admonition-header svg,
+.admonition.question .admonition-header svg,
+.admonition.notify .admonition-header svg {
+  color: var(--adm-note);
+}
+
+.admonition.tip,
+.admonition.success,
+.admonition.example,
+.admonition.experiment {
+  border-left-color: var(--adm-tip);
+}
+
+.admonition.tip .admonition-header svg,
+.admonition.success .admonition-header svg,
+.admonition.example .admonition-header svg,
+.admonition.experiment .admonition-header svg {
+  color: var(--adm-tip);
+}
+
+.admonition.warning,
+.admonition.idea {
+  border-left-color: var(--adm-warning);
+}
+
+.admonition.warning .admonition-header svg,
+.admonition.idea .admonition-header svg {
+  color: var(--adm-warning);
+}
+
+.admonition.caution,
+.admonition.error,
+.admonition.danger,
+.admonition.goal,
+.admonition.memo {
+  border-left-color: var(--adm-danger);
+}
+
+.admonition.caution .admonition-header svg,
+.admonition.error .admonition-header svg,
+.admonition.danger .admonition-header svg,
+.admonition.goal .admonition-header svg,
+.admonition.memo .admonition-header svg {
+  color: var(--adm-danger);
+}
+
+.admonition.important,
+.admonition.task,
+.admonition.code,
+.admonition.quote,
+.admonition.conclusion {
+  border-left-color: var(--adm-important);
+}
+
+.admonition.important .admonition-header svg,
+.admonition.task .admonition-header svg,
+.admonition.code .admonition-header svg,
+.admonition.quote .admonition-header svg,
+.admonition.conclusion .admonition-header svg {
+  color: var(--adm-important);
+}

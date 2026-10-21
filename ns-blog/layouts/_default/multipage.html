@@ -3,13 +3,19 @@
   {{ $paginator := .Paginate (.RegularPages.ByParam "page_number") 1 }}
 
   {{ range $paginator.Pages }}
-    {{ if eq $paginator.PageNumber 1 }}
+    <header class="post-header">
+      {{ if eq $paginator.PageNumber 1 }}
       <h1>{{ $title }}</h1>
-    {{ else }}
-    <h1>{{ $title }} (part {{ $paginator.PageNumber }})</h1>
-    {{ end }}
-    {{ .TableOfContents }}
-    {{ .Content }}
+      {{ else }}
+      <h1>{{ $title }} (part {{ $paginator.PageNumber }})</h1>
+      {{ end }}
+    </header>
+    <div class="post-layout">
+      <div class="prose">
+        {{ .Content }}
+      </div>
+      {{- partial "toc.html" . -}}
+    </div>
   {{ end }}
 
   {{- if .Site.Params.multipage.displayPaginator -}}
@@ -19,12 +25,13 @@
   {{- end -}}
 
   {{- if .Site.Params.multipage.displayPrevAndNext -}}
+  <nav class="pager" aria-label="Pagination">
     {{ if $paginator.HasPrev }}
-      <a href="{{ $paginator.Prev.URL }}">Previous</a>
+    <a class="button secondary" href="{{ $paginator.Prev.URL }}">Previous</a>
     {{ end }}
     {{ if $paginator.HasNext }}
-      <a href="{{ $paginator.Next.URL }}">Next</a>
+    <a class="button" href="{{ $paginator.Next.URL }}">Next</a>
     {{ end }}
+  </nav>
   {{- end -}}
-
 {{ end }}
