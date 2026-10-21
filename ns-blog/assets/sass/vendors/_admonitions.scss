@@ -1,0 +1,65 @@
+.admonition {
+  margin: var(--space-5) 0;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--adm-info);
+  border-radius: var(--radius-lg);
+  background: var(--paper-raised);
+  box-shadow: var(--shadow-card);
+  color: var(--ink);
+}
+
+.admonition-header {
+  display: flex;
+  align-items: center;
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--line);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-weight: 650;
+  line-height: 1.3;
+
+  svg {
+    width: 1.05em;
+    height: 1.05em;
+    margin-right: 0.5rem;
+    fill: currentColor;
+    flex: 0 0 auto;
+  }
+}
+
+.admonition-content {
+  padding: 0.85rem 1rem 1rem;
+  color: var(--ink);
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+$groups: (
+  "info": (note, info, abstract, memo, quote, code, question, notify, task),
+  "good": (tip, success, example, idea, experiment, conclusion),
+  "warn": (warning,),
+  "risk": (caution, error, danger, important, goal),
+);
+
+@each $name, $types in $groups {
+  @each $type in $types {
+    .admonition.#{$type} {
+      border-left-color: var(--adm-#{$name});
+
+      .admonition-header {
+        background: color-mix(in srgb, var(--adm-#{$name}) 14%, var(--paper-raised));
+      }
+
+      .admonition-header svg {
+        color: var(--adm-#{$name});
+      }
+    }
+  }
+}

@@ -1,23 +1,25 @@
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
-<p>
-  <i>
-    <time datetime='{{ .Date.Format "2006-01-02" }}'>
-      {{ .Date.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}
-    </time>
-  </i>
-</p>
-<hr class="rounded">
 <div class="wrapper">
-{{- partial "toc.html" . -}}
-<content>
-  {{ .Content }}
-</content>
+  {{- if not .Params.menu }}
+  <header class="entry-head">
+    <h1>{{ .Title }}</h1>
+    <p class="byline">
+      <time datetime='{{ .Date.Format "2006-01-02" }}'>
+        {{ .Date.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}
+      </time>
+    </p>
+  </header>
+  {{- end }}
+  {{- partial "toc.html" . -}}
+  <content>
+    {{ .Content }}
+    {{- with (.GetTerms "tags") }}
+    <p class="tag-row">
+      {{- range . }}
+      <a class="tag" href="{{ .Permalink }}">#{{ lower .LinkTitle }}</a>
+      {{- end }}
+    </p>
+    {{- end }}
+  </content>
 </div>
-<hr class="rounded">
-<p>
-  {{ range (.GetTerms "tags") }}
-  <a href="{{ .Permalink }}">#{{ lower .LinkTitle }}</a>
-  {{ end }}
-</p>
 {{ end }}

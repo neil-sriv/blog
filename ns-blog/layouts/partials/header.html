@@ -1,0 +1,9 @@
+<a class="skip-link" href="#main-content">{{ i18n "skip-link" }}</a>
+<div class="binding" aria-hidden="true"><span></span><span></span><span></span></div>
+<div class="mast">
+  <a href="{{ relURL .Site.Home.RelPermalink }}" class="title">
+    <span class="site-name">{{ .Site.Title }}</span>
+    <span class="sprout" aria-hidden="true"></span>
+  </a>
+  <nav>{{- partial "nav.html" . -}}</nav>
+</div>

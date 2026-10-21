@@ -1,0 +1,21 @@
+{{ define "title" }}{{ i18n "offline_title" }}{{ end }}
+
+{{ define "main" }}
+<div class="miss">
+  {{ partial "icons/icon" (dict
+    "vendor" "bootstrap"
+    "name" "wifi-off"
+    "className" "offline-icon"
+    "width" "2.5rem"
+    "height" "2.5rem"
+    )
+  }}
+  <h1>{{ i18n "offline_title" }}</h1>
+  <div class="offline-info">{{ i18n "offline_info" | safeHTML }}</div>
+  <div class="offline-actions">
+    <a class="button" href="{{ .Site.Home.RelPermalink }}">{{ i18n "home" }}</a>
+    <a class="button" href="javascript: window.history.back();">{{ i18n "go_back" }}</a>
+    <a class="button" href="javascript: window.location.reload();">{{ i18n "try_again" }}</a>
+  </div>
+</div>
+{{ end }}

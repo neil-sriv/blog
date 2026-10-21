@@ -90,8 +90,8 @@ author = "Neil Srivastava"
     lineNoStart = 1
     lineNos = true
     lineNumbersInTable = false
-    noClasses = true
-    style = 'dracula'
+    noClasses = false
+    style = 'gruvbox'
     tabWidth = 4
     wrapperClass = 'highlight'
   [markup.goldmark]
@@ -119,6 +119,8 @@ author = "Neil Srivastava"
   icon_path="/images/favicon.png"
   [params.pwa.manifest]
     manifest_version = "1.0.1"
+    background_color = "#f4efe6"
+    theme_color = "#f4efe6"
 
   # CSS and JS are published at stable URLs (original.min.css, sw.js).
   # cache-first would keep a deploy stale for the module's default 30 days.

@@ -1,8 +1,10 @@
 <small>
-  {{ $m := dict "bluesky" "https://bsky.app/profile/neilsriv.tech" "github" "https://github.com/neil-sriv/" }}
-  {{ range $key, $value := $m }}
-  {{ $url := printf "/icons/%s.svg" $key }}
-  <a class="inline-block" target="_blank" rel="noopener noreferrer" href="{{ $value }}"><img class="" src="{{ $url }}" alt="{{ $key }}" width="18"></a> |
-  {{ end }}
+  <span class="social">
+    {{ $m := dict "bluesky" "https://bsky.app/profile/neilsriv.tech" "github" "https://github.com/neil-sriv/" }}
+    {{ range $key, $value := $m }}
+    {{ $url := printf "/icons/%s.svg" $key }}
+    <a target="_blank" rel="noopener noreferrer" href="{{ $value }}"><img src="{{ $url }}" alt="{{ $key }}" width="18"></a>
+    {{ end }}
+  </span>
   {{ with .Site.Params.madeWith }}{{ markdownify . }}{{ end }}
 </small>

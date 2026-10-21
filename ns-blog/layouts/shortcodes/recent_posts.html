@@ -1,8 +1,8 @@
-<p>here's a list of my most recent posts</p>
-<ul>
+<p class="recent-lead">here's a list of my most recent posts</p>
+<ul class="blog-posts">
 {{ range first 5 ((where .Site.Pages "IsPage" true).ByDate.Reverse) }}
 <li>
-    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02, 2006" }}</time>:
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02, 2006" }}</time>
     <a href="{{ .RelPermalink }}">{{ lower .LinkTitle }}</a>
 </li>
 {{ end }}

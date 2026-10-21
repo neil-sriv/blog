@@ -2,6 +2,24 @@
 {{ if .Page.Store.Get "hasMermaid" }}
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js" integrity="sha384-1ggI9FC3CkghppRD/XCR4aD+jp4DxwXlJIW0wxhyTLNKuiZEW3c4BwcjKXl0iVAJ" crossorigin="anonymous"></script>
   <script>
-    mermaid.initialize({ startOnLoad: true, theme: 'base' });
+    var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "base",
+      themeVariables: {
+        darkMode: dark,
+        fontFamily: "Literata, Palatino, serif",
+        background: dark ? "#2e2722" : "#fffaf3",
+        primaryColor: dark ? "#3a312b" : "#f6efe4",
+        primaryTextColor: dark ? "#f3eadf" : "#2c241c",
+        primaryBorderColor: dark ? "#a88870" : "#c4a484",
+        secondaryColor: dark ? "#2a3833" : "#e7f2ec",
+        secondaryTextColor: dark ? "#f3eadf" : "#2c241c",
+        tertiaryColor: dark ? "#342c26" : "#f8f1e6",
+        tertiaryTextColor: dark ? "#f3eadf" : "#2c241c",
+        lineColor: dark ? "#e7c8a0" : "#8a6a52",
+        textColor: dark ? "#f3eadf" : "#2c241c"
+      }
+    });
   </script>
 {{ end }}

@@ -19,12 +19,14 @@
   {{- end -}}
 
   {{- if .Site.Params.multipage.displayPrevAndNext -}}
-    {{ if $paginator.HasPrev }}
-      <a href="{{ $paginator.Prev.URL }}">Previous</a>
-    {{ end }}
-    {{ if $paginator.HasNext }}
-      <a href="{{ $paginator.Next.URL }}">Next</a>
-    {{ end }}
+    <nav class="pager" aria-label="pages">
+      {{ if $paginator.HasPrev }}
+        <a href="{{ $paginator.Prev.URL }}" rel="prev">Previous</a>
+      {{ end }}
+      {{ if $paginator.HasNext }}
+        <a href="{{ $paginator.Next.URL }}" rel="next">Next</a>
+      {{ end }}
+    </nav>
   {{- end -}}
 
 {{ end }}
