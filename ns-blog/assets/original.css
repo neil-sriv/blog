@@ -11,10 +11,6 @@ content {
   justify-content: space-between;
 }
 
-.main {
-  height: 150vh;
-}
-
 .custom-toc {
   padding: 20px;
   flex: 1;
@@ -22,6 +18,11 @@ content {
   position: sticky;
   top: 5%;
   overflow-y: scroll;
+}
+
+.toc-title {
+  font-size: 16px;
+  margin: 0 0 8px;
 } 
 
 .custom-toc a {
@@ -30,8 +31,8 @@ content {
 }
 
 .custom-toc a:hover {
-  color: #0056b3; /* Change to a darker color on hover */
-  text-decoration: underline; /* Optionally add underline on hover */
+  color: #e8f6ff;
+  text-decoration: underline;
 }
 
 
@@ -197,7 +198,7 @@ span.title {
   }
   
   ul.blog-posts li a:visited {
-    color: #8b6fcb;
+    color: #a98be0;
   }
   
   a.blog-tags {
@@ -222,7 +223,7 @@ span.title {
   /* "Skip to main content" link */
   .skip-link {
     position: absolute;
-    top: 5;
+    top: 5px;
     transform: translateY(-600%);
     transition: transform 0.5s;
     background-color: #1d1f27;
@@ -249,7 +250,7 @@ span.title {
 
 /* STYLING FOR ANCHOR LINKS */
 :root {
-    --main: #137faa;
+    --main: #8cc2dd;
   }
   
 a.anchor {
@@ -257,6 +258,11 @@ a.anchor {
     text-decoration: none !important;
   }
   
+  a.anchor:focus,
+  a.anchor:focus-visible {
+    opacity: 1;
+  }
+
   @media (hover: hover) {
       a.anchor {
         opacity: 0;
@@ -270,10 +276,10 @@ a.anchor {
       opacity: 1;
     }
   }
-  
+
   @media (hover: none) {
       a.anchor {
-        opacity: 0;
+        opacity: 1;
       }
   }
   
