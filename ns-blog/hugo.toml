@@ -116,3 +116,12 @@ enableEmoji = true
   icon_path="/images/favicon.png"
   [params.pwa.manifest]
     manifest_version = "1.0.1"
+
+  # CSS and JS are published at stable URLs (original.min.css, sw.js).
+  # cache-first would keep a deploy stale for the module's default 30 days.
+  [params.pwa.caches.script]
+    strategy = "stale-while-revalidate"
+    max_age = 86400
+  [params.pwa.caches.style]
+    strategy = "stale-while-revalidate"
+    max_age = 86400
