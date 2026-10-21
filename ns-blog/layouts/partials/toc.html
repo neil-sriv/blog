@@ -1,9 +1,6 @@
-<!--
- <div class="custom-toc">
-   {{ .TableOfContents }}
- </div>
--->
+{{ with .TableOfContents }}
 <aside class="custom-toc">
-  table of contents
-       {{.TableOfContents}}
+  <h2 class="toc-title">table of contents</h2>
+  {{ . }}
 </aside>
+{{ end }}
