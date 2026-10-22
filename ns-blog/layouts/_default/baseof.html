@@ -17,19 +17,12 @@
     {{ $styles = $styles | append (merge $meta (dict "id" $id "weight" (default 100 $meta.weight))) }}
   {{ end }}
   {{ range sort $styles "weight" }}
-    {{ with resources.Get (printf "styles/%s.css" .id) }}
+    {{ $id := .id }}
+    {{ range slice "styles/%s.css" "styles/%s-syntax.css" "styles/%s-bridge.css" }}
+    {{ with resources.Get (printf . $id) }}
     {{ with . | minify }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
     {{ end }}
-    {{ end }}
-    {{ with resources.Get (printf "styles/%s-syntax.css" .id) }}
-    {{ with . | minify }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{ end }}
-    {{ end }}
-    {{ with resources.Get (printf "styles/%s-bridge.css" .id) }}
-    {{ with . | minify }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
     {{ end }}
     {{ end }}
   {{ end }}

@@ -13,8 +13,7 @@
 <script>
 (function () {
   var select = document.getElementById("style-picker");
-  var current = document.documentElement.getAttribute("data-style");
-  if (current) select.value = current;
+  select.value = document.documentElement.getAttribute("data-style");
   select.addEventListener("change", function () {
     var value = select.value;
     document.documentElement.setAttribute("data-style", value);

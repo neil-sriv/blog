@@ -6,15 +6,9 @@ html[data-style="classic"] .site-line {
   margin: 0;
 }
 
-html[data-style="classic"] .title {
-  text-decoration: none;
-}
-
 html[data-style="classic"] .title .site-name-text {
   display: block;
-  margin: 19.92px 0;
   color: #eee;
-  font-size: 24px;
   font-weight: 700;
 }
 
@@ -41,16 +35,18 @@ html[data-style="classic"] ul.blog-posts li > a {
   text-decoration: none;
 }
 
-html[data-style="classic"] ul.blog-posts li > a > time,
-html[data-style="classic"] .home-sep {
+html[data-style="classic"] ul.blog-posts li > a > time {
   flex: 0 0 130px;
   color: #c9d1d9;
   font-style: italic;
 }
 
 html[data-style="classic"] .home-sep {
+  display: inline;
   flex: 0 0 auto;
   margin-right: 0.35rem;
+  color: #c9d1d9;
+  font-style: italic;
 }
 
 html[data-style="classic"] .blog-posts .post-title {
@@ -63,18 +59,10 @@ html[data-style="classic"] .blog-posts a:visited .post-title {
   color: #a98be0;
 }
 
-html[data-style="classic"] .byline time {
-  font-style: italic;
-}
-
 html[data-style="classic"] .code-lang {
   display: none;
 }
 
 html[data-style="classic"] .code-bar:not(:has(.title)) {
   display: none;
-}
-
-html[data-style="classic"] .home-sep {
-  display: inline;
 }

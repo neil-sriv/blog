@@ -42,10 +42,8 @@ def prefix_one(selector: str, scope: str) -> str:
         return s
     if s.startswith(":root"):
         return scope + s[len(":root") :]
-    if s == "html" or (
-        s.startswith("html") and (len(s) == 4 or s[4] in ":.[# >+~")
-    ):
-        return scope + s[len("html") :]
+    if s == "html" or (s.startswith("html") and s[4] in ":.[# >+~"):
+        return scope + s[4:]
     return f"{scope} {s}"
 
 

@@ -35,8 +35,6 @@ enableEmoji = true
   # Plain text. The theme copies this into meta description, Open Graph, and the web manifest.
   description = "Notes on software, databases, and whatever else I'm working on."
 
-  # Visitors who have not picked a style see Classic, the design already live
-  # on the site. The footer picker stores another choice in this browser.
   defaultStyle = "classic"
 
   # Markdown credit rendered in the footer. Kept separate so it does not leak into meta tags.

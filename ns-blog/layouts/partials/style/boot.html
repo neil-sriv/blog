@@ -18,12 +18,15 @@
   var fallback = {{ site.Params.defaultStyle | default "classic" | jsonify | safeJS }};
   var preloads = {{ $pre | jsonify | safeJS }};
   if (known.indexOf(fallback) === -1) fallback = known[0] || "classic";
-  var query = new URLSearchParams(location.search).get("style") || "";
+  var query = new URLSearchParams(location.search).get("style");
   var stored = "";
   try { stored = localStorage.getItem("blog-style") || ""; } catch (e) {}
-  var choice = known.indexOf(query) !== -1 ? query : (known.indexOf(stored) !== -1 ? stored : fallback);
-  if (known.indexOf(query) !== -1) {
+  var choice = fallback;
+  if (query && known.indexOf(query) !== -1) {
+    choice = query;
     try { localStorage.setItem("blog-style", choice); } catch (e) {}
+  } else if (known.indexOf(stored) !== -1) {
+    choice = stored;
   }
   document.documentElement.setAttribute("data-style", choice);
   var theme = "";
