@@ -1,0 +1,4 @@
+label: Terminal
+weight: 20
+preload:
+  - /fonts/terminal/ibm-plex-mono-latin-400-normal.woff2

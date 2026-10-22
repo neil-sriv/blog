@@ -1,0 +1,5 @@
+{{ if .Data.Singular }}
+<p class="cmd" aria-hidden="true"><span class="ps1">$</span> ls --{{ .Data.Singular }} {{ lower .Title }}</p>
+{{ else }}
+<p class="cmd" aria-hidden="true"><span class="ps1">$</span> ls ./{{ .Section | default (lower .Title) }}</p>
+{{ end }}
