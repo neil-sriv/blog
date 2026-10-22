@@ -1,0 +1,4 @@
+label: Swiss Grid
+weight: 30
+preload:
+  - /fonts/swiss/inter-latin.woff2

@@ -1,0 +1,18 @@
+html[data-style="swiss"] .style-only[data-for="swiss"] { display: contents; }
+html[data-style="swiss"] .classic-404,
+html[data-style="swiss"] footer > small,
+html[data-style="swiss"] .recent-intro,
+html[data-style="swiss"] .date-default,
+html[data-style="swiss"] .date-editorial,
+html[data-style="swiss"] .post-summary,
+html[data-style="swiss"] .home-sep,
+html[data-style="swiss"] a:has(.nav-alt) .nav-label { display: none; }
+html[data-style="swiss"] .site-line { display: contents; }
+html[data-style="swiss"] .nav-index,
+html[data-style="swiss"] .nav-alt,
+html[data-style="swiss"] .num,
+html[data-style="swiss"] .date-swiss { display: inline; }
+html[data-style="swiss"] .kicker,
+html[data-style="swiss"] .page-index { display: block; }
+html[data-style="swiss"] .post-title { text-transform: lowercase; }
+html[data-style="swiss"] .blog-posts li > a { color: inherit; text-decoration: none; }
