@@ -35,6 +35,8 @@ enableEmoji = true
   # Plain text. The theme copies this into meta description, Open Graph, and the web manifest.
   description = "Notes on software, databases, and whatever else I'm working on."
 
+  defaultStyle = "classic"
+
   # Markdown credit rendered in the footer. Kept separate so it does not leak into meta tags.
   madeWith = "made with [ᕦʕ •ᴥ•ʔᕤ](https://github.com/clente/hugo-bearcub) & :heart:"
   
@@ -90,7 +92,7 @@ author = "Neil Srivastava"
     lineNoStart = 1
     lineNos = true
     lineNumbersInTable = false
-    noClasses = true
+    noClasses = false
     style = 'dracula'
     tabWidth = 4
     wrapperClass = 'highlight'
@@ -107,8 +109,14 @@ author = "Neil Srivastava"
   [[module.imports]]
     path = "github.com/KKKZOZ/hugo-admonitions"
 
+[outputFormats.SearchIndex]
+  mediaType = "application/json"
+  baseName = "search-index"
+  isPlainText = true
+  notAlternative = true
+
 [outputs]
-  home = ['HTML', 'Offline', 'WebAppManifest', 'RSS']
+  home = ['HTML', 'Offline', 'WebAppManifest', 'RSS', 'SearchIndex']
   section = ['HTML', 'Offline', 'RSS']
   taxonomy = ['HTML', 'Offline', 'WebAppManifest', 'RSS']
   term = ['HTML', 'Offline', 'RSS']

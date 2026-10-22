@@ -1,0 +1,18 @@
+<a class="skip-link" href="#main-content">{{ i18n "skip-link" }}</a>
+{{ partial "style/slot.html" (dict "name" "header-before" "page" .) }}
+<div class="masthead topbar mast">
+  {{ partial "style/slot.html" (dict "name" "header-lead" "page" .) }}
+  <p class="site-line">
+    <a class="title site-title wordmark site-name" href="{{ "" | relURL }}">
+      {{ partial "style/slot.html" (dict "name" "title-before" "page" .) }}
+      <span class="site-name site-name-text">{{ .Site.Title }}</span>
+      {{ partial "style/slot.html" (dict "name" "title-after" "page" .) }}
+    </a>
+  </p>
+  {{ partial "style/slot.html" (dict "name" "header-tagline" "page" .) }}
+  <nav class="site-nav" aria-label="Primary">
+    {{ partial "style/slot.html" (dict "name" "nav-before" "page" .) }}
+    {{- partial "nav.html" . -}}
+  </nav>
+  {{ partial "style/slot.html" (dict "name" "header-actions" "page" .) }}
+</div>

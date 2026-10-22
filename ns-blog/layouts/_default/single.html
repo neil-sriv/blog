@@ -1,23 +1,43 @@
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
-<p>
-  <i>
-    <time datetime='{{ .Date.Format "2006-01-02" }}'>
-      {{ .Date.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}
-    </time>
-  </i>
-</p>
-<hr class="rounded">
-<div class="wrapper">
-{{- partial "toc.html" . -}}
-<content>
-  {{ .Content }}
-</content>
-</div>
-<hr class="rounded">
-<p>
-  {{ range (.GetTerms "tags") }}
-  <a href="{{ .Permalink }}">#{{ lower .LinkTitle }}</a>
+<article class="post article">
+  {{ partial "style/slot.html" (dict "name" "single-before" "page" .) }}
+  <header class="post-header article-head entry-head page-head">
+    <div class="page-head-copy">
+    {{ with .Section }}
+    <p class="kicker"><a href="{{ printf "/%s/" . | relURL }}">{{ . }}</a></p>
+    {{ end }}
+    <h1>{{ .Title }}</h1>
+    <p class="byline">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">
+        <span class="date-default">{{ .Date.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}</span>
+        <span class="date-swiss">{{ .Date.Format "2006.01.02" }}</span>
+        <span class="date-editorial">{{ .Date.Format "2 January 2006" }}</span>
+      </time>
+      {{ with .Params.author }}
+      <span class="byline-sep" aria-hidden="true">·</span>
+      <span class="byline-author">{{ . }}</span>
+      {{ end }}
+    </p>
+    </div>
+    <p class="page-index" aria-hidden="true">{{ .Date.Format "2006" }}</p>
+  </header>
+  <hr class="rounded">
+  <div class="wrapper post-layout">
+    {{- partial "toc.html" . -}}
+    <content class="prose">
+      {{ .Content }}
+    </content>
+  </div>
+  <hr class="rounded">
+  {{ with .GetTerms "tags" }}
+  <footer class="article-foot">
+    <p class="filed-under">Filed under</p>
+    <p class="tag-row tag-index">
+      {{ range . }}
+      <a class="blog-tags tag" href="{{ .RelPermalink }}">#{{ lower .LinkTitle }}</a>
+      {{ end }}
+    </p>
+  </footer>
   {{ end }}
-</p>
+</article>
 {{ end }}

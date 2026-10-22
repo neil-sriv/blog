@@ -1,0 +1,4 @@
+label: Neutral System
+weight: 40
+preload:
+  - /fonts/neutral/geist-latin.woff2

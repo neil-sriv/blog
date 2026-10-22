@@ -1,10 +1,10 @@
-{{/* this file is exists at `layouts/_default/_markup/` in your Hugo project */}}
 <figure class="highlight">
-  {{- with .Attributes.title }}
-  <figcaption>
+  <figcaption class="code-bar">
+    <span class="code-lang">{{ or .Type "text" }}</span>
+    {{- with .Attributes.title }}
     <span class="title">{{ . | markdownify }}</span>
+    {{- end }}
   </figcaption>
-  {{- end }}
   {{- if transform.CanHighlight .Type }}
   <pre tabindex="0" class="chroma"><code class="language-{{ .Type }}" data-lang="{{ .Type }}">
       {{- with transform.HighlightCodeBlock . -}}

@@ -1,17 +1,17 @@
-html {
+html[data-style="classic"]{
     scroll-behavior: smooth;
 }
 
-content {
+html[data-style="classic"] content{
   flex: 6;
 }
 
-.wrapper {
+html[data-style="classic"] .wrapper{
    display: flex; 
   justify-content: space-between;
 }
 
-.custom-toc {
+html[data-style="classic"] .custom-toc{
   padding: 20px;
   flex: 1;
   height: 80vh;
@@ -20,23 +20,23 @@ content {
   overflow-y: scroll;
 }
 
-.toc-title {
+html[data-style="classic"] .toc-title{
   font-size: 16px;
   margin: 0 0 8px;
 } 
 
-.custom-toc a {
+html[data-style="classic"] .custom-toc a{
   color: #8cc2dd; /* Change to your desired color */
   text-decoration: none; /* Optionally remove underline */
 }
 
-.custom-toc a:hover {
+html[data-style="classic"] .custom-toc a:hover{
   color: #e8f6ff;
   text-decoration: underline;
 }
 
 
-body {
+html[data-style="classic"] body{
     margin: auto;
     padding: 20px;
     text-align: left;
@@ -47,80 +47,71 @@ body {
     color: #c9d1d9;
   }
   
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  strong,
-  b {
+  html[data-style="classic"] h1, html[data-style="classic"] h2, html[data-style="classic"] h3, html[data-style="classic"] h4, html[data-style="classic"] h5, html[data-style="classic"] h6, html[data-style="classic"] strong, html[data-style="classic"] b{
     color: #eee;
   }
   
-  a {
+  html[data-style="classic"] a{
     color: #8cc2dd;
   }
   
-  .title {
+  html[data-style="classic"] .title{
     text-decoration: none;
     border: 0;
   }
-  .title h1 {
+  html[data-style="classic"] .title .site-name-text{
     font-size: 24px;
     margin: 19.92px 0 19.92px 0;
   }
   
-  .title span {
+  html[data-style="classic"] .title span{
     font-weight: 400;
   }
   
-  nav a {
+  html[data-style="classic"] nav a{
     margin-right: 10px;
   }
   
-  textarea {
+  html[data-style="classic"] textarea{
     background-color: #252525;
     color: #ddd;
     width: 100%;
     font-size: 16px;
   }
   
-  input {
+  html[data-style="classic"] input{
     background-color: #252525;
     color: #ddd;
     font-size: 16px;
   }
   
-  content {
+  html[data-style="classic"] content{
     line-height: 1.6;
   }
   
-  table {
+  html[data-style="classic"] table{
     width: 100%;
   }
   
-  table,
-  th,
-  td {
+  html[data-style="classic"] table, html[data-style="classic"] th, html[data-style="classic"] td{
     border: 1px solid;
     border-collapse: collapse;
     border-color: #c9d1d9;
     padding: 5px;
   }
   
-  img {
+  html[data-style="classic"] img{
     max-width: 100%;
     height: auto;
   }
 
-  code {
+  html[data-style="classic"] code{
     padding: 2px 5px;
     color: #f8f8f2;
     background-color: #282a36;
   }
   
-pre {
+html[data-style="classic"] pre{
   margin: 0px;
   background-color: #282a36;
   padding: 10px;
@@ -131,7 +122,7 @@ pre {
   max-width: 100%; /* Prevents overflow */
 }
 
-pre code {
+html[data-style="classic"] pre code{
   display: block;
   font-size: 14px;
   line-height: 1.4;
@@ -140,13 +131,13 @@ pre code {
   white-space: pre-wrap;
 }
 
-.highlight {
+html[data-style="classic"] .highlight{
   padding: 5px;
   color: #f8f8f2;
   background-color: #282a36;
 }
 
-span.title {
+html[data-style="classic"] span.title{
   font-style: italic;
 }
     /*
@@ -160,68 +151,65 @@ span.title {
   }
     */
   
-  blockquote {
+  html[data-style="classic"] blockquote{
     border-left: 1px solid #999;
     color: #ccc;
     padding-left: 20px;
     font-style: italic;
   }
   
-  footer {
+  html[data-style="classic"] .shell > footer{
     padding: 25px;
     text-align: center;
   }
   
-  .helptext {
+  html[data-style="classic"] .helptext{
     color: #aaa;
     font-size: small;
   }
   
-  .errorlist {
+  html[data-style="classic"] .errorlist{
     color: #eba613;
     font-size: small;
   }
   
   /* blog posts */
-  ul.blog-posts {
+  html[data-style="classic"] ul.blog-posts{
     list-style-type: none;
     padding: unset;
   }
   
-  ul.blog-posts li {
+  html[data-style="classic"] ul.blog-posts li{
     display: flex;
     margin-bottom: 10px;
   }
   
-  ul.blog-posts li span {
-    flex: 0 0 130px;
-  }
   
-  ul.blog-posts li a:visited {
+  html[data-style="classic"] ul.blog-posts li a:visited{
     color: #a98be0;
   }
   
-  a.blog-tags {
+  html[data-style="classic"] a.blog-tags{
     line-height: 2;
     margin-right: 12px;
   }
   
-  h3.blog-filter {
+  html[data-style="classic"] h3.blog-filter{
     margin-bottom: 0;
   }
   
-  .disabled {
+  html[data-style="classic"] .disabled{
     color: currentColor;
     cursor: not-allowed;
     opacity: 0.7;
   }
   
-  p.byline {
+  html[data-style="classic"] p.byline{
     font-style: italic;
   }
   
   /* "Skip to main content" link */
-  .skip-link {
+  html[data-style="classic"] .skip-link{
     position: absolute;
     top: 5px;
     transform: translateY(-600%);
@@ -230,16 +218,16 @@ span.title {
     padding: 6px;
   }
   
-  .skip-link:focus {
+  html[data-style="classic"] .skip-link:focus{
     transform: translateY(0%);
   }
   
-  figure {
+  html[data-style="classic"] figure{
     margin-inline-start: 0em;
     margin-inline-end: 0em;
   }
   
-  figcaption > p {
+  html[data-style="classic"] figcaption > p{
     margin-block-start: 0px;
     text-align: center;
     font-style: italic;
@@ -249,47 +237,41 @@ span.title {
 
 
 /* STYLING FOR ANCHOR LINKS */
-:root {
+html[data-style="classic"]{
     --main: #8cc2dd;
   }
   
-a.anchor {
+html[data-style="classic"] a.anchor{
     color: var(--main);
     text-decoration: none !important;
   }
   
-  a.anchor:focus,
-  a.anchor:focus-visible {
+  html[data-style="classic"] a.anchor:focus, html[data-style="classic"] a.anchor:focus-visible{
     opacity: 1;
   }
 
   @media (hover: hover) {
-      a.anchor {
+      html[data-style="classic"] a.anchor{
         opacity: 0;
       }
-    h1:hover a.anchor,
-    h2:hover a.anchor,
-    h3:hover a.anchor,
-    h4:hover a.anchor,
-    h5:hover a.anchor,
-    h6:hover a.anchor {
+    html[data-style="classic"] h1:hover a.anchor, html[data-style="classic"] h2:hover a.anchor, html[data-style="classic"] h3:hover a.anchor, html[data-style="classic"] h4:hover a.anchor, html[data-style="classic"] h5:hover a.anchor, html[data-style="classic"] h6:hover a.anchor{
       opacity: 1;
     }
   }
 
   @media (hover: none) {
-      a.anchor {
+      html[data-style="classic"] a.anchor{
         opacity: 1;
       }
   }
   
 /* STYLING OVERRIDES FOR PHONE */
 @media (max-width: 768px) {
-  .wrapper {
+  html[data-style="classic"] .wrapper{
     display: block;
   }
 
-  .custom-toc {
+  html[data-style="classic"] .custom-toc{
     position: static;
     height: auto;
     overflow: visible;

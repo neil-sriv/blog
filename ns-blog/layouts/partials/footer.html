@@ -2,7 +2,9 @@
   {{ $m := dict "bluesky" "https://bsky.app/profile/neilsriv.tech" "github" "https://github.com/neil-sriv/" }}
   {{ range $key, $value := $m }}
   {{ $url := printf "/icons/%s.svg" $key }}
-  <a class="inline-block" target="_blank" rel="noopener noreferrer" href="{{ $value }}"><img class="" src="{{ $url }}" alt="{{ $key }}" width="18"></a> |
+  <a class="inline-block" target="_blank" rel="noopener noreferrer" href="{{ $value }}"><img src="{{ $url }}" alt="{{ $key }}" width="18"></a> |
   {{ end }}
   {{ with .Site.Params.madeWith }}{{ markdownify . }}{{ end }}
 </small>
+{{ partial "style/picker.html" . }}
+{{ partial "style/slot.html" (dict "name" "footer-extra" "page" .) }}

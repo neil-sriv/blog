@@ -1,0 +1,68 @@
+html[data-style="swiss"] .chroma{
+  color: var(--ink);
+  background: transparent;
+}
+
+html[data-style="swiss"] .chroma .lnlinks{
+  outline: none;
+  text-decoration: none;
+  color: inherit;
+}
+
+html[data-style="swiss"] .chroma .lntd{
+  vertical-align: top;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+html[data-style="swiss"] .chroma .lntable{
+  border-spacing: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  width: auto;
+}
+
+html[data-style="swiss"] .chroma .hl{
+  background: var(--signal-wash);
+}
+
+html[data-style="swiss"] .chroma .lnt, html[data-style="swiss"] .chroma .ln{
+  margin-right: 0.75em;
+  padding-right: 0.75em;
+  border-right: 1px solid var(--rule);
+  color: var(--muted);
+  user-select: none;
+  white-space: pre;
+}
+
+html[data-style="swiss"] .chroma .line{
+  display: flex;
+}
+
+html[data-style="swiss"] .chroma .k, html[data-style="swiss"] .chroma .kc, html[data-style="swiss"] .chroma .kd, html[data-style="swiss"] .chroma .kn, html[data-style="swiss"] .chroma .kp, html[data-style="swiss"] .chroma .kr, html[data-style="swiss"] .chroma .kt, html[data-style="swiss"] .chroma .m, html[data-style="swiss"] .chroma .mb, html[data-style="swiss"] .chroma .mf, html[data-style="swiss"] .chroma .mh, html[data-style="swiss"] .chroma .mi, html[data-style="swiss"] .chroma .il, html[data-style="swiss"] .chroma .mo, html[data-style="swiss"] .chroma .cp, html[data-style="swiss"] .chroma .cpf{
+  color: var(--signal);
+}
+
+html[data-style="swiss"] .chroma .c, html[data-style="swiss"] .chroma .ch, html[data-style="swiss"] .chroma .cm, html[data-style="swiss"] .chroma .c1, html[data-style="swiss"] .chroma .cs, html[data-style="swiss"] .chroma .gd, html[data-style="swiss"] .chroma .go{
+  color: var(--muted);
+}
+
+html[data-style="swiss"] .chroma .nf, html[data-style="swiss"] .chroma .nx, html[data-style="swiss"] .chroma .nc, html[data-style="swiss"] .chroma .na, html[data-style="swiss"] .chroma .nb, html[data-style="swiss"] .chroma .ne, html[data-style="swiss"] .chroma .nn, html[data-style="swiss"] .chroma .nt, html[data-style="swiss"] .chroma .nv, html[data-style="swiss"] .chroma .vc, html[data-style="swiss"] .chroma .vg, html[data-style="swiss"] .chroma .vi, html[data-style="swiss"] .chroma .s, html[data-style="swiss"] .chroma .sa, html[data-style="swiss"] .chroma .sb, html[data-style="swiss"] .chroma .sc, html[data-style="swiss"] .chroma .dl, html[data-style="swiss"] .chroma .sd, html[data-style="swiss"] .chroma .s2, html[data-style="swiss"] .chroma .se, html[data-style="swiss"] .chroma .sh, html[data-style="swiss"] .chroma .si, html[data-style="swiss"] .chroma .sx, html[data-style="swiss"] .chroma .sr, html[data-style="swiss"] .chroma .s1, html[data-style="swiss"] .chroma .ss, html[data-style="swiss"] .chroma .o, html[data-style="swiss"] .chroma .ow{
+  color: var(--ink);
+}
+
+html[data-style="swiss"] .chroma .gh, html[data-style="swiss"] .chroma .gi, html[data-style="swiss"] .chroma .gu, html[data-style="swiss"] .chroma .gs{
+  color: var(--ink);
+  font-weight: 700;
+}
+
+html[data-style="swiss"] .chroma .ge, html[data-style="swiss"] .chroma .gl{
+  color: var(--ink);
+  font-style: italic;
+}
+
+html[data-style="swiss"] .chroma .err{
+  color: var(--signal);
+}

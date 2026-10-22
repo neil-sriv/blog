@@ -1,0 +1,53 @@
+.style-only {
+  display: none;
+}
+
+.style-picker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0;
+  font-size: 0.875rem;
+}
+
+.style-picker select {
+  font: inherit;
+  padding: 0.15rem 0.35rem;
+}
+
+.style-picker select:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.nav-index,
+.nav-alt,
+.num,
+.post-summary,
+.date-swiss,
+.date-editorial,
+.page-index,
+.byline-author,
+.byline-sep,
+.kicker,
+.filed-under,
+.listing-head,
+.home-sep,
+.filter-title,
+.filter-shell,
+.filter-clear-shell {
+  display: none;
+}
+
+html:not([data-style="classic"]) .filter-sentence {
+  display: none;
+}
+
+html:not([data-style="classic"]) .filter-title {
+  display: inline;
+}
+
+html:not([data-style="classic"]) hr.rounded {
+  display: none;
+}

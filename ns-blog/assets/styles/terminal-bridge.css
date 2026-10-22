@@ -1,0 +1,24 @@
+html[data-style="terminal"] .style-only[data-for="terminal"] { display: contents; }
+html[data-style="terminal"] .classic-404,
+html[data-style="terminal"] footer > small,
+html[data-style="terminal"] .recent-intro,
+html[data-style="terminal"] .filter-clear-label,
+html[data-style="terminal"] .filter-title,
+html[data-style="terminal"] .date-swiss,
+html[data-style="terminal"] .date-editorial,
+html[data-style="terminal"] .num,
+html[data-style="terminal"] .post-summary,
+html[data-style="terminal"] .home-sep { display: none; }
+html[data-style="terminal"] .filter-shell,
+html[data-style="terminal"] .filter-clear-shell { display: inline; }
+html[data-style="terminal"] .page-title,
+html[data-style="terminal"] .post-title { text-transform: lowercase; }
+html[data-style="terminal"] .blog-posts li { display: block; }
+html[data-style="terminal"] .blog-posts li > a {
+  display: grid;
+  grid-template-columns: 8.75rem minmax(0, 1fr);
+  column-gap: var(--space-3);
+  align-items: baseline;
+  color: inherit;
+  text-decoration: none;
+}

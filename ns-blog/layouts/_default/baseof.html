@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}" data-style="{{ .Site.Params.defaultStyle | default "classic" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{- partial "style/boot.html" . -}}
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett">
+  {{- partial "favicon.html" . -}}
+  <title>{{- block "title" . }}{{ with .Title }}{{ . }} | {{ end }}{{ .Site.Title }}{{- end }}</title>
+  {{- partial "seo_tags.html" . -}}
+  <meta name="referrer" content="no-referrer-when-downgrade">
+  {{ with resources.Get "styles/switcher.css" | minify }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}">
+  {{ end }}
+  {{ $styles := slice }}
+  {{ range $id, $meta := site.Data.styles }}
+    {{ $styles = $styles | append (merge $meta (dict "id" $id "weight" (default 100 $meta.weight))) }}
+  {{ end }}
+  {{ $styles = sort $styles "weight" }}
+  <style>
+    {{- $show := slice -}}
+    {{- range $styles -}}
+      {{- $show = $show | append (printf `html[data-style="%s"] .style-only[data-for="%s"]{display:contents}` .id .id) -}}
+    {{- end -}}
+    {{- delimit $show "" | safeCSS -}}
+  </style>
+  {{ range $styles }}
+    {{ $id := .id }}
+    {{ range slice "styles/%s.css" "styles/%s-syntax.css" "styles/%s-bridge.css" }}
+    {{ with resources.Get (printf . $id) }}
+    {{ with . | minify }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}">
+    {{ end }}
+    {{ end }}
+    {{ end }}
+  {{ end }}
+  {{ with .OutputFormats.Get "rss" -}}
+  {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+  {{ end -}}
+  {{- partial "custom_head.html" . -}}
+</head>
+<body class="kind-{{ .Kind }}{{ if .Params.menu }} is-menu{{ end }}{{ with .TableOfContents }} has-toc{{ end }}">
+  <div class="shell sheet">
+    <header>
+      {{- partial "header.html" . -}}
+    </header>
+    <main id="main-content">
+      {{- block "main" . }}{{- end }}
+    </main>
+    <footer>
+      {{- partial "footer.html" . -}}
+    </footer>
+  </div>
+  {{- partial "custom_body.html" . -}}
+</body>
+</html>

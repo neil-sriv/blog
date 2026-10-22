@@ -1,0 +1,25 @@
+{{ $fmt := .dateFormat }}
+<div class="listing post-index-block">
+  <div class="listing-head" aria-hidden="true"><span>date</span><span>name</span></div>
+  <ul class="blog-posts post-list post-index{{ if .home }} recent-posts{{ end }}">
+    {{ range $i, $p := .pages }}
+    <li class="post-card">
+      <a href="{{ $p.RelPermalink }}">
+        <span class="num">{{ printf "%02d" (add $i 1) }}</span>
+        <time datetime="{{ $p.Date.Format "2006-01-02" }}">
+          <span class="date-default">{{ $p.Date.Format $fmt }}</span>
+          <span class="date-swiss">{{ $p.Date.Format "2006.01.02" }}</span>
+          <span class="date-editorial">{{ $p.Date.Format "2 January 2006" }}</span>
+        </time>
+        {{ if $.home }}<span class="home-sep">: </span>{{ end }}
+        <span class="post-title post-index-title">{{ $p.Title }}</span>
+      </a>
+      {{ with partial "plain-summary.html" $p }}
+      <p class="post-summary">{{ . }}</p>
+      {{ end }}
+    </li>
+    {{ else }}
+    <li class="empty post-index-empty">{{ i18n "no-posts" }}</li>
+    {{ end }}
+  </ul>
+</div>
