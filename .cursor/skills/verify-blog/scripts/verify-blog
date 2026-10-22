@@ -1,0 +1,394 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)
+SITE="$ROOT/ns-blog"
+PORT="${VERIFY_BLOG_PORT:-4173}"
+ORIGIN="http://127.0.0.1:${PORT}"
+LOCK_ID=$(printf '%s' "$ROOT" | sha256sum | awk '{print $1}' | cut -c1-16)
+LOCK="/tmp/verify-blog/lock-${LOCK_ID}"
+SCRATCH="/tmp/verify-blog/${LOCK_ID}-${PORT}"
+DRIVE="$ROOT/.cursor/skills/verify-blog/scripts/drive.mjs"
+
+die() {
+  printf '%s\n' "$1" >&2
+  exit 1
+}
+
+usage() {
+  cat <<'EOF'
+usage: verify-blog <launch|doctor|fetch|drive|cleanup> ...
+  launch [--evidence DIR]
+  doctor
+  fetch PATH
+  drive open PATH
+  drive text SELECTOR
+  drive attr SELECTOR NAME
+  drive count SELECTOR
+  drive hrefs SELECTOR
+  drive click SELECTOR
+  drive screenshot --width N --height N --out FILE
+  cleanup
+EOF
+  exit 2
+}
+
+need_hugo() {
+  command -v hugo >/dev/null || die "hugo is not on PATH; install hugo_extended_0.141.0 from .github/workflows/hugo.yaml"
+  hugo version | grep -q 'v0.141.0' || die "hugo must be v0.141.0 to match .github/workflows/hugo.yaml; found: $(hugo version)"
+  command -v sass >/dev/null || die "sass is not on PATH; install Dart Sass 1.106.0 from .github/workflows/hugo.yaml"
+  sass --version | grep -q '1.106.0' || die "sass must be Dart Sass 1.106.0 to match .github/workflows/hugo.yaml; found: $(sass --version)"
+}
+
+need_theme() {
+  local base="$SITE/themes/hugo-bearcub/layouts/_default/baseof.html"
+  if [[ -f "$base" ]]; then
+    return
+  fi
+  git -C "$ROOT" submodule update --init --recursive
+  [[ -f "$base" ]] || die "theme submodule is missing at ns-blog/themes/hugo-bearcub"
+  printf 'submodule: initialized\n'
+}
+
+port_open() {
+  (echo >/dev/tcp/127.0.0.1/"$1") >/dev/null 2>&1
+}
+
+cmdline() {
+  tr '\0' ' ' <"/proc/$1/cmdline" 2>/dev/null || true
+}
+
+load_state() {
+  [[ -f "$LOCK" ]] || die "no verify-blog server for this checkout; run launch first"
+  IFS=' ' read -r STATE_PORT STATE_PID STATE_SCRATCH <"$LOCK"
+  [[ "$STATE_PORT" == "$PORT" ]] || die "this checkout is serving on port ${STATE_PORT}; export VERIFY_BLOG_PORT=${STATE_PORT}"
+  SCRATCH="$STATE_SCRATCH"
+  [[ -d "$SCRATCH" ]] || die "scratch dir is missing: $SCRATCH"
+  EVIDENCE_DIR=""
+  if [[ -f "$SCRATCH/evidence" ]]; then
+    EVIDENCE_DIR=$(cat "$SCRATCH/evidence")
+  fi
+}
+
+save_named() {
+  local file="$1"
+  if [[ -n "${EVIDENCE_DIR:-}" ]]; then
+    mkdir -p "$EVIDENCE_DIR"
+    tee "$EVIDENCE_DIR/$file"
+  else
+    cat
+  fi
+}
+
+record() {
+  if [[ -n "${EVIDENCE_DIR:-}" ]]; then
+    mkdir -p "$EVIDENCE_DIR"
+    tee -a "$EVIDENCE_DIR/action.txt"
+  else
+    cat
+  fi
+}
+
+chrome_bin() {
+  if [[ -n "${CHROME:-}" ]]; then
+    printf '%s\n' "$CHROME"
+    return
+  fi
+  command -v google-chrome
+}
+
+start_chrome() {
+  if [[ -f "$SCRATCH/chrome.pid" ]]; then
+    local pid
+    pid=$(cat "$SCRATCH/chrome.pid")
+    if kill -0 "$pid" 2>/dev/null; then
+      return
+    fi
+  fi
+  local bin cdp
+  bin=$(chrome_bin) || die "google-chrome is not on PATH"
+  cdp=$((PORT + 10000))
+  if port_open "$cdp"; then
+    die "cdp port ${cdp} is already open"
+  fi
+  setsid "$bin" \
+    --headless=new \
+    --disable-gpu \
+    --no-sandbox \
+    --disable-dev-shm-usage \
+    --no-first-run \
+    --no-default-browser-check \
+    --disable-extensions \
+    --user-data-dir="$SCRATCH/chrome-profile" \
+    --remote-debugging-port="$cdp" \
+    --window-size=1280,800 \
+    about:blank \
+    >"$SCRATCH/chrome.log" 2>&1 &
+  printf '%s\n' "$!" >"$SCRATCH/chrome.pid"
+  printf '%s\n' "$cdp" >"$SCRATCH/cdp.port"
+  local _
+  for _ in $(seq 1 50); do
+    if curl -sf "http://127.0.0.1:${cdp}/json/version" >/dev/null; then
+      return
+    fi
+    sleep 0.2
+  done
+  die "chrome did not open a debugging port; see $SCRATCH/chrome.log"
+}
+
+kill_recorded() {
+  local file="$1"
+  local expect="$2"
+  [[ -f "$file" ]] || return 0
+  local pid
+  pid=$(cat "$file")
+  if ! kill -0 "$pid" 2>/dev/null; then
+    return 0
+  fi
+  local args
+  args=$(cmdline "$pid")
+  [[ "$args" == *"$expect"* ]] || die "refusing to kill pid ${pid}; command does not match ${expect}"
+  kill -TERM -- "-${pid}" 2>/dev/null || kill -TERM "$pid" 2>/dev/null || true
+  local _
+  for _ in $(seq 1 25); do
+    kill -0 "$pid" 2>/dev/null || return 0
+    sleep 0.2
+  done
+  kill -KILL -- "-${pid}" 2>/dev/null || kill -KILL "$pid" 2>/dev/null || true
+}
+
+launch() {
+  local evidence=""
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --evidence)
+        [[ $# -ge 2 ]] || die "launch --evidence requires a directory"
+        evidence="$2"
+        shift 2
+        ;;
+      *)
+        die "unknown launch argument: $1"
+        ;;
+    esac
+  done
+
+  need_hugo
+  need_theme
+  mkdir -p /tmp/verify-blog
+  if [[ -f "$LOCK" ]]; then
+    IFS=' ' read -r old_port old_pid _ <"$LOCK"
+    if kill -0 "$old_pid" 2>/dev/null; then
+      die "this checkout already has a verify-blog server on port ${old_port}"
+    fi
+    rm -f "$LOCK"
+  fi
+  if port_open "$PORT"; then
+    die "port ${PORT} is already open; set VERIFY_BLOG_PORT or stop the other process"
+  fi
+
+  mkdir -p "$SCRATCH"
+  local log="$SCRATCH/server.log"
+  (
+    cd "$SITE"
+    export HUGO_CACHEDIR="/tmp/verify-blog/hugo-cache"
+    export HUGO_ENVIRONMENT=production
+    export TZ=America/Los_Angeles
+    exec setsid hugo server \
+      --environment production \
+      --minify \
+      --baseURL "${ORIGIN}/" \
+      --appendPort=false \
+      --bind 127.0.0.1 \
+      --port "$PORT" \
+      --disableLiveReload \
+      --renderToMemory \
+      --disableFastRender
+  ) >"$log" 2>&1 &
+  local pid=$!
+  printf '%s\n' "$pid" >"$SCRATCH/hugo.pid"
+  printf '%s %s %s\n' "$PORT" "$pid" "$SCRATCH" >"$LOCK"
+
+  local _
+  local ready=0
+  for _ in $(seq 1 600); do
+    if grep -q "Web Server is available at ${ORIGIN}/" "$log"; then
+      ready=1
+      break
+    fi
+    if ! kill -0 "$pid" 2>/dev/null; then
+      cat "$log" >&2
+      rm -rf "$SCRATCH"
+      rm -f "$LOCK"
+      die "hugo exited before it was ready"
+    fi
+    sleep 0.2
+  done
+  if [[ "$ready" != 1 ]]; then
+    cat "$log" >&2
+    kill_recorded "$SCRATCH/hugo.pid" "--port ${PORT}"
+    rm -rf "$SCRATCH"
+    rm -f "$LOCK"
+    die "timed out waiting for hugo"
+  fi
+
+  local home="$SCRATCH/home.html"
+  local code
+  code=$(curl -sS --max-time 10 -o "$home" -w '%{http_code}' "${ORIGIN}/")
+  if [[ "$code" != "200" ]] || ! grep -Eq 'id="main-content"|id=main-content' "$home" || ! grep -q 'neilsriv blog' "$home" || ! grep -q 'Environment: "production"' "$log"; then
+    kill_recorded "$SCRATCH/hugo.pid" "--port ${PORT}"
+    rm -rf "$SCRATCH"
+    rm -f "$LOCK"
+    die "hugo answered but the home page is not ready (HTTP ${code})"
+  fi
+
+  if [[ -n "$evidence" ]]; then
+    case "$evidence" in
+      /*) ;;
+      *) evidence="$ROOT/$evidence" ;;
+    esac
+    mkdir -p "$evidence"
+    cp "$log" "$evidence/build.txt"
+    printf '%s\n' "$evidence" >"$SCRATCH/evidence"
+  fi
+  printf 'origin: %s\n' "$ORIGIN"
+  printf 'pid: %s\n' "$pid"
+  printf 'ready: Web Server is available at %s/\n' "$ORIGIN"
+}
+
+doctor() {
+  load_state
+  local pid
+  pid=$(cat "$SCRATCH/hugo.pid")
+  kill -0 "$pid" 2>/dev/null || die "hugo pid ${pid} is not running"
+  local args
+  args=$(cmdline "$pid")
+  [[ "$args" == *"hugo"* ]] || die "pid ${pid} is not hugo"
+  [[ "$args" == *"--port ${PORT}"* ]] || die "pid ${pid} is not serving port ${PORT}"
+  [[ "$args" == *"--renderToMemory"* ]] || die "pid ${pid} is not the memory server this skill started"
+  [[ "$args" == *"--environment production"* ]] || die "pid ${pid} is not a production server"
+  local log="$SCRATCH/server.log"
+  grep -q "Web Server is available at ${ORIGIN}/" "$log" || die "server log is missing the ready line"
+  grep -q 'hugo v0.141.0' "$log" || die "server log is not hugo v0.141.0"
+  local code home
+  home="$SCRATCH/doctor.html"
+  code=$(curl -sS --max-time 10 -o "$home" -w '%{http_code}' "${ORIGIN}/")
+  [[ "$code" == "200" ]] || die "home returned HTTP ${code}"
+  grep -Eq 'id="main-content"|id=main-content' "$home" || die "home is missing main#main-content"
+  grep -q 'neilsriv blog' "$home" || die "home is missing the site title"
+  if command -v ss >/dev/null; then
+    local listeners
+    listeners=$(ss -ltnp "sport = :${PORT}" 2>/dev/null || true)
+    if [[ "$listeners" == *"pid="* && "$listeners" != *"pid=${pid},"* ]]; then
+      die "port ${PORT} is not owned by pid ${pid}"
+    fi
+  fi
+  {
+    printf 'ok\n'
+    printf 'origin: %s\n' "$ORIGIN"
+    printf 'port: %s\n' "$PORT"
+    printf 'pid: %s\n' "$pid"
+    printf 'hugo: v0.141.0\n'
+    printf 'environment: production\n'
+  } | save_named doctor.txt
+}
+
+fetch_path() {
+  local path="${1:-}"
+  [[ "$path" == /* ]] || die "fetch requires a path starting with /"
+  load_state
+  local body hdr code
+  body=$(mktemp)
+  hdr=$(mktemp)
+  code=$(curl -sS --max-time 15 -D "$hdr" -o "$body" -w '%{http_code}' "${ORIGIN}${path}")
+  local ctype
+  ctype=$(grep -i '^content-type:' "$hdr" | tail -n1 | cut -d' ' -f2- | tr -d '\r')
+  {
+    printf 'status: %s\n' "$code"
+    printf 'content-type: %s\n' "$ctype"
+    python3 - "$body" "$ctype" <<'PY'
+import sys
+import xml.etree.ElementTree as ET
+path, ctype = sys.argv[1], sys.argv[2].lower()
+raw = open(path, "rb").read()
+if "xml" in ctype or raw.lstrip().startswith(b"<?xml") or raw.lstrip().startswith(b"<rss"):
+    root = ET.fromstring(raw)
+    channel = root.find("channel")
+    if channel is None:
+        sys.exit("rss document has no channel")
+    print("channel:", (channel.findtext("title") or "").strip())
+    for item in channel.findall("item")[:8]:
+        title = (item.findtext("title") or "").strip()
+        link = (item.findtext("link") or "").strip()
+        print(f"item: {title} {link}")
+else:
+    text = raw.decode("utf-8", "replace")
+    start = text.lower().find("<title>")
+    end = text.lower().find("</title>")
+    title = text[start + 7:end].strip() if start >= 0 and end > start else ""
+    print("title:", title)
+    print("main:", "yes" if "main-content" in text else "no")
+PY
+  } | record
+  rm -f "$body" "$hdr"
+}
+
+drive() {
+  [[ $# -gt 0 ]] || usage
+  load_state
+  start_chrome
+  local out=()
+  local arg
+  if [[ "${1:-}" == "screenshot" ]]; then
+    while [[ $# -gt 0 ]]; do
+      if [[ "$1" == "--out" ]]; then
+        shift
+        [[ $# -gt 0 ]] || die "screenshot --out requires a file"
+        arg="$1"
+        case "$arg" in
+          /*) ;;
+          *) arg="$ROOT/$arg" ;;
+        esac
+        out+=(--out "$arg")
+      else
+        out+=("$1")
+      fi
+      shift
+    done
+  else
+    out=("$@")
+  fi
+  VERIFY_BLOG_ORIGIN="$ORIGIN" \
+    VERIFY_BLOG_CDP="$(cat "$SCRATCH/cdp.port")" \
+    VERIFY_BLOG_SCRATCH="$SCRATCH" \
+    node "$DRIVE" "${out[@]}" | record
+}
+
+cleanup() {
+  if [[ ! -f "$LOCK" ]]; then
+    printf 'cleanup: no server\n'
+    exit 0
+  fi
+  IFS=' ' read -r STATE_PORT STATE_PID STATE_SCRATCH <"$LOCK"
+  SCRATCH="$STATE_SCRATCH"
+  PORT="$STATE_PORT"
+  if [[ -d "$SCRATCH" ]]; then
+    kill_recorded "$SCRATCH/chrome.pid" "$SCRATCH/chrome-profile"
+    kill_recorded "$SCRATCH/hugo.pid" "--port ${PORT}"
+  fi
+  rm -rf "$SCRATCH"
+  rm -f "$LOCK"
+  rm -f "$SITE/.hugo_build.lock"
+  printf 'cleanup: stopped port %s\n' "$PORT"
+}
+
+[[ $# -ge 1 ]] || usage
+cmd="$1"
+shift
+case "$cmd" in
+  launch) launch "$@" ;;
+  doctor) doctor "$@" ;;
+  fetch) fetch_path "${1:-}" ;;
+  drive) drive "$@" ;;
+  cleanup) cleanup "$@" ;;
+  *) usage ;;
+esac
