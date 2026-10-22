@@ -1,0 +1,11 @@
+html[data-style="notebook"] .style-only[data-for="notebook"] { display: contents; }
+html[data-style="notebook"] .classic-404,
+html[data-style="notebook"] .date-swiss,
+html[data-style="notebook"] .date-editorial,
+html[data-style="notebook"] .num,
+html[data-style="notebook"] .post-summary,
+html[data-style="notebook"] .home-sep { display: none; }
+html[data-style="notebook"] .site-line { display: contents; margin: 0; }
+html[data-style="notebook"] .post-title { text-transform: lowercase; }
+html[data-style="notebook"] body.is-menu .entry-head { display: none; }
+html[data-style="notebook"] .eyebrow { display: block; }
