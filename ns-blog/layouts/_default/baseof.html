@@ -16,7 +16,15 @@
   {{ range $id, $meta := site.Data.styles }}
     {{ $styles = $styles | append (merge $meta (dict "id" $id "weight" (default 100 $meta.weight))) }}
   {{ end }}
-  {{ range sort $styles "weight" }}
+  {{ $styles = sort $styles "weight" }}
+  <style>
+    {{- $show := slice -}}
+    {{- range $styles -}}
+      {{- $show = $show | append (printf `html[data-style="%s"] .style-only[data-for="%s"]{display:contents}` .id .id) -}}
+    {{- end -}}
+    {{- delimit $show "" | safeCSS -}}
+  </style>
+  {{ range $styles }}
     {{ $id := .id }}
     {{ range slice "styles/%s.css" "styles/%s-syntax.css" "styles/%s-bridge.css" }}
     {{ with resources.Get (printf . $id) }}

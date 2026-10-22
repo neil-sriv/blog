@@ -158,7 +158,7 @@ html[data-style="classic"] span.title{
     font-style: italic;
   }
   
-  html[data-style="classic"] footer{
+  html[data-style="classic"] .shell > footer{
     padding: 25px;
     text-align: center;
   }

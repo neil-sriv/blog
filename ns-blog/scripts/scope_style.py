@@ -21,13 +21,33 @@ KEYFRAMES = {"keyframes", "-webkit-keyframes"}
 def split_selectors(selector: str) -> list[str]:
     parts: list[str] = []
     buf: list[str] = []
-    depth = 0
+    paren = 0
+    bracket = 0
+    quote = ""
+    escaped = False
     for ch in selector:
+        if quote:
+            buf.append(ch)
+            if escaped:
+                escaped = False
+            elif ch == "\\":
+                escaped = True
+            elif ch == quote:
+                quote = ""
+            continue
+        if ch in "\"'":
+            quote = ch
+            buf.append(ch)
+            continue
         if ch == "(":
-            depth += 1
-        elif ch == ")":
-            depth -= 1
-        if ch == "," and depth == 0:
+            paren += 1
+        elif ch == ")" and paren:
+            paren -= 1
+        elif ch == "[":
+            bracket += 1
+        elif ch == "]" and bracket:
+            bracket -= 1
+        if ch == "," and paren == 0 and bracket == 0:
             parts.append("".join(buf))
             buf = []
         else:
@@ -42,8 +62,12 @@ def prefix_one(selector: str, scope: str) -> str:
         return s
     if s.startswith(":root"):
         return scope + s[len(":root") :]
-    if s == "html" or (s.startswith("html") and s[4] in ":.[# >+~"):
+    if s == "html" or (s.startswith("html") and len(s) > 4 and s[4] in ":.[# >+~"):
         return scope + s[4:]
+    if s == "*":
+        return f"{scope}, {scope} *"
+    if s.startswith("*::") or s.startswith("*:"):
+        return f"{scope}{s[1:]}, {scope} {s}"
     return f"{scope} {s}"
 
 
@@ -78,6 +102,8 @@ def render(nodes, scope: str, keyframes: bool = False) -> str:
         keyword = node.at_keyword.lower()
         prelude = serialize_tokens(node.prelude)
         if node.content is None:
+            if keyword == "import":
+                raise SystemExit("scope_style.py cannot scope @import; inline the sheet")
             out.append(f"@{node.at_keyword}{prelude};")
             continue
         if keyword in KEYFRAMES:
