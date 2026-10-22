@@ -1,43 +1,32 @@
 {{ define "main" }}
-<content>
+<header class="page-head page-header section-head">
+  <div class="page-head-copy">
   {{ if .Data.Singular }}
-  <h3 style="margin-bottom:0">Filtering for "{{ .Title }}"</h3>
-  <small>
-    <a href="{{ "" | relURL }}">Remove filter</a>
-  </small>
+  <p class="kicker eyebrow">{{ i18n "filtering-for" }}</p>
+  <h1 class="blog-filter">
+    <span class="filter-sentence">Filtering for "{{ .Title }}"</span>
+    <span class="filter-title">{{ .Title }}</span>
+    <span class="filter-shell">#{{ lower .Title }}</span>
+  </h1>
+  <p class="filter-clear dek"><a class="text-link" href="{{ "" | relURL }}"><span class="filter-clear-label">Remove filter</span><span class="filter-clear-shell"><span class="ps1" aria-hidden="true">$</span> home</span></a></p>
+  {{ else }}
+  <p class="kicker eyebrow">{{ if eq .Kind "section" }}Section{{ else }}Index{{ end }}</p>
+  <h1 class="page-title">{{ .Title }}</h1>
   {{ end }}
-  <ul class="blog-posts">
-    {{ range .Pages }}
-    <li>
-      <span>
-        <i>
-          <time datetime='{{ .Date.Format "2006-01-02" }}'>
-            {{ .Date.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}
-          </time>
-        </i>
-      </span>
-      <a href="{{ .Permalink }}">{{lower .Title }}</a>
-    </li>
-    {{ else }}
-    <li>
-      No posts yet
-    </li>
+  </div>
+  <p class="page-index" aria-hidden="true">{{ printf "%02d" (len .Pages) }}</p>
+</header>
+{{ partial "style/slot.html" (dict "name" "list-before" "page" .) }}
+{{ partial "post-list.html" (dict "pages" .Pages "dateFormat" (default "02 Jan, 2006" .Site.Params.dateFormat)) }}
+{{ if not .Data.Singular }}
+<div class="tag-row tag-index">
+  {{ $currSection := .Page.Section }}
+  {{ range $key, $value := .Site.Taxonomies.tags.ByCount }}
+    {{ range where $value.WeightedPages "Section" $currSection }}
+    <a class="blog-tags tag" href="{{ $value.Page.RelPermalink }}">#{{ lower $value.Page.Title }}</a>
+    {{ break }}
     {{ end }}
-  </ul>
-  {{ if .Data.Singular }}
-  {{else}}
-    <small>
-      <div>
-        {{$currSection := .Page.Section}}
-        {{ $taxonomyObj := .Site.Taxonomies.tags }}
-        {{ range $key, $value := $taxonomyObj.ByCount}}
-            {{range where $value.WeightedPages "Section" $currSection}}
-            <a href="{{ $value.Page.Permalink }}">#{{ lower $value.Page.Title }}</a>&nbsp;
-            {{ break }}
-            {{end}}
-        {{ end }}
-      </div>
-    </small>
-    {{ end }}
-</content>
+  {{ end }}
+</div>
+{{ end }}
 {{ end }}

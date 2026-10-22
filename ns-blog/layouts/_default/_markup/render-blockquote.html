@@ -7,8 +7,8 @@
 }}
 
 {{ if eq .Type "alert" }}
-  <blockquote class="alert alert-{{ .AlertType }}">
-    <p class="alert-heading">
+  <blockquote class="alert alert-{{ .AlertType }} admonition {{ .AlertType }}">
+    <p class="alert-heading admonition-header">
       {{ transform.Emojify (index $emojis .AlertType) }}
       {{ with .AlertTitle }}
         {{ . }}
@@ -16,7 +16,9 @@
         {{ or (i18n .AlertType) (title .AlertType) }}
       {{ end }}
     </p>
-    {{ .Text }}
+    <div class="admonition-content">
+      {{ .Text }}
+    </div>
   </blockquote>
 {{ else }}
   <blockquote>

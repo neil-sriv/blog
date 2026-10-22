@@ -35,6 +35,10 @@ enableEmoji = true
   # Plain text. The theme copies this into meta description, Open Graph, and the web manifest.
   description = "Notes on software, databases, and whatever else I'm working on."
 
+  # Visitors who have not picked a style see Classic, the design already live
+  # on the site. The footer picker stores another choice in this browser.
+  defaultStyle = "classic"
+
   # Markdown credit rendered in the footer. Kept separate so it does not leak into meta tags.
   madeWith = "made with [ᕦʕ •ᴥ•ʔᕤ](https://github.com/clente/hugo-bearcub) & :heart:"
   
@@ -90,7 +94,7 @@ author = "Neil Srivastava"
     lineNoStart = 1
     lineNos = true
     lineNumbersInTable = false
-    noClasses = true
+    noClasses = false
     style = 'dracula'
     tabWidth = 4
     wrapperClass = 'highlight'

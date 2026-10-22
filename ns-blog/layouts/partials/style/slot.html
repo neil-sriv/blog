@@ -1,0 +1,15 @@
+{{ $name := .name }}
+{{ $ctx := .page }}
+{{ $bare := .bare }}
+{{ range $id, $meta := site.Data.styles }}
+  {{ $rel := printf "styles/%s/%s.html" $id $name }}
+  {{ if fileExists (printf "layouts/partials/%s" $rel) }}
+    {{ if $bare }}
+      {{ partial $rel $ctx }}
+    {{ else }}
+      <div class="style-only" data-for="{{ $id }}">
+        {{ partial $rel $ctx }}
+      </div>
+    {{ end }}
+  {{ end }}
+{{ end }}

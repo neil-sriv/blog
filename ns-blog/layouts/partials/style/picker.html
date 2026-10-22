@@ -1,0 +1,30 @@
+{{ $styles := slice }}
+{{ range $id, $meta := site.Data.styles }}
+  {{ $styles = $styles | append (merge $meta (dict "id" $id "weight" (default 100 $meta.weight))) }}
+{{ end }}
+<div class="style-picker">
+  <label for="style-picker">Style</label>
+  <select id="style-picker">
+    {{ range sort $styles "weight" }}
+    <option value="{{ .id }}">{{ .label }}</option>
+    {{ end }}
+  </select>
+</div>
+<script>
+(function () {
+  var select = document.getElementById("style-picker");
+  var current = document.documentElement.getAttribute("data-style");
+  if (current) select.value = current;
+  select.addEventListener("change", function () {
+    var value = select.value;
+    document.documentElement.setAttribute("data-style", value);
+    try { localStorage.setItem("blog-style", value); } catch (e) {}
+    var url = new URL(location.href);
+    url.searchParams.set("style", value);
+    history.replaceState(null, "", url);
+    document.documentElement.dispatchEvent(new CustomEvent("blog-style", { detail: value }));
+    var themes = window.blogMermaid || {};
+    if (window.mermaid && typeof themes[value] === "function") themes[value]();
+  });
+})();
+</script>

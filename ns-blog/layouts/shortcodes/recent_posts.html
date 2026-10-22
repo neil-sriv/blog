@@ -1,9 +1,3 @@
-<p>here's a list of my most recent posts</p>
-<ul>
-{{ range first 5 ((where .Site.Pages "IsPage" true).ByDate.Reverse) }}
-<li>
-    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02, 2006" }}</time>:
-    <a href="{{ .RelPermalink }}">{{ lower .LinkTitle }}</a>
-</li>
-{{ end }}
-</ul>
+<p class="recent-intro recent-lead section-label">here's a list of my most recent posts</p>
+{{ partial "style/slot.html" (dict "name" "recent-before" "page" .) }}
+{{ partial "post-list.html" (dict "pages" (first 5 ((where .Site.Pages "IsPage" true).ByDate.Reverse)) "dateFormat" "Jan 02, 2006" "home" true) }}
