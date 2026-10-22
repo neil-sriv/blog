@@ -1,0 +1,11 @@
+<dialog id="search-dialog" class="search-dialog" aria-labelledby="search-label" data-index="{{ with .Site.Home.OutputFormats.Get "SearchIndex" }}{{ .RelPermalink }}{{ end }}">
+  <div class="search-panel" role="search">
+    <label id="search-label" class="sr-only" for="search-input">Search posts</label>
+    <input id="search-input" type="search" placeholder="Search posts" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="search-results" aria-expanded="true">
+    <ul id="search-results" class="search-results" role="listbox"></ul>
+    <p class="search-hint"><kbd>↑</kbd> <kbd>↓</kbd> move · <kbd>↵</kbd> open · <kbd>esc</kbd> close</p>
+  </div>
+</dialog>
+{{ with resources.Get "styles/neutral.js" | minify }}
+<script src="{{ .RelPermalink }}" defer></script>
+{{ end }}

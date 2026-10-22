@@ -109,8 +109,14 @@ author = "Neil Srivastava"
   [[module.imports]]
     path = "github.com/KKKZOZ/hugo-admonitions"
 
+[outputFormats.SearchIndex]
+  mediaType = "application/json"
+  baseName = "search-index"
+  isPlainText = true
+  notAlternative = true
+
 [outputs]
-  home = ['HTML', 'Offline', 'WebAppManifest', 'RSS']
+  home = ['HTML', 'Offline', 'WebAppManifest', 'RSS', 'SearchIndex']
   section = ['HTML', 'Offline', 'RSS']
   taxonomy = ['HTML', 'Offline', 'WebAppManifest', 'RSS']
   term = ['HTML', 'Offline', 'RSS']
