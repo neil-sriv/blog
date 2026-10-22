@@ -1,0 +1,8 @@
+<div class="colophon">
+  <p class="colophon-links">
+    <a href="https://bsky.app/profile/neilsriv.tech" target="_blank" rel="noopener noreferrer"><img src="{{ "/icons/bluesky.svg" | relURL }}" alt="bluesky" width="16" height="16"></a>
+    <a href="https://github.com/neil-sriv/" target="_blank" rel="noopener noreferrer"><img src="{{ "/icons/github.svg" | relURL }}" alt="github" width="16" height="16"></a>
+    <a href="{{ "index.xml" | relURL }}">RSS</a>
+  </p>
+  <p class="colophon-note">{{ with .Site.Params.madeWith }}{{ markdownify . }}{{ end }}</p>
+</div>
