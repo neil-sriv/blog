@@ -1,0 +1,4 @@
+label: Notebook
+weight: 60
+preload:
+  - /fonts/notebook/literata-latin-wght-normal.woff2
