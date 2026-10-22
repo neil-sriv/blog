@@ -1,0 +1,7 @@
+<div class="footer-inner">
+  <div class="footer-social">
+    <a href="https://bsky.app/profile/neilsriv.tech" target="_blank" rel="noopener noreferrer"><img src="{{ "/icons/bluesky.svg" | relURL }}" alt="bluesky" width="16" height="16"></a>
+    <a href="https://github.com/neil-sriv/" target="_blank" rel="noopener noreferrer"><img src="{{ "/icons/github.svg" | relURL }}" alt="github" width="16" height="16"></a>
+  </div>
+  <p class="footer-credit">{{ with .Site.Params.madeWith }}{{ markdownify . }}{{ end }}</p>
+</div>

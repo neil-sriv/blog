@@ -1,0 +1,34 @@
+html[data-style="neutral"] .style-only[data-for="neutral"] { display: contents; }
+html[data-style="neutral"] .classic-404,
+html[data-style="neutral"] footer > small,
+html[data-style="neutral"] .date-swiss,
+html[data-style="neutral"] .date-editorial,
+html[data-style="neutral"] .num,
+html[data-style="neutral"] .home-sep { display: none; }
+html[data-style="neutral"] .site-line { display: contents; margin: 0; }
+html[data-style="neutral"] .kicker,
+html[data-style="neutral"] .eyebrow { display: block; }
+html[data-style="neutral"] .post-card > a {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  color: inherit;
+  text-decoration: none;
+}
+html[data-style="neutral"] .post-card > a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+html[data-style="neutral"] .post-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+}
+html[data-style="neutral"] .post-summary {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

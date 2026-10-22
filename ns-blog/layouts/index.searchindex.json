@@ -1,0 +1,6 @@
+{{- $items := slice -}}
+{{- range where .Site.RegularPages "Draft" false -}}
+{{- $summary := printf "%s" (partial "plain-summary.html" .) | htmlUnescape -}}
+{{- $items = $items | append (dict "title" .Title "url" .RelPermalink "date" (.Date.Format "02 Jan, 2006") "summary" $summary "section" .Section "tags" (.Params.tags | default slice)) -}}
+{{- end -}}
+{{- $items | jsonify -}}
