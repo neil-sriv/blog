@@ -1,0 +1,5 @@
+label: Editorial
+weight: 50
+preload:
+  - /fonts/editorial/source-serif-4-roman.woff2
+  - /fonts/editorial/newsreader-roman.woff2
