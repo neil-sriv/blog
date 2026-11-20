@@ -926,6 +926,10 @@ html[data-style="editorial"] .social-bluesky{
   --icon: url("/icons/bluesky.svg");
 }
 
+html[data-style="editorial"] .social-x{
+  --icon: url("/icons/x.svg");
+}
+
 html[data-style="editorial"] .social-github{
   --icon: url("/icons/github.svg");
 }
