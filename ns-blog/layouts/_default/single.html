@@ -8,11 +8,22 @@
     {{ end }}
     <h1>{{ .Title }}</h1>
     <p class="byline">
-      <time datetime="{{ .Date.Format "2006-01-02" }}">
-        <span class="date-default">{{ .Date.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}</span>
-        <span class="date-swiss">{{ .Date.Format "2006.01.02" }}</span>
-        <span class="date-editorial">{{ .Date.Format "2 January 2006" }}</span>
-      </time>
+      <span class="byline-published">published
+        <time datetime="{{ .Date.Format "2006-01-02" }}">
+          <span class="date-default">{{ .Date.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}</span>
+          <span class="date-swiss">{{ .Date.Format "2006.01.02" }}</span>
+          <span class="date-editorial">{{ .Date.Format "2 January 2006" }}</span>
+        </time>
+      </span>
+      {{ if ne .Lastmod.Unix .Date.Unix }}
+      <span class="byline-updated"> · updated
+        <time datetime="{{ .Lastmod.Format "2006-01-02" }}">
+          <span class="date-default">{{ .Lastmod.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}</span>
+          <span class="date-swiss">{{ .Lastmod.Format "2006.01.02" }}</span>
+          <span class="date-editorial">{{ .Lastmod.Format "2 January 2006" }}</span>
+        </time>
+      </span>
+      {{ end }}
       {{ with .Params.author }}
       <span class="byline-sep" aria-hidden="true">·</span>
       <span class="byline-author">{{ . }}</span>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}" data-style="{{ .Site.Params.defaultStyle | default "classic" }}">
+<html lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}" data-style="{{ .Site.Params.defaultStyle | default "terminal" }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,20 +12,21 @@
   {{ with resources.Get "styles/switcher.css" | minify }}
   <link rel="stylesheet" href="{{ .RelPermalink }}">
   {{ end }}
-  {{ $styles := slice }}
-  {{ range $id, $meta := site.Data.styles }}
-    {{ $styles = $styles | append (merge $meta (dict "id" $id "weight" (default 100 $meta.weight))) }}
+  {{ $default := .Site.Params.defaultStyle | default "terminal" }}
+  {{ if not (index site.Data.styles $default) }}
+    {{ $default = "terminal" }}
   {{ end }}
-  {{ $styles = sort $styles "weight" }}
+  {{ $ids := slice $default }}
+  {{ if and (ne $default "classic") (index site.Data.styles "classic") }}
+    {{ $ids = $ids | append "classic" }}
+  {{ end }}
   <style>
-    {{- $show := slice -}}
-    {{- range $styles -}}
-      {{- $show = $show | append (printf `html[data-style="%s"] .style-only[data-for="%s"]{display:contents}` .id .id) -}}
+    {{- range $ids -}}
+      html[data-style="{{ . }}"] .style-only[data-for="{{ . }}"]{display:contents}
     {{- end -}}
-    {{- delimit $show "" | safeCSS -}}
   </style>
-  {{ range $styles }}
-    {{ $id := .id }}
+  {{ range $ids }}
+    {{ $id := . }}
     {{ range slice "styles/%s.css" "styles/%s-syntax.css" "styles/%s-bridge.css" }}
     {{ with resources.Get (printf . $id) }}
     {{ with . | minify }}

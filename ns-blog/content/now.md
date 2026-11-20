@@ -1,6 +1,7 @@
 +++
 title = "now"
 date = "2025-02-12T00:11:35-05:00"
+lastmod = "2026-11-20T00:00:00-05:00"
 
 menu = "main"
 
@@ -9,30 +10,27 @@ tags = ["swe", "now", "software"]
 
 # what am I doing right now?
 
-This page is inspired by [now page](https://nownownow.com/about) and is a work in progress.
+this page is inspired by [now page](https://nownownow.com/about) and is sometimes updated
 
-*Last updated: 2025-02-12 from New York City, NY*
+## new york
 
-## moving to new york
-
-I finally moved to NYC in January 2025! After 2.5 years in San Francisco, I've moved over to the East Coast. Living in Manhattan for now and still working at [Benchling](https://www.benchling.com/).
-
-## building a personal newsletter service for my friends: ring
-
-It's been about a year since I started working on a personal newsletter service for my friends and about 6 months since I published it for us to use. With about 45 monthly users, that's 3 unique groups (1 of which I'm not even part of!), it's been a really fun journey evolving the platform.
-
-Of course the whole service is very overengineered: I'm using individual docker containers for all the services (nginx, celery, redis, fastapi), multiple AWS services (postgres RDS, SES, S3 + cloudfront), all hosted on a single EC2 machine with 1 GB of memory that costs **absolutely nothing** per month!
-
-
-## location:
-
-new york, new york, u.s.a.
-
-## professional title:
-
-software engineer | thought leader | yuno ball
+I've been in NYC since January 2025 after 2.5 years in San Francisco. living in Manhattan and working at [cursor](https://cursor.com/home) as a software engineer building [origin](https://cursor.com/origin)
 
 ## what do you do?
 
-I like building random things
+build random things
 
+- personal newsletter service
+- personal identity provider
+- quick text preview site
+- content queue to track content to read/watch/listen to that anyone can add to
+- status page and deployment tracker for personal services
+- rex extensions for jj, origin, cursor-agent
+
+cook when I get inspired or interested in different things
+
+read lots of books, currently:
+
+- I, Robot
+- Everyone In My Family Has Killed Someone
+- Dungeon Crawler Carl *just finished*

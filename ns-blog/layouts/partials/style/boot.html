@@ -1,23 +1,25 @@
-{{ $styles := slice }}
-{{ range $id, $meta := site.Data.styles }}
-  {{ $styles = $styles | append (merge $meta (dict "id" $id "weight" (default 100 $meta.weight))) }}
+{{ $default := site.Params.defaultStyle | default "terminal" }}
+{{ if not (index site.Data.styles $default) }}
+  {{ $default = "terminal" }}
 {{ end }}
-{{ $styles = sort $styles "weight" }}
-{{ $ids := slice }}
+{{ $legacy := "classic" }}
+{{ $ids := slice $default }}
+{{ if and (ne $legacy $default) (index site.Data.styles $legacy) }}
+  {{ $ids = $ids | append $legacy }}
+{{ end }}
 {{ $pre := dict }}
-{{ range $styles }}
-  {{ $ids = $ids | append .id }}
-  {{ $id := .id }}
-  {{ with .preload }}
-    {{ $pre = merge $pre (dict $id .) }}
+{{ range $id := $ids }}
+  {{ with index site.Data.styles $id }}
+    {{ with .preload }}
+      {{ $pre = merge $pre (dict $id .) }}
+    {{ end }}
   {{ end }}
 {{ end }}
 <script>
 (function () {
   var known = {{ $ids | jsonify | safeJS }};
-  var fallback = {{ site.Params.defaultStyle | default "classic" | jsonify | safeJS }};
+  var fallback = {{ $default | jsonify | safeJS }};
   var preloads = {{ $pre | jsonify | safeJS }};
-  if (known.indexOf(fallback) === -1) fallback = known[0] || "classic";
   var query = new URLSearchParams(location.search).get("style");
   var stored = "";
   try { stored = localStorage.getItem("blog-style") || ""; } catch (e) {}
@@ -27,6 +29,8 @@
     try { localStorage.setItem("blog-style", choice); } catch (e) {}
   } else if (known.indexOf(stored) !== -1) {
     choice = stored;
+  } else {
+    try { localStorage.removeItem("blog-style"); } catch (e) {}
   }
   document.documentElement.setAttribute("data-style", choice);
   var theme = "";

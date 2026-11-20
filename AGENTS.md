@@ -11,9 +11,9 @@ Agents never write real human posts. `ns-blog/hugo.toml` cascades `author = "Nei
 
 ## Layout
 
-- `ns-blog/data/styles/<id>.yaml` is the style catalog. Picker order is `weight`. `params.defaultStyle` is `classic`.
-- `ns-blog/layouts/partials/style/boot.html` sets `html[data-style]` from a catalog `?style=`, else a catalog `localStorage` key `blog-style`, else `params.defaultStyle` if that id is in the catalog, else the lowest-weight id. A catalog `?style=` is saved to `blog-style`.
-- Picker: `ns-blog/layouts/partials/style/picker.html`. Per-style CSS is `ns-blog/assets/styles/<id>.css`, plus `<id>-syntax.css` and `<id>-bridge.css` when present. `switcher.css` and `neutral.js` in that directory are not scoped style sheets. Fonts, except `classic`, are `ns-blog/static/fonts/<id>/`. Optional partials: `ns-blog/layouts/partials/styles/<id>/`.
+- `ns-blog/data/styles/<id>.yaml` is the style catalog. `params.defaultStyle` is `terminal`. The live site ships `terminal` plus legacy `classic`; other catalog styles stay in the repo unused. Footer “see legacy” / “exit legacy” toggles between them.
+- `ns-blog/layouts/partials/style/boot.html` sets `html[data-style]` from a known `?style=` (`terminal` or `classic`), else `localStorage` key `blog-style`, else `params.defaultStyle`. A known `?style=` is saved to `blog-style`.
+- Unused picker: `ns-blog/layouts/partials/style/picker.html`. Shipped CSS is `ns-blog/assets/styles/<id>.css` for `terminal` and `classic`, plus `-syntax.css` and `-bridge.css` when present. `switcher.css` and `neutral.js` in that directory are not scoped style sheets. Fonts, except `classic`, are `ns-blog/static/fonts/<id>/`. Optional partials: `ns-blog/layouts/partials/styles/<id>/`.
 - `ns-blog/scripts/scope_style.py` scopes style rules under `html[data-style="<style>"]`. `@font-face` and `@keyframes` stay global. Args: `style source dest`. Requires `tinycss2`.
 - `ns-blog/hugo.toml` home outputs include `Offline`, `WebAppManifest`, and `SearchIndex`.
 

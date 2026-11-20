@@ -1,6 +1,7 @@
 +++
 title = "{{ replace .Name "-" " " | title }}"
 date = "{{ .Date }}"
+# lastmod = "{{ .Date }}"
 
 #
 # Set menu to "main" to add this page to

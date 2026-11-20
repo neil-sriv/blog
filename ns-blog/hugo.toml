@@ -35,7 +35,7 @@ enableEmoji = true
   # Plain text. The theme copies this into meta description, Open Graph, and the web manifest.
   description = "Notes on software, databases, and whatever else I'm working on."
 
-  defaultStyle = "classic"
+  defaultStyle = "terminal"
 
   # Markdown credit rendered in the footer. Kept separate so it does not leak into meta tags.
   madeWith = "made with [ᕦʕ •ᴥ•ʔᕤ](https://github.com/clente/hugo-bearcub) & :heart:"

@@ -3,12 +3,49 @@
     (dict "key" "bluesky" "url" "https://bsky.app/profile/neilsriv.tech")
     (dict "key" "x" "url" "https://x.com/neil_sriv")
     (dict "key" "github" "url" "https://github.com/neil-sriv/")
-  }}
+    (dict "key" "cursor" "url" "https://cursor.com/@neils")
+    }}
   {{ range $links }}
   {{ $url := printf "/icons/%s.svg" .key }}
   <a class="inline-block" target="_blank" rel="noopener noreferrer" href="{{ .url }}"><img src="{{ $url }}" alt="{{ .key }}" width="18"></a> |
   {{ end }}
   {{ with .Site.Params.madeWith }}{{ markdownify . }}{{ end }}
+  | <a class="legacy-toggle" href="?style=classic">see legacy</a>
 </small>
-{{ partial "style/picker.html" . }}
 {{ partial "style/slot.html" (dict "name" "footer-extra" "page" .) }}
+<script>
+(function () {
+  var links = document.querySelectorAll("a.legacy-toggle");
+  if (!links.length) return;
+  var legacy = "classic";
+  var modern = {{ .Site.Params.defaultStyle | default "terminal" | jsonify | safeJS }};
+  function sync() {
+    var cur = document.documentElement.getAttribute("data-style");
+    var label = cur === legacy ? "exit legacy" : "see legacy";
+    var href = "?style=" + (cur === legacy ? modern : legacy);
+    for (var i = 0; i < links.length; i++) {
+      links[i].textContent = label;
+      links[i].setAttribute("href", href);
+    }
+  }
+  function apply(style) {
+    document.documentElement.setAttribute("data-style", style);
+    try { localStorage.setItem("blog-style", style); } catch (e) {}
+    var url = new URL(location.href);
+    url.searchParams.set("style", style);
+    history.replaceState(null, "", url);
+    document.documentElement.dispatchEvent(new CustomEvent("blog-style", { detail: style }));
+    var themes = window.blogMermaid || {};
+    if (window.mermaid && typeof themes[style] === "function") themes[style]();
+    sync();
+  }
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener("click", function (e) {
+      e.preventDefault();
+      var cur = document.documentElement.getAttribute("data-style");
+      apply(cur === legacy ? modern : legacy);
+    });
+  }
+  sync();
+})();
+</script>
