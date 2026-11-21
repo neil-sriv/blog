@@ -6,3 +6,6 @@
 /ns-blog/resources/_gen/
 /ns-blog/.hugo_build.lock
 /ns-blog/assets/jsconfig.json
+
+# Verification screenshots and logs.
+.cursor/skills/verify-blog/evidence/
