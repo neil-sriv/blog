@@ -1,0 +1,23 @@
+WRITING_DIR ?= $(HOME)/obsidian/neil/cs/writing
+export WRITING_DIR
+
+ROOT := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
+.PHONY: help new sync preview
+.DEFAULT_GOAL := help
+
+help:
+	@printf '%s\n' \
+	  'make new post=<slug>  create a draft note in the vault' \
+	  'make sync              copy publish: true notes into content/tech' \
+	  'make preview           serve drafts with the vault mounted'
+
+new:
+	@test -n "$(post)" || { echo 'usage: make new post=<slug>' >&2; exit 1; }
+	@"$(ROOT)scripts/writing.sh" new "$(post)"
+
+sync:
+	@"$(ROOT)scripts/writing.sh" sync
+
+preview:
+	@"$(ROOT)scripts/writing.sh" preview
