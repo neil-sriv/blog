@@ -1,6 +1,8 @@
 +++
 title = "now"
 date = "2025-02-12T00:11:35-05:00"
+section = ""
+publish = true
 lastmod = "2026-11-20T00:00:00-05:00"
 
 menu = "main"

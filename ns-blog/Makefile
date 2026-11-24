@@ -10,8 +10,8 @@ ROOT := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 help:
 	@printf '%s\n' \
 	  'make new post=<slug>  create a draft note in the vault' \
-	  'make sync              copy publish: true notes into content/tech' \
-	  'make preview PORT=1414  serve drafts on PORT (default 1313)'
+	  'make sync              rebuild content/ from publish: true vault notes' \
+	  'make preview PORT=1414  serve every vault note on PORT (default 1313)'
 
 new:
 	@test -n "$(post)" || { echo 'usage: make new post=<slug>' >&2; exit 1; }
