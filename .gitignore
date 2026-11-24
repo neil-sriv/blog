@@ -6,3 +6,4 @@
 /ns-blog/resources/_gen/
 /ns-blog/.hugo_build.lock
 /ns-blog/assets/jsconfig.json
+/ns-blog/hugo.preview.toml
