@@ -314,7 +314,18 @@ cmd_preview() {
   write_preview_config
   print_skips <<< "$prev_s"
   warn_spaces <<< "$prev_e"
-  hugo server -D --config hugo.toml,hugo.preview.toml &
+  PORT=${PORT:-1313}
+  case $PORT in
+    *[!0-9]*)
+      printf 'PORT must be a number\n' >&2
+      exit 1
+      ;;
+  esac
+  if [ "$((10#$PORT))" -lt 1 ] || [ "$((10#$PORT))" -gt 65535 ]; then
+    printf 'PORT must be from 1 to 65535\n' >&2
+    exit 1
+  fi
+  hugo server -D --port "$PORT" --config hugo.toml,hugo.preview.toml &
   hugo_pid=$!
   while kill -0 "$hugo_pid" 2>/dev/null; do
     sleep 1

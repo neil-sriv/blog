@@ -1,5 +1,6 @@
 WRITING_DIR ?= $(HOME)/obsidian/neil/cs/writing
-export WRITING_DIR
+PORT ?= 1313
+export WRITING_DIR PORT
 
 ROOT := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
@@ -10,7 +11,7 @@ help:
 	@printf '%s\n' \
 	  'make new post=<slug>  create a draft note in the vault' \
 	  'make sync              copy publish: true notes into content/tech' \
-	  'make preview           serve drafts with the vault mounted'
+	  'make preview PORT=1414  serve drafts on PORT (default 1313)'
 
 new:
 	@test -n "$(post)" || { echo 'usage: make new post=<slug>' >&2; exit 1; }
