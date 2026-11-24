@@ -1,3 +1,5 @@
 {{ with .File }}
-<p class="cmd" aria-hidden="true"><span class="ps1">$</span> cat {{ .Path }}</p>
+{{- $path := .Path }}
+{{- with $.Slug }}{{ $path = path.Join (path.Dir $path) (printf "%s.md" .) }}{{ end }}
+<p class="cmd" aria-hidden="true"><span class="ps1">$</span> cat {{ $path }}</p>
 {{ end }}
