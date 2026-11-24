@@ -7,3 +7,4 @@
 /ns-blog/.hugo_build.lock
 /ns-blog/assets/jsconfig.json
 /ns-blog/hugo.preview.toml
+/ns-blog/hugo.preview.toml.tmp
