@@ -35,4 +35,5 @@ read lots of books, currently:
 
 - I, Robot
 - Everyone In My Family Has Killed Someone
+- Outliers
 - Dungeon Crawler Carl *just finished*
