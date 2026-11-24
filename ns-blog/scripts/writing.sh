@@ -32,39 +32,218 @@ need_writing_dir() {
   }
 }
 
+version_ge() {
+  local IFS=. i av bv
+  local -a a b
+  read -r -a a <<< "$1"
+  read -r -a b <<< "$2"
+  for i in 0 1 2; do
+    av=${a[i]:-0}
+    bv=${b[i]:-0}
+    if [ "$av" -gt "$bv" ]; then
+      return 0
+    fi
+    if [ "$av" -lt "$bv" ]; then
+      return 1
+    fi
+  done
+  return 0
+}
+
+mount_pattern_key() {
+  local ver
+  ver=$(hugo version | sed -n 's/.*v\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/p')
+  [ -n "$ver" ] || {
+    printf 'could not parse hugo version\n' >&2
+    exit 1
+  }
+  if version_ge "$ver" 0.153.0; then
+    printf '%s' files
+  else
+    printf '%s' includeFiles
+  fi
+}
+
+each_note() {
+  local file
+  shopt -s nullglob
+  for file in "$WRITING_DIR"/*.md; do
+    [ -f "$file" ] || continue
+    [ -L "$file" ] && continue
+    printf '%s\n' "$file"
+  done
+}
+
+first_line() {
+  local line
+  IFS= read -r line < "$1" || true
+  line=${line%$'\r'}
+  printf '%s' "$line"
+}
+
+has_front_matter() {
+  case $(first_line "$1") in
+    ---|+++) return 0 ;;
+  esac
+  return 1
+}
+
+note_names() {
+  local file want=$1 base
+  while IFS= read -r file; do
+    [ -n "$file" ] || continue
+    if has_front_matter "$file"; then
+      [ "$want" = eligible ] || continue
+    else
+      [ "$want" = skipped ] || continue
+    fi
+    base=$(basename "$file")
+    printf '%s\n' "$base"
+  done < <(each_note) | sort
+}
+
 publish_is_true() {
-  local file=$1 line val started=0
+  local file=$1 line val closer="" started=0 compact
   while IFS= read -r line || [ -n "$line" ]; do
     line=${line%$'\r'}
     if [ "$started" -eq 0 ]; then
-      [ "$line" = "---" ] || return 1
+      case $line in
+        ---) closer='---' ;;
+        +++) closer='+++' ;;
+        *) return 1 ;;
+      esac
       started=1
       continue
     fi
-    [ "$line" = "---" ] && return 1
+    [ "$line" = "$closer" ] && return 1
     case $line in
-      publish:*)
-        val=${line#*:}
-        val=${val#"${val%%[![:space:]]*}"}
-        val=${val%"${val##*[![:space:]]}"}
-        case $val in
-          \"*\" | \'*\')
-            val=${val#\"}
-            val=${val%\"}
-            val=${val#\'}
-            val=${val%\'}
-            ;;
-          *)
-            val=${val%% #*}
-            val=${val%"${val##*[![:space:]]}"}
-            ;;
-        esac
-        [ "$val" = "true" ] && return 0
+      ""|[[:space:]]*|\#*) continue ;;
+    esac
+    line=${line%% #*}
+    compact=${line//[[:space:]]/}
+    case $compact in
+      publish=true|publish:true|publish=\"true\"|publish:\"true\"|publish=\'true\'|publish:\'true\')
+        return 0
+        ;;
+      publish=*|publish:*)
         return 1
         ;;
     esac
   done < "$file"
   return 1
+}
+
+warn_spaces() {
+  local name
+  while IFS= read -r name; do
+    [ -n "$name" ] || continue
+    case $name in
+      *" "*)
+        printf 'warning: %s has spaces; set slug in front matter for a cleaner URL\n' "$name" >&2
+        ;;
+    esac
+  done
+}
+
+added_names() {
+  local old=$1 new=$2
+  [ -n "$new" ] || return 0
+  if [ -z "$old" ]; then
+    printf '%s\n' "$new"
+    return 0
+  fi
+  comm -13 <(printf '%s\n' "$old") <(printf '%s\n' "$new")
+}
+
+toml_quote() {
+  local s=$1
+  s=${s//\\/\\\\}
+  s=${s//\"/\\\"}
+  printf '"%s"' "$s"
+}
+
+glob_escape() {
+  local s=$1 i=0 c out=""
+  while [ "$i" -lt "${#s}" ]; do
+    c=${s:i:1}
+    case $c in
+      \\|\*|\[|\]|\?|\{|\}) out="$out\\$c" ;;
+      *) out="$out$c" ;;
+    esac
+    i=$((i + 1))
+  done
+  printf '%s' "$out"
+}
+
+write_preview_config() {
+  local key src name quoted patterns="" tmp
+  key=$(mount_pattern_key)
+  src=$(toml_quote "$WRITING_DIR")
+  while IFS= read -r name; do
+    [ -n "$name" ] || continue
+    quoted=$(toml_quote "$(glob_escape "$name")")
+    if [ -n "$patterns" ]; then
+      patterns="$patterns, $quoted"
+    else
+      patterns=$quoted
+    fi
+  done < <(note_names eligible)
+  if [ -z "$patterns" ]; then
+    patterns='".no-vault-notes"'
+  fi
+  tmp=hugo.preview.toml.tmp
+  cat > "$tmp" <<EOF
+[[module.mounts]]
+source = $src
+target = "content/tech"
+$key = [$patterns]
+
+[[module.mounts]]
+source = "content"
+target = "content"
+
+[[module.mounts]]
+source = "data"
+target = "data"
+
+[[module.mounts]]
+source = "layouts"
+target = "layouts"
+
+[[module.mounts]]
+source = "i18n"
+target = "i18n"
+
+[[module.mounts]]
+source = "archetypes"
+target = "archetypes"
+
+[[module.mounts]]
+source = "assets"
+target = "assets"
+
+[[module.mounts]]
+source = "static"
+target = "static"
+EOF
+  mv "$tmp" hugo.preview.toml
+}
+
+print_skips() {
+  local name
+  while IFS= read -r name; do
+    [ -n "$name" ] || continue
+    printf 'skip %s\n' "$name"
+  done
+}
+
+cleanup_preview() {
+  trap - EXIT INT TERM
+  if [ -n "${hugo_pid:-}" ] && kill -0 "$hugo_pid" 2>/dev/null; then
+    kill "$hugo_pid" 2>/dev/null || true
+    wait "$hugo_pid" 2>/dev/null || true
+  fi
+  rm -f hugo.preview.toml hugo.preview.toml.tmp
 }
 
 cmd_new() {
@@ -108,13 +287,14 @@ cmd_sync() {
   local file base copied=0
   need rsync
   need_writing_dir
-  mkdir -p content/tech
   shopt -s nullglob
   for file in "$WRITING_DIR"/*.md; do
     [ -f "$file" ] || continue
     [ -L "$file" ] && continue
     publish_is_true "$file" || continue
     base=$(basename "$file")
+    warn_spaces <<< "$base"
+    mkdir -p content/tech
     rsync -a -- "$file" content/tech/
     printf '%s\n' "content/tech/$base"
     copied=1
@@ -122,58 +302,40 @@ cmd_sync() {
   [ "$copied" -eq 1 ] || printf '%s\n' "no posts copied"
 }
 
-toml_quote() {
-  local s=$1
-  s=${s//\\/\\\\}
-  s=${s//\"/\\\"}
-  printf '"%s"' "$s"
-}
-
-write_preview_config() {
-  local src
-  src=$(toml_quote "$WRITING_DIR")
-  cat > hugo.preview.toml <<EOF
-[[module.mounts]]
-source = $src
-target = "content/tech"
-includeFiles = ["*.md"]
-
-[[module.mounts]]
-source = "content"
-target = "content"
-
-[[module.mounts]]
-source = "data"
-target = "data"
-
-[[module.mounts]]
-source = "layouts"
-target = "layouts"
-
-[[module.mounts]]
-source = "i18n"
-target = "i18n"
-
-[[module.mounts]]
-source = "archetypes"
-target = "archetypes"
-
-[[module.mounts]]
-source = "assets"
-target = "assets"
-
-[[module.mounts]]
-source = "static"
-target = "static"
-EOF
-}
-
 cmd_preview() {
+  local prev_e prev_s cur_e cur_s added status
   need hugo
   need_writing_dir
+  trap cleanup_preview EXIT
+  trap 'cleanup_preview; exit 130' INT
+  trap 'cleanup_preview; exit 143' TERM
+  prev_e=$(note_names eligible)
+  prev_s=$(note_names skipped)
   write_preview_config
-  trap 'rm -f hugo.preview.toml' EXIT INT TERM
-  hugo server -D --config hugo.toml,hugo.preview.toml
+  print_skips <<< "$prev_s"
+  warn_spaces <<< "$prev_e"
+  hugo server -D --config hugo.toml,hugo.preview.toml &
+  hugo_pid=$!
+  while kill -0 "$hugo_pid" 2>/dev/null; do
+    sleep 1
+    kill -0 "$hugo_pid" 2>/dev/null || break
+    cur_e=$(note_names eligible)
+    cur_s=$(note_names skipped)
+    if [ "$cur_e" != "$prev_e" ]; then
+      write_preview_config
+      added=$(added_names "$prev_e" "$cur_e")
+      warn_spaces <<< "$added"
+      prev_e=$cur_e
+    fi
+    if [ "$cur_s" != "$prev_s" ]; then
+      added=$(added_names "$prev_s" "$cur_s")
+      print_skips <<< "$added"
+      prev_s=$cur_s
+    fi
+  done
+  wait "$hugo_pid" || status=$?
+  hugo_pid=
+  exit "${status:-0}"
 }
 
 case ${1:-} in
