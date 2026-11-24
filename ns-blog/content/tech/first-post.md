@@ -1,6 +1,8 @@
 +++
 title = "First Post"
 date = "2025-02-12T01:06:43-05:00"
+slug = "first-post"
+publish = true
 
 #
 # description is optional

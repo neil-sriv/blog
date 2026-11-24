@@ -32,38 +32,6 @@ need_writing_dir() {
   }
 }
 
-version_ge() {
-  local IFS=. i av bv
-  local -a a b
-  read -r -a a <<< "$1"
-  read -r -a b <<< "$2"
-  for i in 0 1 2; do
-    av=${a[i]:-0}
-    bv=${b[i]:-0}
-    if [ "$av" -gt "$bv" ]; then
-      return 0
-    fi
-    if [ "$av" -lt "$bv" ]; then
-      return 1
-    fi
-  done
-  return 0
-}
-
-mount_pattern_key() {
-  local ver
-  ver=$(hugo version | sed -n 's/.*v\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/p')
-  [ -n "$ver" ] || {
-    printf 'could not parse hugo version\n' >&2
-    exit 1
-  }
-  if version_ge "$ver" 0.153.0; then
-    printf '%s' files
-  else
-    printf '%s' includeFiles
-  fi
-}
-
 each_note() {
   local file
   shopt -s nullglob
@@ -88,22 +56,11 @@ has_front_matter() {
   return 1
 }
 
-note_names() {
-  local file want=$1 base
-  while IFS= read -r file; do
-    [ -n "$file" ] || continue
-    if has_front_matter "$file"; then
-      [ "$want" = eligible ] || continue
-    else
-      [ "$want" = skipped ] || continue
-    fi
-    base=$(basename "$file")
-    printf '%s\n' "$base"
-  done < <(each_note) | sort
-}
-
-publish_is_true() {
-  local file=$1 line val closer="" started=0 compact
+# fm_get FILE KEY prints the value of a top-level front matter key, without
+# quotes. It fails when the key is missing. Handles `key = v` (TOML) and
+# `key: v` (YAML).
+fm_get() {
+  local file=$1 key=$2 line closer="" started=0 val
   while IFS= read -r line || [ -n "$line" ]; do
     line=${line%$'\r'}
     if [ "$started" -eq 0 ]; then
@@ -117,42 +74,91 @@ publish_is_true() {
     fi
     [ "$line" = "$closer" ] && return 1
     case $line in
-      ""|[[:space:]]*|\#*) continue ;;
+      "$key"[[:space:]]*=*|"$key="*) val=${line#*=} ;;
+      "$key"[[:space:]]*:*|"$key:"*) val=${line#*:} ;;
+      *) continue ;;
     esac
-    line=${line%% #*}
-    compact=${line//[[:space:]]/}
-    case $compact in
-      publish=true|publish:true|publish=\"true\"|publish:\"true\"|publish=\'true\'|publish:\'true\')
-        return 0
-        ;;
-      publish=*|publish:*)
-        return 1
-        ;;
+    val=${val#"${val%%[![:space:]]*}"}
+    case $val in
+      \"*) val=${val#\"}; val=${val%%\"*} ;;
+      \'*) val=${val#\'}; val=${val%%\'*} ;;
+      *) val=${val%%[[:space:]]#*}; val=${val%"${val##*[![:space:]]}"} ;;
     esac
-  done < "$file"
+    printf '%s' "$val"
+    return 0
+  done < "$1"
   return 1
 }
 
-warn_spaces() {
-  local name
-  while IFS= read -r name; do
-    [ -n "$name" ] || continue
-    case $name in
-      *" "*)
-        printf 'warning: %s has spaces; set slug in front matter for a cleaner URL\n' "$name" >&2
-        ;;
-    esac
-  done
+fm_true() {
+  local val
+  val=$(fm_get "$1" "$2") || return 1
+  [ "$val" = true ]
 }
 
-added_names() {
-  local old=$1 new=$2
-  [ -n "$new" ] || return 0
-  if [ -z "$old" ]; then
-    printf '%s\n' "$new"
-    return 0
+# note_dest FILE prints where the note goes, relative to content/:
+# <section>/<name>.md. section defaults to tech; section = "" is the content
+# root. name is _index when index = true, else slug, else the vault filename.
+note_dest() {
+  local file=$1 section name
+  section=$(fm_get "$file" section) || section=tech
+  section=${section#/}
+  section=${section%/}
+  if fm_true "$file" index; then
+    name=_index
+  elif name=$(fm_get "$file" slug) && [ -n "$name" ]; then
+    :
+  else
+    name=$(basename "$file" .md)
   fi
-  comm -13 <(printf '%s\n' "$old") <(printf '%s\n' "$new")
+  case /$section/$name/ in
+    */../*|*/./*)
+      printf 'bad section or slug in %s\n' "$file" >&2
+      return 1
+      ;;
+  esac
+  case $name in
+    */*)
+      printf 'slug has a slash in %s\n' "$file" >&2
+      return 1
+      ;;
+  esac
+  if [ -n "$section" ]; then
+    printf '%s/%s.md' "$section" "$name"
+  else
+    printf '%s.md' "$name"
+  fi
+}
+
+# stage OUT MODE copies notes into OUT at their routed paths. MODE publish
+# takes notes with publish true; MODE preview takes every note with front
+# matter. Prints each destination.
+stage() {
+  local out=$1 mode=$2 file dest base
+  while IFS= read -r file; do
+    [ -n "$file" ] || continue
+    if ! has_front_matter "$file"; then
+      [ "$mode" = preview ] && printf 'skip %s\n' "$(basename "$file")" >&2
+      continue
+    fi
+    if [ "$mode" = publish ]; then
+      fm_true "$file" publish || continue
+    fi
+    dest=$(note_dest "$file") || return 1
+    if [ -e "$out/$dest" ]; then
+      printf 'two notes go to content/%s; one is %s\n' "$dest" "$(basename "$file")" >&2
+      return 1
+    fi
+    base=$(basename "$file")
+    case $(basename "$dest") in
+      *" "*)
+        printf 'warning: %s has spaces; set slug in front matter for a cleaner URL\n' "$base" >&2
+        ;;
+    esac
+    mkdir -p "$out/$(dirname "$dest")" || return 1
+    cp -p -- "$file" "$out/$dest" || return 1
+    printf '%s\n' "$dest"
+  done < <(each_note)
 }
 
 toml_quote() {
@@ -162,44 +168,12 @@ toml_quote() {
   printf '"%s"' "$s"
 }
 
-glob_escape() {
-  local s=$1 i=0 c out=""
-  while [ "$i" -lt "${#s}" ]; do
-    c=${s:i:1}
-    case $c in
-      \\|\*|\[|\]|\?|\{|\}) out="$out\\$c" ;;
-      *) out="$out$c" ;;
-    esac
-    i=$((i + 1))
-  done
-  printf '%s' "$out"
-}
-
 write_preview_config() {
-  local key src name quoted patterns="" tmp
-  key=$(mount_pattern_key)
-  src=$(toml_quote "$WRITING_DIR")
-  while IFS= read -r name; do
-    [ -n "$name" ] || continue
-    quoted=$(toml_quote "$(glob_escape "$name")")
-    if [ -n "$patterns" ]; then
-      patterns="$patterns, $quoted"
-    else
-      patterns=$quoted
-    fi
-  done < <(note_names eligible)
-  if [ -z "$patterns" ]; then
-    patterns='".no-vault-notes"'
-  fi
-  tmp=hugo.preview.toml.tmp
-  cat > "$tmp" <<EOF
+  local src
+  src=$(toml_quote "$1/content")
+  cat > "$1/hugo.preview.toml" <<CONF
 [[module.mounts]]
 source = $src
-target = "content/tech"
-$key = [$patterns]
-
-[[module.mounts]]
-source = "content"
 target = "content"
 
 [[module.mounts]]
@@ -225,25 +199,7 @@ target = "assets"
 [[module.mounts]]
 source = "static"
 target = "static"
-EOF
-  mv "$tmp" hugo.preview.toml
-}
-
-print_skips() {
-  local name
-  while IFS= read -r name; do
-    [ -n "$name" ] || continue
-    printf 'skip %s\n' "$name"
-  done
-}
-
-cleanup_preview() {
-  trap - EXIT INT TERM
-  if [ -n "${hugo_pid:-}" ] && kill -0 "$hugo_pid" 2>/dev/null; then
-    kill "$hugo_pid" 2>/dev/null || true
-    wait "$hugo_pid" 2>/dev/null || true
-  fi
-  rm -f hugo.preview.toml hugo.preview.toml.tmp
+CONF
 }
 
 cmd_new() {
@@ -283,40 +239,39 @@ cmd_new() {
   printf '%s\n' "$dest"
 }
 
+# sync makes content/ an exact copy of the published vault notes: routed
+# notes are written and anything in content/ no note produces is removed.
 cmd_sync() {
-  local file base copied=0
+  local tmp listed removed
   need rsync
   need_writing_dir
-  shopt -s nullglob
-  for file in "$WRITING_DIR"/*.md; do
-    [ -f "$file" ] || continue
-    [ -L "$file" ] && continue
-    publish_is_true "$file" || continue
-    base=$(basename "$file")
-    warn_spaces <<< "$base"
-    mkdir -p content/tech
-    rsync -a -- "$file" content/tech/
-    printf '%s\n' "content/tech/$base"
-    copied=1
-  done
-  [ "$copied" -eq 1 ] || printf '%s\n' "no posts copied"
+  tmp=$(mktemp -d "${TMPDIR:-/tmp}/ns-blog-sync.XXXXXX")
+  sync_tmp=$tmp
+  trap 'rm -rf "$sync_tmp"' EXIT
+  listed=$(stage "$tmp" publish)
+  if [ -z "$listed" ]; then
+    printf '%s\n' "no notes have publish true; content/ left alone"
+    return 0
+  fi
+  mkdir -p content
+  removed=$(comm -23 \
+    <(cd content && find . -type f ! -name .DS_Store | sed 's|^\./||' | sort) \
+    <(printf '%s\n' "$listed" | sort))
+  rsync -a --delete --exclude .DS_Store -- "$tmp/" content/
+  printf '%s\n' "$listed" | sed 's|^|wrote content/|'
+  if [ -n "$removed" ]; then
+    printf '%s\n' "$removed" | sed 's|^|removed content/|'
+  fi
 }
 
 cmd_preview() {
-  local prev_e prev_s cur_e cur_s added status
+  local stage_dir status
   need hugo
+  need rsync
   need_writing_dir
-  trap cleanup_preview EXIT
-  trap 'cleanup_preview; exit 130' INT
-  trap 'cleanup_preview; exit 143' TERM
-  prev_e=$(note_names eligible)
-  prev_s=$(note_names skipped)
-  write_preview_config
-  print_skips <<< "$prev_s"
-  warn_spaces <<< "$prev_e"
   PORT=${PORT:-1313}
   case $PORT in
-    *[!0-9]*)
+    ""|*[!0-9]*)
       printf 'PORT must be a number\n' >&2
       exit 1
       ;;
@@ -325,28 +280,55 @@ cmd_preview() {
     printf 'PORT must be from 1 to 65535\n' >&2
     exit 1
   fi
-  hugo server -D --port "$PORT" --config hugo.toml,hugo.preview.toml &
+  stage_dir=$(mktemp -d "${TMPDIR:-/tmp}/ns-blog-preview.XXXXXX")
+  preview_dir=$stage_dir
+  mkdir -p "$stage_dir/content" "$stage_dir/next"
+  trap 'cleanup_preview' EXIT
+  trap 'cleanup_preview; exit 130' INT
+  trap 'cleanup_preview; exit 143' TERM
+  refresh_preview "$stage_dir" 1
+  write_preview_config "$stage_dir"
+  hugo server -D --port "$PORT" --config "hugo.toml,$stage_dir/hugo.preview.toml" &
   hugo_pid=$!
   while kill -0 "$hugo_pid" 2>/dev/null; do
     sleep 1
     kill -0 "$hugo_pid" 2>/dev/null || break
-    cur_e=$(note_names eligible)
-    cur_s=$(note_names skipped)
-    if [ "$cur_e" != "$prev_e" ]; then
-      write_preview_config
-      added=$(added_names "$prev_e" "$cur_e")
-      warn_spaces <<< "$added"
-      prev_e=$cur_e
-    fi
-    if [ "$cur_s" != "$prev_s" ]; then
-      added=$(added_names "$prev_s" "$cur_s")
-      print_skips <<< "$added"
-      prev_s=$cur_s
-    fi
+    refresh_preview "$stage_dir" 0 || true
   done
   wait "$hugo_pid" || status=$?
   hugo_pid=
   exit "${status:-0}"
+}
+
+# refresh_preview DIR LOUD restages every vault note and syncs changed files
+# into DIR/content, so new, edited, and deleted notes show without a restart.
+refresh_preview() {
+  local dir=$1 loud=$2 err
+  rm -rf "$dir/next"
+  mkdir -p "$dir/next"
+  if ! err=$(stage "$dir/next" preview 2>&1 >/dev/null); then
+    if [ "$err" != "${last_err:-}" ]; then
+      printf '%s\n' "$err" >&2
+    fi
+    last_err=$err
+    return 1
+  fi
+  if [ "$loud" -eq 1 ] && [ -n "$err" ]; then
+    printf '%s\n' "$err" >&2
+  fi
+  last_err=
+  rsync -a --delete -- "$dir/next/" "$dir/content/"
+}
+
+cleanup_preview() {
+  trap - EXIT INT TERM
+  if [ -n "${hugo_pid:-}" ] && kill -0 "$hugo_pid" 2>/dev/null; then
+    kill "$hugo_pid" 2>/dev/null || true
+    wait "$hugo_pid" 2>/dev/null || true
+  fi
+  if [ -n "${preview_dir:-}" ]; then
+    rm -rf "$preview_dir"
+  fi
 }
 
 case ${1:-} in

@@ -1,6 +1,9 @@
 +++
 title = "Part_1"
 date = "2025-02-12T22:33:32-05:00"
+section = "tech/ring_tutorial"
+slug = "part_1"
+publish = true
 page_number = 1
 draft = true
 

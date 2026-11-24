@@ -3,6 +3,9 @@
 # opengraph structured data template on the home page.
 # See https://ogp.me/ and https://gohugo.io/templates/internal#open-graph.
 title = "home"
+section = ""
+index = true
+publish = true
 description = "Notes on software, databases, and whatever else I'm working on."
 +++
 

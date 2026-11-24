@@ -1,6 +1,8 @@
 +++
 title = "building semantic and keyword search on cockroachDB"
 date = "2025-06-02T11:25:06-06:00"
+slug = "search"
+publish = true
 
 tags = ["blog","cockroach","cockroachlabs","database","postgres","rds","software","swe","tech","search", "elasticsearch", "vector","vectorsearch", "semantic", "semanticsearch", "pgvector", "embedding", "semantic-search"]
 +++

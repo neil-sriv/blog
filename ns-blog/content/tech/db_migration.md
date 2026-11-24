@@ -1,6 +1,8 @@
 +++
 title = "migrating my aws database to cockroach labs in 12 hours"
 date = "2025-04-09T01:01:56-04:00"
+slug = "db_migration"
+publish = true
 
 tags = ["blog","hugo","software","swe","tech","database", "migration", "postgres", "aws", "rds", "cockroach", "cockroachlabs"]
 +++
