@@ -1,6 +1,8 @@
 +++
 title = "git ctf"
 date = "2025-03-05T20:13:59-05:00"
+slug = "git_ctf"
+publish = true
 
 tags = ["blog","tech","git", "ctf", "git_ctf"]
 +++
@@ -766,4 +768,3 @@ flag = `main-levels-done-you-win`
 
 ## conclusion
 that was fun, probably took a couple hours over a couple days to get through everything
-

@@ -1,6 +1,8 @@
 +++
 title = "setting up a personal blog with hugo"
 date = "2025-02-24T19:44:43-05:00"
+slug = "hugo"
+publish = true
 
 tags = ["tech", "hugo", "blog"]
 +++
