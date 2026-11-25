@@ -20,20 +20,21 @@ I've been in NYC since January 2025 after 2.5 years in San Francisco. living in 
 
 ## what do you do?
 
-build random things
+build random software for personal use
 
-- personal newsletter service
-- personal identity provider
-- quick text preview site
+- newsletter service
+- identity provider
+- previewer for text, json, mermaid, diffs
 - content queue to track content to read/watch/listen to that anyone can add to
 - status page and deployment tracker for personal services
 - rex extensions for jj, origin, cursor-agent
+- agentic, spec driven development
 
 cook when I get inspired or interested in different things
 
 read lots of books, currently:
 
-- I, Robot
-- Everyone In My Family Has Killed Someone
-- Outliers
-- Dungeon Crawler Carl *just finished*
+- I, Robot by Asimov
+- Everyone In My Family Has Killed Someone by Benjamin Stevenson
+- Outliers by Malcom Gladwell
+- Dungeon Crawler Carl by Matt Dinniman *just finished*
