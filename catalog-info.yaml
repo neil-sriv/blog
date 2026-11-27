@@ -1,0 +1,28 @@
+# Catalog for Blindfold (blindfold.neilsriv.tech).
+# Owner is the handle "neil", not a Backstage user ref.
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: blog
+  description: Hugo blog published to GitHub Pages.
+  links:
+    - url: https://blog.neilsriv.tech
+      title: Production
+    - url: https://github.com/neil-sriv/blog
+      title: Repository
+  annotations:
+    neilsriv.tech/forge: github
+    neilsriv.tech/repo: neil-sriv/blog
+    neilsriv.tech/health-url: https://blog.neilsriv.tech/
+    neilsriv.tech/health-expect: 2xx
+spec:
+  type: website
+  lifecycle: production
+  owner: neil
+  system: blog
+  pipelines:
+    - adapter: github-pages
+      target: hugo.yaml
+      verification: unverified
+      note: Workflow Deploy Hugo site to Pages.
